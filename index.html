@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منصة طلبتي - Talabe (نسخة سحابية)</title>
+    
+    <!-- ========================================== -->
+    <!-- أكواد تحويل الموقع إلى تطبيق هاتف (PWA) -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#38bdf8">
+    <link rel="apple-touch-icon" href="icon-192x192.png">
+    <!-- ========================================== -->
+
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     
     <!-- مكتبات Firebase السحابية -->
@@ -98,7 +106,7 @@
         <div id="loginOverlay" class="card">
             <h3 style="text-align: center;">تسجيل دخول الإدارة</h3>
             <input type="text" id="adminUser" placeholder="اسم المستخدم (admin)">
-            <input type="password" id="adminPass" placeholder="كلمة المرور (12345)">
+            <input type="password" id="adminPass" placeholder="كلمة المرور">
             <button class="btn-primary" onclick="loginAdmin()" style="width: 100%;">تسجيل الدخول</button>
         </div>
 
@@ -173,7 +181,8 @@
     }
 
     function loginAdmin() {
-        if (document.getElementById('adminUser').value === 'admin' && document.getElementById('adminPass').value === '12345') {
+        // تم تغيير كلمة المرور هنا
+        if (document.getElementById('adminUser').value === 'admin' && document.getElementById('adminPass').value === 'Ahmedsame1992') {
             document.getElementById('loginOverlay').style.display = 'none';
             document.getElementById('adminDashboard').style.display = 'block';
         } else {
@@ -260,6 +269,17 @@
         } else {
             alert('كود التفعيل غير صحيح.');
         }
+    }
+
+    // =========================================================================
+    // كود تشغيل Service Worker (لجعل التطبيق قابلاً للتثبيت PWA)
+    // =========================================================================
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('تم تشغيل التطبيق بنجاح كمحرك PWA!', reg))
+          .catch(err => console.log('فشل تشغيل محرك PWA:', err));
+      });
     }
 </script>
 
