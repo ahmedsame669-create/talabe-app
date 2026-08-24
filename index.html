@@ -3,45 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة طلبتي - Talabe</title>
-    <!-- Tailwind CSS للتصميم السريع والجميل -->
+    <title>منصة طلبتي التعليمية</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Cairo -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Cairo', sans-serif; }
     </style>
 </head>
-<body class="bg-slate-900 text-white min-header min-h-screen flex flex-col justify-between">
+<body class="bg-slate-900 text-white min-h-screen flex flex-col justify-between">
 
     <!-- رأس الصفحة -->
-    <header class="bg-slate-800 border-b border-slate-700 p-4 shadow-md flex justify-between items-center">
-        <h1 class="text-xl font-bold text-sky-400">منصة طلبتي 📚</h1>
-        <button id="adminBtn" onclick="toggleAdminModal()" class="bg-sky-600 hover:bg-sky-500 text-white px-4 py-2 rounded-lg text-sm transition">لوحة الأدمن</button>
+    <header class="bg-slate-800 border-b border-slate-700 p-4 shadow-md flex justify-between items-center sticky top-0 z-50">
+        <div class="flex items-center space-x-3 space-x-reverse">
+            <span class="text-2xl">📚</span>
+            <h1 class="text-xl font-bold text-sky-400">منصة طلبتي</h1>
+        </div>
+        <div class="flex items-center space-x-2 space-x-reverse">
+            <button onclick="openStudentLogin()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-sm font-semibold transition">دخول الطالب</button>
+            <button onclick="openAdminModal()" class="bg-sky-600 hover:bg-sky-500 text-white px-3 py-1.5 rounded-lg text-sm font-semibold transition">لوحة الأدمن</button>
+        </div>
     </header>
 
-    <!-- محتوى الصفحة الرئيسية -->
+    <!-- المحتوى الرئيسي -->
     <main class="container mx-auto p-4 flex-grow">
-        <section class="text-center my-8">
-            <h2 class="text-3xl font-bold mb-2">مرحباً بكم يا طلابنا الأعزاء</h2>
-            <p class="text-slate-400">مصدرك الأفضل لمتابعة المواد الدراسية والملخصات بسهولة.</p>
+        
+        <!-- شريط ترحيب وإعلان -->
+        <section class="bg-gradient-to-r from-sky-900 to-indigo-900 p-4 rounded-xl shadow-lg mb-6 text-center">
+            <h2 class="text-2xl font-bold mb-2">مرحباً بكم يا طلابنا الأعزاء 🌟</h2>
+            <p class="text-slate-300 text-sm">الملخصات والمرشحات الوزارية الحصرية (2012 - 2026) بدون ملل وباسم منصة طلبتي فقط!</p>
         </section>
+
+        <!-- تبويبات المراحل الدراسية -->
+        <div class="flex overflow-x-auto space-x-2 space-x-reverse pb-3 mb-6 scrollbar-none">
+            <button onclick="filterGrade('all')" class="grade-tab bg-sky-600 px-4 py-2 rounded-xl text-sm font-bold whitespace-nowrap transition shadow">كل المراحل</button>
+            <button onclick="filterGrade('سادس-علمي')" class="grade-tab bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-xl text-sm font-bold whitespace-nowrap transition">السادس العلمي</button>
+            <button onclick="filterGrade('سادس-ادبي')" class="grade-tab bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-xl text-sm font-bold whitespace-nowrap transition">السادس الأدبي</button>
+            <button onclick="filterGrade('ثالث-متوسط')" class="grade-tab bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-xl text-sm font-bold whitespace-nowrap transition">الثالث المتوسط</button>
+            <button onclick="filterGrade('سادس-ابتدائي')" class="grade-tab bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-xl text-sm font-bold whitespace-nowrap transition">السادس الابتدائي</button>
+        </div>
 
         <!-- قائمة المواد الدراسية -->
         <div id="subjectsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <!-- سيتم جلب المواد تلقائياً من قاعدة البيانات -->
-            <p class="text-slate-500 text-center col-span-full">جاري تحميل المواد الدراسية...</p>
+            <!-- سيتم تعبئة المواد تلقائياً عبر الجافاسكريبت -->
         </div>
     </main>
 
-    <!-- نافذة تسجيل دخول الأدمن -->
-    <div id="adminModal" class="fixed inset-0 bg-black/70 hidden flex justify-center items-center p-4">
-        <div class="bg-slate-800 p-6 rounded-xl w-full max-w-md border border-slate-700 shadow-xl">
-            <h3 class="text-xl font-bold mb-4 text-sky-400">إضافة مواد جديدة (أدمن)</h3>
-            <input type="text" id="subjectName" placeholder="اسم المادة (مثلاً: اجتماعيات ثالث متوسط)" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-lg mb-3 text-white">
-            <textarea id="subjectDesc" placeholder="تفاصيل أو رابط المادة..." class="w-full bg-slate-900 border border-slate-700 p-3 rounded-lg mb-3 text-white h-24"></textarea>
-            <div class="flex justify-end gap-2">
-                <button onclick="toggleAdminModal()" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg">إلغاء</button>
-                <button onclick="addNewSubject()" class="bg-green-600 hover:bg-green-500 px-4 py-2 rounded-lg font-bold">حفظ ونشر</button>
+    <!-- زر واتساب عائم للدعم -->
+    <a href="https://wa.me/9647734378998?text=مرحباً، أريد الاستفسار عن فتح مواد منصة طلبتي التعليمية" target="_blank" class="fixed bottom-6 left-6 bg-emerald-500 hover:bg-emerald-600 text-white p-4 rounded-full shadow-2xl flex items-center justify-center z-50 transition transform hover:scale-110">
+        <span class="text-2xl">💬</span>
+    </a>
+
+    <!-- نافذة قفل المادة والدفع -->
+    <div id="payModal" class="fixed inset-0 bg-black/80 hidden flex justify-center items-center p-4 z-50">
+        <div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl w-full max-w-md shadow-2xl text-center">
+            <div class="text-4xl mb-3">🔒</div>
+            <h3 class="text-xl font-bold text-amber-400 mb-2">المادة مقفلة (مرشحات وزاري 2012-2026)</h3>
+            <p class="text-slate-300 text-sm mb-4">لفتح هذه المادة والوصول للمرشحات والأجوبة المختصرة، السعر فقط <span class="text-emerald-400 font-bold">10,000 دينار</span>.</p>
+            
+            <div class="bg-slate-900 p-3 rounded-xl mb-4 text-right border border-slate-700">
+                <p class="text-xs text-slate-400 mb-1">💳 تحويل عبر ماستركارد الرافدين:</p>
+                <p class="text-sky-300 font-mono font-bold text-lg select-all">910160728184</p>
+            </div>
+
+            <p class="text-xs text-slate-400 mb-4">بعد التحويل، أرسل إيصال الدفع عبر واتساب لتفعيل المادة فوراً:</p>
+            
+            <div class="flex space-x-2 space-x-reverse">
+                <a id="whatsappPayBtn" href="#" target="_blank" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-2.5 rounded-xl font-bold transition text-center text-sm">إرسال الإصال واتساب</a>
+                <button onclick="closePayModal()" class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2.5 rounded-xl text-sm transition">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة تسجيل دخول الطالب -->
+    <div id="studentModal" class="fixed inset-0 bg-black/80 hidden flex justify-center items-center p-4 z-50">
+        <div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl w-full max-w-sm shadow-2xl">
+            <h3 class="text-lg font-bold text-emerald-400 mb-3 text-center">تسجيل دخول الطالب</h3>
+            <p class="text-xs text-slate-400 mb-4 text-center">أدخل رقم هاتفك لتسجيل الحساب وتلقي الإشعارات.</p>
+            <input type="tel" id="studentPhone" placeholder="077XXXXXXXX" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl mb-4 text-white text-center font-mono">
+            <div class="flex space-x-2 space-x-reverse">
+                <button onclick="submitStudentLogin()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-2.5 rounded-xl font-bold text-sm">دخول</button>
+                <button onclick="closeStudentLogin()" class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2.5 rounded-xl text-sm">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة لوحة تحكم الأدمن -->
+    <div id="adminModal" class="fixed inset-0 bg-black/80 hidden flex justify-center items-center p-4 z-50">
+        <div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl w-full max-w-sm shadow-2xl">
+            <h3 class="text-lg font-bold text-sky-400 mb-4 text-center">دخول لوحة تحكم الأدمن</h3>
+            <input type="text" id="adminUser" placeholder="اسم المستخدم" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl mb-3 text-white text-sm">
+            <input type="password" id="adminPass" placeholder="كلمة المرور" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl mb-4 text-white text-sm">
+            <div class="flex space-x-2 space-x-reverse">
+                <button onclick="checkAdminLogin()" class="flex-1 bg-sky-600 hover:bg-sky-500 text-white py-2.5 rounded-xl font-bold text-sm">دخول الأدمن</button>
+                <button onclick="closeAdminModal()" class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2.5 rounded-xl text-sm">إلغاء</button>
             </div>
         </div>
     </div>
@@ -51,102 +107,112 @@
         جميع الحقوق محفوظة منصة طلبتي &copy; 2026
     </footer>
 
-    <!-- سكربتات فايربيز (Firebase SDKs) -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    <!-- جافاسكريبت التطبيق -->
+    <script>
+        // بيانات تجريبية افتراضية شاملة لكل المراحل والمرشحات
+        const subjectsData = [
+            { id: 1, name: "الرياضيات - السادس العلمي", grade: "سادس-علمي", desc: "مرشحات وأسئلة وزاري مختصرة (2012-2026) حصرياً لمنصة طلبتي", locked: true },
+            { id: 2, name: "الفيزياء - السادس العلمي", grade: "سادس-علمي", desc: "أهم المسائل والتركيز على الفصول المهمة (2012-2026)", locked: true },
+            { id: 3, name: "الكيمياء - السادس العلمي", grade: "سادس-علمي", desc: "مرشحات العضوية والمسائل الحسابية المختصرة", locked: true },
+            { id: 4, name: "اللغة العربية - السادس الأدبي", grade: "سادس-ادبي", desc: "قواعد النفي والاستفهام والأسئلة الوزارية المختصرة", locked: true },
+            { id: 5, name: "التاريخ - السادس الأدبي", grade: "سادس-ادبي", desc: "التعاريف والتعاليل والوزاريات من 2012 لغاية 2026", locked: true },
+            { id: 6, name: "الاجتماعيات - الثالث المتوسط", grade: "ثالث-متوسط", desc: "جغرافيا وتاريخ وطنية (مرشحات نهائية مختصرة)", locked: true },
+            { id: 7, name: "الرياضيات - الثالث المتوسط", grade: "ثالث-متوسط", desc: "أهم الفصول والتمارين الوزارية المكررة", locked: true },
+            { id: 8, name: "العلوم - السادس الابتدائي", grade: "سادس-ابتدائي", desc: "ملخصات ومرشحات سريعة لضمان الدرجة الكاملة", locked: false },
+            { id: 9, name: "الاسلامية - السادس الابتدائي", grade: "سادس-ابتدائي", desc: "الحديث والقصص والمعاني بشكل مختصر", locked: false }
+        ];
 
-        // مفاتيح الربط الخاصة بمشروعك التي استخرجناها من جوجل
-        const firebaseConfig = {
-            apiKey: "AIzaSyAmpaAcMsQsJyekFAFvhJ-rLILSPUmtdJA",
-            authDomain: "talabe-app.firebaseapp.com",
-            projectId: "talabe-app",
-            storageBucket: "talabe-app.firebasestorage.app",
-            messagingSenderId: "552943090500",
-            appId: "1:552943090500:web:79cfcd45bea5185cda3511"
-        };
-
-        // تهيئة الفايربيز وقاعدة البيانات
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        // جعل الدوال متاحة عالمياً في الصفحة
-        window.toggleAdminModal = function() {
-            const modal = document.getElementById('adminModal');
-            modal.classList.toggle('hidden');
-        }
-
-        window.addNewSubject = async function() {
-            const name = document.getElementById('subjectName').value;
-            const desc = document.getElementById('subjectDesc').value;
-
-            if(!name) {
-                alert('يرجى كتابة اسم المادة على الأقل!');
+        function renderSubjects(filter = 'all') {
+            const container = document.getElementById('subjectsContainer');
+            container.innerHTML = '';
+            
+            const filtered = filter === 'all' ? subjectsData : subjectsData.filter(s => s.grade === filter);
+            
+            if(filtered.length === 0) {
+                container.innerHTML = `<p class="text-center text-slate-400 col-span-full py-6">لا توجد مواد مضافة لهذه المرحلة حالياً.</p>`;
                 return;
             }
 
-            try {
-                await addDoc(collection(db, "subjects"), {
-                    name: name,
-                    description: desc,
-                    createdAt: new Date()
-                });
-                alert('تمت إضافة المادة بنجاح!');
-                document.getElementById('subjectName').value = '';
-                document.getElementById('subjectDesc').value = '';
-                toggleAdminModal();
-                loadSubjects();
-            } catch (error) {
-                console.error("خطأ في الإضافة: ", error);
-                alert('حدث خطأ أثناء الإضافة، تأكد من الاتصال.');
-            }
-        }
-
-        async function loadSubjects() {
-            const container = document.getElementById('subjectsContainer');
-            container.innerHTML = '<p class="text-slate-500 text-center col-span-full">جاري التحميل...</p>';
-            
-            try {
-                const querySnapshot = await getDocs(collection(db, "subjects"));
-                container.innerHTML = '';
-                
-                if (querySnapshot.empty) {
-                    container.innerHTML = '<p class="text-slate-500 text-center col-span-full">لا توجد مواد مضافة حالياً.</p>';
-                    return;
-                }
-
-                querySnapshot.forEach((document) => {
-                    const data = document.data();
-                    container.innerHTML += `
-                        <div class="bg-slate-800 border border-slate-700 p-5 rounded-xl shadow-md flex flex-col justify-between">
-                            <div>
-                                <h3 class="text-xl font-bold text-sky-400 mb-2">${data.name}</h3>
-                                <p class="text-slate-300 text-sm mb-4">${data.description || 'لا توجد تفاصيل إضافية.'}</p>
-                            </div>
-                            <button onclick="deleteSubject('${document.id}')" class="bg-red-600/80 hover:bg-red-600 text-white text-xs px-3 py-1.5 rounded self-end transition">حذف المادة</button>
+            filtered.forEach(sub => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-800 border border-slate-700 p-5 rounded-2xl shadow-md flex flex-col justify-between transition hover:border-sky-500";
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-lg font-bold text-sky-300">${sub.name}</h3>
+                            ${sub.locked ? '<span class="bg-amber-500/20 text-amber-400 text-xs px-2.5 py-1 rounded-full font-semibold">🔒 مقفل (10,000 د.ع)</span>' : '<span class="bg-emerald-500/20 text-emerald-400 text-xs px-2.5 py-1 rounded-full font-semibold">🔓 مجاني</span>'}
                         </div>
-                    `;
-                });
-            } catch (error) {
-                console.error("خطأ في جلب البيانات: ", error);
-                container.innerHTML = '<p class="text-red-400 text-center col-span-full">عذراً، حدث خطأ في تحميل المواد.</p>';
+                        <p class="text-slate-300 text-xs mb-4 leading-relaxed">${sub.desc}</p>
+                    </div>
+                    <button onclick="handleSubjectClick('${sub.name}', ${sub.locked})" class="w-full ${sub.locked ? 'bg-amber-600 hover:bg-amber-500' : 'bg-sky-600 hover:bg-sky-500'} text-white py-2 rounded-xl text-sm font-bold transition">
+                        ${sub.locked ? 'فتح المادة (شراء)' : 'عرض المرشحات'}
+                    </button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterGrade(grade) {
+            document.querySelectorAll('.grade-tab').forEach(tab => {
+                tab.classList.remove('bg-sky-600');
+                tab.classList.add('bg-slate-800');
+            });
+            event.target.classList.remove('bg-slate-800');
+            event.target.classList.add('bg-sky-600');
+            renderSubjects(grade);
+        }
+
+        function handleSubjectClick(subName, isLocked) {
+            if(isLocked) {
+                const encodedMsg = encodeURIComponent(`مرحباً، أود فتح مادة (${subName}) في منصة طلبتي، وقمت بالتحويل على ماستركارد الرافدين (910160728184). هذا هو إيصال الدفع:`);
+                document.getElementById('whatsappPayBtn').href = `https://wa.me/9647734378998?text=${encodedMsg}`;
+                document.getElementById('payModal').classList.remove('hidden');
+            } else {
+                alert('تم فتح المادة! جاري عرض مرشحات وأسئلة الوزاري المختصرة باسم منصة طلبتي.');
             }
         }
 
-        window.deleteSubject = async function(id) {
-            if(confirm('هل أنت متأكد من حذف هذه المادة؟')) {
-                try {
-                    await deleteDoc(doc(db, "subjects", id));
-                    alert('تم الحذف بنجاح!');
-                    loadSubjects();
-                } catch (error) {
-                    console.error("خطأ في الحذف: ", error);
-                }
+        function closePayModal() {
+            document.getElementById('payModal').classList.add('hidden');
+        }
+
+        function openStudentLogin() {
+            document.getElementById('studentModal').classList.remove('hidden');
+        }
+        function closeStudentLogin() {
+            document.getElementById('studentModal').classList.add('hidden');
+        }
+        function submitStudentLogin() {
+            const phone = document.getElementById('studentPhone').value;
+            if(phone.length < 10) {
+                alert('يرجى إدخال رقم هاتف صحيح');
+                return;
+            }
+            alert('تم تسجيل الدخول بنجاح عبر الرقم: ' + phone);
+            closeStudentLogin();
+        }
+
+        function openAdminModal() {
+            document.getElementById('adminModal').classList.remove('hidden');
+        }
+        function closeAdminModal() {
+            document.getElementById('adminModal').classList.add('hidden');
+        }
+        function checkAdminLogin() {
+            const user = document.getElementById('adminUser').value;
+            const pass = document.getElementById('adminPass').value;
+            
+            if(user === 'fire' && pass === 'Ahmedsame1992') {
+                alert('مرحباً بك يا أحمد! تم تسجيل دخول الأدمن بنجاح.');
+                closeAdminModal();
+                window.location.href = "https://wa.me/9647734378998?text=مرحباً أدمن أحمد، تم تفعيل لوحة التحكم بنجاح";
+            } else {
+                alert('خطأ في اسم المستخدم أو كلمة المرور!');
             }
         }
 
-        // تحميل المواد فور فتح الصفحة
-        loadSubjects();
+        // تشغيل عرض المواد عند بدء التشغيل
+        renderSubjects();
     </script>
 </body>
 </html>
