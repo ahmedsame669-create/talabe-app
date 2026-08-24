@@ -3,192 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة طلبتي التعليمية</title>
+    <title>منصة طلبتي - Talabe</title>
+    <!-- Tailwind CSS للتصميم السريع والجميل -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* إعدادات عامة وتنسيق الخطوط */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        body {
-            background-color: #0b0f19; /* خلفية داكنة */
-            color: #ffffff; /* نص أبيض */
-            padding: 20px;
-        }
-        
-        /* ترويسة الصفحة */
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        header h1 {
-            font-size: 28px;
-            color: #38bdf8; /* لون سماوي */
-            margin-bottom: 10px;
-        }
-        header p {
-            font-size: 16px;
-            color: #94a3b8; /* لون رمادي فاتح */
-        }
-
-        /* شريط التنبيه */
-        .banner {
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            color: white;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 18px;
-            font-weight: bold;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-        }
-
-        /* حاوية البطاقات */
-        .grid-container {
-            display: grid;
-            grid-template-columns: 1fr; /* عمود واحد في الشاشات الصغيرة */
-            gap: 20px;
-        }
-        
-        /* تعديل التخطيط للشاشات المتوسطة فما فوق */
-        @media (min-width: 768px) {
-            .grid-container {
-                grid-template-columns: repeat(2, 1fr); /* عمودين */
-            }
-        }
-        @media (min-width: 1024px) {
-            .grid-container {
-                grid-template-columns: repeat(3, 1fr); /* ثلاثة أعمدة */
-            }
-        }
-
-        /* بطاقة المادة الواحدة */
-        .card {
-            background-color: #1e293b; /* خلفية البطاقة */
-            border: 1px solid #334155;
-            border-radius: 16px;
-            padding: 25px;
-            text-align: center;
-            transition: transform 0.3s ease, border-color 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: #38bdf8;
-        }
-
-        .card h3 {
-            font-size: 20px;
-            margin-bottom: 15px;
-            color: #f8fafc;
-        }
-
-        /* شارة السعر */
-        .price {
-            background-color: #2563eb;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 30px;
-            font-size: 16px;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 20px;
-        }
-
-        /* زر التفعيل */
-        .btn {
-            background-color: #f97316; /* لون برتقالي */
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-        .btn:hover {
-            background-color: #ea580c;
-        }
+        body { font-family: 'Cairo', sans-serif; }
     </style>
 </head>
-<body>
+<body class="bg-slate-900 text-white min-header min-h-screen flex flex-col justify-between">
 
-    <!-- عنوان المنصة -->
-    <header>
-        <h1>منصة طلبتي التعليمية</h1>
-        <p>المنصة الأولى لطلاب الخارجي والمراحل الدراسية</p>
+    <!-- رأس الصفحة -->
+    <header class="bg-slate-800 border-b border-slate-700 p-4 shadow-md flex justify-between items-center">
+        <h1 class="text-xl font-bold text-sky-400">منصة طلبتي 📚</h1>
+        <button id="adminBtn" onclick="toggleAdminModal()" class="bg-sky-600 hover:bg-sky-500 text-white px-4 py-2 rounded-lg text-sm transition">لوحة الأدمن</button>
     </header>
 
-    <!-- شريط التنبيه -->
-    <div class="banner">
-        ⚠️ جميع المواد مقفلة - سعر تفعيل أي مادة 10,000 د.ع فقط
+    <!-- محتوى الصفحة الرئيسية -->
+    <main class="container mx-auto p-4 flex-grow">
+        <section class="text-center my-8">
+            <h2 class="text-3xl font-bold mb-2">مرحباً بكم يا طلابنا الأعزاء</h2>
+            <p class="text-slate-400">مصدرك الأفضل لمتابعة المواد الدراسية والملخصات بسهولة.</p>
+        </section>
+
+        <!-- قائمة المواد الدراسية -->
+        <div id="subjectsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- سيتم جلب المواد تلقائياً من قاعدة البيانات -->
+            <p class="text-slate-500 text-center col-span-full">جاري تحميل المواد الدراسية...</p>
+        </div>
+    </main>
+
+    <!-- نافذة تسجيل دخول الأدمن -->
+    <div id="adminModal" class="fixed inset-0 bg-black/70 hidden flex justify-center items-center p-4">
+        <div class="bg-slate-800 p-6 rounded-xl w-full max-w-md border border-slate-700 shadow-xl">
+            <h3 class="text-xl font-bold mb-4 text-sky-400">إضافة مواد جديدة (أدمن)</h3>
+            <input type="text" id="subjectName" placeholder="اسم المادة (مثلاً: اجتماعيات ثالث متوسط)" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-lg mb-3 text-white">
+            <textarea id="subjectDesc" placeholder="تفاصيل أو رابط المادة..." class="w-full bg-slate-900 border border-slate-700 p-3 rounded-lg mb-3 text-white h-24"></textarea>
+            <div class="flex justify-end gap-2">
+                <button onclick="toggleAdminModal()" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg">إلغاء</button>
+                <button onclick="addNewSubject()" class="bg-green-600 hover:bg-green-500 px-4 py-2 rounded-lg font-bold">حفظ ونشر</button>
+            </div>
+        </div>
     </div>
 
-    <!-- شبكة المواد -->
-    <div class="grid-container">
-        
-        <!-- مادة 1 -->
-        <div class="card">
-            <div>
-                <h3>اللغة العربية - الثالث متوسط</h3>
-                <div class="price">10,000 د.ع</div>
-            </div>
-            <button class="btn" onclick="alert('تم تفعيل طلبك للمادة!')">تفعيل المادة الآن</button>
-        </div>
+    <!-- تذييل الصفحة -->
+    <footer class="bg-slate-800 border-t border-slate-700 text-center p-4 text-sm text-slate-400">
+        جميع الحقوق محفوظة منصة طلبتي &copy; 2026
+    </footer>
 
-        <!-- مادة 2 -->
-        <div class="card">
-            <div>
-                <h3>الرياضيات - الثالث متوسط</h3>
-                <div class="price">10,000 د.ع</div>
-            </div>
-            <button class="btn" onclick="alert('تم تفعيل طلبك للمادة!')">تفعيل المادة الآن</button>
-        </div>
+    <!-- سكربتات فايربيز (Firebase SDKs) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        <!-- مادة 3 -->
-        <div class="card">
-            <div>
-                <h3>اللغة الإنجليزية - الثالث متوسط</h3>
-                <div class="price">10,000 د.ع</div>
-            </div>
-            <button class="btn" onclick="alert('تم تفعيل طلبك للمادة!')">تفعيل المادة الآن</button>
-        </div>
+        // مفاتيح الربط الخاصة بمشروعك التي استخرجناها من جوجل
+        const firebaseConfig = {
+            apiKey: "AIzaSyAmpaAcMsQsJyekFAFvhJ-rLILSPUmtdJA",
+            authDomain: "talabe-app.firebaseapp.com",
+            projectId: "talabe-app",
+            storageBucket: "talabe-app.firebasestorage.app",
+            messagingSenderId: "552943090500",
+            appId: "1:552943090500:web:79cfcd45bea5185cda3511"
+        };
 
-        <!-- مادة 4 -->
-        <div class="card">
-            <div>
-                <h3>الاجتماعيات - الثالث متوسط</h3>
-                <div class="price">10,000 د.ع</div>
-            </div>
-            <button class="btn" onclick="alert('تم تفعيل طلبك للمادة!')">تفعيل المادة الآن</button>
-        </div>
+        // تهيئة الفايربيز وقاعدة البيانات
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-        <!-- مادة 5 -->
-        <div class="card">
-            <div>
-                <h3>العلوم - الثالث متوسط</h3>
-                <div class="price">10,000 د.ع</div>
-            </div>
-            <button class="btn" onclick="alert('تم تفعيل طلبك للمادة!')">تفعيل المادة الآن</button>
-        </div>
+        // جعل الدوال متاحة عالمياً في الصفحة
+        window.toggleAdminModal = function() {
+            const modal = document.getElementById('adminModal');
+            modal.classList.toggle('hidden');
+        }
 
-        <!-- مادة 6 -->
-        <div class="card">
-            <div>
-                <h3>الإسلامية - الثالث متوسط</h3>
-                <div class="price">10,000 د.ع</div>
-            </div>
-            <button class="btn" onclick="alert('تم تفعيل طلبك للمادة!')">تفعيل المادة الآن</button>
-        </div>
+        window.addNewSubject = async function() {
+            const name = document.getElementById('subjectName').value;
+            const desc = document.getElementById('subjectDesc').value;
 
-    </div>
+            if(!name) {
+                alert('يرجى كتابة اسم المادة على الأقل!');
+                return;
+            }
 
+            try {
+                await addDoc(collection(db, "subjects"), {
+                    name: name,
+                    description: desc,
+                    createdAt: new Date()
+                });
+                alert('تمت إضافة المادة بنجاح!');
+                document.getElementById('subjectName').value = '';
+                document.getElementById('subjectDesc').value = '';
+                toggleAdminModal();
+                loadSubjects();
+            } catch (error) {
+                console.error("خطأ في الإضافة: ", error);
+                alert('حدث خطأ أثناء الإضافة، تأكد من الاتصال.');
+            }
+        }
+
+        async function loadSubjects() {
+            const container = document.getElementById('subjectsContainer');
+            container.innerHTML = '<p class="text-slate-500 text-center col-span-full">جاري التحميل...</p>';
+            
+            try {
+                const querySnapshot = await getDocs(collection(db, "subjects"));
+                container.innerHTML = '';
+                
+                if (querySnapshot.empty) {
+                    container.innerHTML = '<p class="text-slate-500 text-center col-span-full">لا توجد مواد مضافة حالياً.</p>';
+                    return;
+                }
+
+                querySnapshot.forEach((document) => {
+                    const data = document.data();
+                    container.innerHTML += `
+                        <div class="bg-slate-800 border border-slate-700 p-5 rounded-xl shadow-md flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold text-sky-400 mb-2">${data.name}</h3>
+                                <p class="text-slate-300 text-sm mb-4">${data.description || 'لا توجد تفاصيل إضافية.'}</p>
+                            </div>
+                            <button onclick="deleteSubject('${document.id}')" class="bg-red-600/80 hover:bg-red-600 text-white text-xs px-3 py-1.5 rounded self-end transition">حذف المادة</button>
+                        </div>
+                    `;
+                });
+            } catch (error) {
+                console.error("خطأ في جلب البيانات: ", error);
+                container.innerHTML = '<p class="text-red-400 text-center col-span-full">عذراً، حدث خطأ في تحميل المواد.</p>';
+            }
+        }
+
+        window.deleteSubject = async function(id) {
+            if(confirm('هل أنت متأكد من حذف هذه المادة؟')) {
+                try {
+                    await deleteDoc(doc(db, "subjects", id));
+                    alert('تم الحذف بنجاح!');
+                    loadSubjects();
+                } catch (error) {
+                    console.error("خطأ في الحذف: ", error);
+                }
+            }
+        }
+
+        // تحميل المواد فور فتح الصفحة
+        loadSubjects();
+    </script>
 </body>
 </html>
