@@ -5,215 +5,494 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>منصة طلبتي التعليمية | الثالث متوسط 2026</title>
   
-  <!-- SEO & PWA -->
   <meta name="theme-color" content="#2563eb">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="منصة طلبتي">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
 
   <style>
     :root {
       --primary: #2563eb;
-      --amber: #f59e0b;
+      --primary-hover: #1d4ed8;
+      --accent: #f59e0b;
+      --accent-hover: #d97706;
       --emerald: #10b981;
+      --danger: #ef4444;
       --bg: #0b0f19;
       --card-bg: #131b2e;
       --border: #1e293b;
+      --text: #f8fafc;
+      --muted: #94a3b8;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background: var(--bg); color: #f1f5f9; padding: 15px 12px 60px; line-height: 1.6; }
-    .container { max-width: 950px; margin: 0 auto; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tajawal', 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background: var(--bg); color: var(--text); padding: 12px 10px 60px; line-height: 1.6; }
+    .container { max-width: 1000px; margin: 0 auto; }
     
-    .header { text-align: center; margin: 10px 0 20px; }
-    .verified-badge { display: inline-block; background: rgba(37,99,235,0.15); border: 1px solid rgba(59,130,246,0.3); color: #93c5fd; padding: 4px 14px; border-radius: 999px; font-size: 0.8rem; font-weight: bold; margin-bottom: 10px; }
-    .header h1 { font-size: 2.1rem; font-weight: 900; color: #fff; margin-bottom: 4px; }
-    .header h1 span { color: #60a5fa; }
-    .header p { color: #94a3b8; font-size: 0.95rem; }
+    /* Navigation Bar */
+    .top-nav { display: flex; justify-content: space-between; align-items: center; background: #131b2e; padding: 10px 16px; border-radius: 18px; border: 1px solid var(--border); margin-bottom: 18px; }
+    .brand { font-size: 1.2rem; font-weight: 900; color: #fff; display: flex; align-items: center; gap: 8px; }
+    .brand span { color: #60a5fa; }
+    .nav-tabs { display: flex; gap: 6px; background: #0b0f19; padding: 4px; border-radius: 12px; border: 1px solid var(--border); }
+    .nav-btn { padding: 8px 16px; border-radius: 10px; border: none; font-weight: 800; font-size: 13px; cursor: pointer; color: var(--muted); background: transparent; transition: 0.2s; }
+    .nav-btn.active { background: var(--primary); color: #fff; box-shadow: 0 4px 12px rgba(37,99,235,0.4); }
 
-    .student-badge { background: #131b2e; border: 1px solid #1e293b; border-radius: 16px; padding: 14px 18px; margin-bottom: 18px; display: flex; align-items: center; justify-content: space-between; }
-    .student-name { font-weight: 900; color: #fff; font-size: 1rem; }
-    .student-grade { color: #60a5fa; font-weight: bold; font-size: 0.85rem; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
 
-    .banner { background: linear-gradient(135deg, #1e1b4b, #1e3a8a, #2563eb); border-radius: 20px; padding: 20px; margin-bottom: 22px; text-align: center; border: 1px solid rgba(96,165,250,0.3); box-shadow: 0 10px 30px -10px rgba(37,99,235,0.4); }
-    .banner h2 { font-size: 1.3rem; font-weight: 900; margin-bottom: 8px; color: #fff; }
-    .banner p { color: #dbeafe; font-size: 0.9rem; margin-bottom: 12px; }
-    .phone-box { display: inline-block; background: rgba(0,0,0,0.5); border: 1px solid #60a5fa; color: #93c5fd; padding: 6px 18px; border-radius: 999px; font-weight: bold; font-family: monospace; font-size: 1rem; }
+    /* Student Banner */
+    .header-banner { background: linear-gradient(135deg, #1e1b4b, #1e3a8a, #2563eb); border-radius: 24px; padding: 22px; margin-bottom: 20px; text-align: center; border: 1px solid rgba(96,165,250,0.3); box-shadow: 0 10px 30px -10px rgba(37,99,235,0.4); position: relative; }
+    .header-banner h1 { font-size: 1.8rem; font-weight: 900; color: #fff; margin-bottom: 6px; }
+    .header-banner p { color: #dbeafe; font-size: 0.9rem; margin-bottom: 12px; }
+    .phone-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.45); border: 1px solid #60a5fa; color: #93c5fd; padding: 6px 18px; border-radius: 999px; font-weight: bold; font-family: monospace; font-size: 0.95rem; }
+
+    /* Student Profile Card */
+    .profile-card { background: #131b2e; border: 1px solid var(--border); border-radius: 20px; padding: 16px 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .profile-info { display: flex; align-items: center; gap: 12px; }
+    .profile-avatar { width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(135deg, #2563eb, #f59e0b); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 18px; color: #fff; }
+    .profile-name { font-weight: 900; font-size: 1rem; color: #fff; }
+    .profile-grade { font-size: 0.8rem; color: #60a5fa; font-weight: bold; }
+    .profile-badge { background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.3); padding: 4px 12px; border-radius: 999px; font-size: 0.75rem; font-weight: 800; }
+
+    /* Code Input Box */
+    .code-box { background: #131b2e; border: 1px solid var(--border); border-radius: 20px; padding: 18px; margin-bottom: 22px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .code-input { flex: 1; min-width: 200px; padding: 12px 16px; border-radius: 14px; border: 1px solid #334155; background: #0b0f19; color: #fff; font-family: monospace; font-size: 1.05rem; text-transform: uppercase; outline: none; }
+    .code-input:focus { border-color: #60a5fa; }
+    .btn-redeem { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border: none; padding: 12px 24px; border-radius: 14px; font-weight: 900; cursor: pointer; font-size: 0.95rem; }
+
+    /* Grid of Books */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 30px; }
+    .book-card { background: #131b2e; border: 1px solid var(--border); border-radius: 20px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between; transition: 0.2s border-color; }
+    .book-card:hover { border-color: #3b82f6; }
+    .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .cat-badge { background: #1e3a8a; color: #93c5fd; font-size: 0.75rem; font-weight: bold; padding: 3px 10px; border-radius: 8px; }
+    .status-badge { font-size: 0.75rem; font-weight: 900; padding: 3px 8px; border-radius: 8px; }
+    .status-locked { background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.3); }
+    .status-unlocked { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.3); }
+    .book-title { font-size: 1.1rem; font-weight: 900; color: #fff; margin-bottom: 8px; }
+    .book-desc { font-size: 0.85rem; color: #94a3b8; line-height: 1.5; margin-bottom: 16px; flex-grow: 1; }
     
-    .top-actions { display: flex; justify-content: center; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
-    .btn-action { padding: 10px 18px; border-radius: 14px; font-weight: 800; font-size: 0.9rem; cursor: pointer; border: none; }
-    .btn-code { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; }
-    .btn-install { background: #1e293b; color: #38bdf8; border: 1px solid #334155; }
-
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 18px; }
-    .book-card { background: #131b2e; border: 1px solid #1e293b; border-radius: 20px; padding: 18px; display: flex; flex-direction: column; justify-content: space-between; }
-    .card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-    .category-badge { background: #1e3a8a; color: #93c5fd; font-size: 0.75rem; font-weight: bold; padding: 3px 10px; border-radius: 8px; }
-    .rating-badge { background: rgba(245,158,11,0.15); color: #fbbf24; font-size: 0.75rem; font-weight: 900; padding: 3px 8px; border-radius: 8px; }
-    .book-title { font-size: 1.15rem; font-weight: 900; color: #fff; margin-bottom: 8px; }
-    .book-desc { font-size: 0.85rem; color: #94a3b8; line-height: 1.5; margin-bottom: 18px; }
     .book-footer { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #1e293b; padding-top: 14px; }
-    .price-label { display: block; font-size: 0.7rem; color: #64748b; font-weight: bold; }
-    .price-tag { font-size: 1.1rem; font-weight: 900; color: #34d399; }
-    .btn-lock { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border: none; padding: 9px 18px; border-radius: 12px; font-weight: 900; font-size: 0.85rem; cursor: pointer; }
+    .price-text { font-size: 1.1rem; font-weight: 900; color: #34d399; }
+    .btn-action { padding: 9px 16px; border-radius: 12px; font-weight: 900; font-size: 0.85rem; cursor: pointer; border: none; transition: 0.2s transform; }
+    .btn-action:active { transform: scale(0.96); }
+    .btn-lock { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; }
+    .btn-read { background: #10b981; color: #fff; }
 
+    /* Admin Styles */
+    .admin-card { background: #131b2e; border: 1px solid var(--border); border-radius: 20px; padding: 22px; margin-bottom: 20px; }
+    .admin-title { font-size: 1.15rem; font-weight: 900; color: #60a5fa; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+    .form-group { margin-bottom: 14px; }
+    .form-label { display: block; font-size: 0.85rem; font-weight: bold; color: #cbd5e1; margin-bottom: 6px; }
+    .form-inp { width: 100%; padding: 12px 14px; border-radius: 12px; background: #0b0f19; border: 1px solid #334155; color: #fff; outline: none; font-size: 0.9rem; }
+    .form-inp:focus { border-color: #60a5fa; }
+    textarea.form-inp { min-height: 100px; resize: vertical; }
+    .btn-admin-submit { width: 100%; background: #2563eb; color: #fff; border: none; padding: 14px; border-radius: 14px; font-weight: 900; font-size: 1rem; cursor: pointer; }
+
+    /* Codes Table */
+    .codes-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; }
+    .codes-table th, .codes-table td { padding: 12px 10px; text-align: right; border-bottom: 1px solid #1e293b; }
+    .codes-table th { color: #94a3b8; font-weight: bold; }
+    .code-badge { background: rgba(56,189,248,0.1); border: 1px solid #38bdf8; color: #38bdf8; padding: 4px 8px; border-radius: 8px; font-family: monospace; font-weight: bold; }
+    .btn-copy { background: #1e293b; border: 1px solid #334155; color: #fff; padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; cursor: pointer; font-weight: bold; }
+    .btn-wa-send { background: #16a34a; color: #fff; border: none; padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; cursor: pointer; font-weight: bold; }
+    .btn-delete { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); color: #f87171; padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; cursor: pointer; font-weight: bold; }
+
+    /* Modal Backdrop */
     .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 100; align-items: center; justify-content: center; padding: 15px; }
-    .modal-box { background: #131b2e; border: 1px solid #334155; border-radius: 24px; padding: 24px; width: 100%; max-width: 480px; }
-    .form-inp { width: 100%; padding: 12px 14px; border-radius: 14px; background: #0b0f19; border: 1px solid #334155; color: #fff; margin-bottom: 12px; font-size: 0.9rem; outline: none; }
-    .btn-pay { width: 100%; background: #2563eb; color: #fff; border: none; padding: 14px; border-radius: 14px; font-weight: 900; font-size: 1rem; cursor: pointer; }
-    .btn-wa { display: block; text-align: center; text-decoration: none; background: #16a34a; color: #fff; padding: 12px; border-radius: 14px; font-weight: bold; font-size: 0.9rem; margin-top: 10px; }
+    .modal-box { background: #131b2e; border: 1px solid #334155; border-radius: 24px; padding: 24px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; }
+    .modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+    .btn-close { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
+
+    /* Footer */
+    footer { text-align: center; color: var(--muted); font-size: 0.8rem; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <div class="verified-badge">✓ النسخة الوزارية المعتمدة 2026</div>
-      <h1>🎓 منصة <span>طلبتي</span> التعليمية</h1>
-      <p>المناهج والملازم والأسئلة الوزارية لطلاب الثالث متوسط بالعراق</p>
+
+<div class="container">
+  <!-- Top Navigation -->
+  <div class="top-nav">
+    <div class="brand">
+      🎓 منصة <span>طلبتي</span>
     </div>
-
-    <!-- معلومات الطالب -->
-    <div class="student-badge">
-      <div>
-        <span class="student-name">أحمد سامي</span>
-        <span style="color:#f59e0b; margin-right:4px;">⭐</span>
-      </div>
-      <div class="student-grade">الصف: الثالث متوسط</div>
-    </div>
-
-    <!-- بنر الدفع -->
-    <div class="banner">
-      <h2>جميع المواد مقفلة • سعر تفعيل أي مادة 10,000 د.ع فقط 🔒</h2>
-      <p>يتم إرسال كود التفعيل فوراً عبر الواتساب بعد إتمام التحويل عبر زين كاش أو آسيا حوالة</p>
-      <div class="phone-box">📲 رقم التحويل المعتمد: 07734378998</div>
-    </div>
-
-    <!-- أزرار الإجراءات -->
-    <div class="top-actions">
-      <button onclick="openCodeModal()" class="btn-action btn-code">🔑 تفعيل مادة بكود الاشتراك</button>
-      <button onclick="promptInstallApp()" class="btn-action btn-install">📲 تثبيت التطبيق على الهاتف</button>
-    </div>
-
-    <!-- قائمة المناهج -->
-    <div class="grid" id="booksGrid"></div>
-  </div>
-
-  <!-- نافذة الدفع والشراء -->
-  <div id="payModal" class="modal-bg">
-    <div class="modal-box">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-        <h3 id="modalTitle" style="font-weight:900; color:#fff;">طلب تفعيل المادة</h3>
-        <button onclick="document.getElementById('payModal').style.display='none'" style="background:none; border:none; color:#fff; font-size:1.5rem; cursor:pointer;">✕</button>
-      </div>
-
-      <div style="background:#0b0f19; padding:14px; border-radius:14px; border:1px solid #334155; margin-bottom:15px; font-size:0.85rem;">
-        <p style="color:#60a5fa; font-weight:bold; margin-bottom:6px;">💳 تفاصيل التحويل (المبلغ: 10,000 د.ع):</p>
-        <p>زين كاش: <b style="color:#38bdf8; font-family:monospace;">07734378998</b></p>
-        <p>آسيا حوالة: <b style="color:#38bdf8; font-family:monospace;">07734378998</b></p>
-      </div>
-
-      <form onsubmit="sendOrder(event)">
-        <input id="stuName" class="form-inp" value="أحمد سامي" placeholder="اسم الطالب الثلاثي" required />
-        <input id="stuPhone" class="form-inp" placeholder="رقم الهاتف (الواتساب)" required />
-        <input id="stuTrans" class="form-inp" placeholder="رقم إشعار التحويل / رقم الوصل" required />
-        <button type="submit" class="btn-pay">إرسال وتأكيد الطلب 🚀</button>
-        <a id="waLink" href="https://wa.me/9647734378998" target="_blank" class="btn-wa">📲 مراسلة الدعم الفني عبر الواتساب</a>
-      </form>
+    <div class="nav-tabs">
+      <button id="tabStudentBtn" class="nav-btn active" onclick="switchMainTab('student')">👨‍🎓 واجهة الطالب</button>
+      <button id="tabAdminBtn" class="nav-btn" onclick="switchMainTab('admin')">🛡️ لوحة الإدارة</button>
     </div>
   </div>
 
-  <!-- نافذة إدخال الكود -->
-  <div id="codeModal" class="modal-bg">
-    <div class="modal-box">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-        <h3 style="font-weight:900; color:#fff;">إدخال كود التفعيل 🔑</h3>
-        <button onclick="document.getElementById('codeModal').style.display='none'" style="background:none; border:none; color:#fff; font-size:1.5rem; cursor:pointer;">✕</button>
-      </div>
-      <form onsubmit="redeemCode(event)">
-        <input id="codeInp" class="form-inp" placeholder="مثال: TAL-VIP-2026" style="text-align:center; font-family:monospace; text-transform:uppercase; font-size:1.1rem;" required />
-        <button type="submit" class="btn-pay">تفعيل وفتح المادة فوراً 🔓</button>
-      </form>
+  <!-- ======================================================== -->
+  <!-- 🎓 واجهة الطالب -->
+  <!-- ======================================================== -->
+  <div id="studentSection" class="tab-content active">
+    <!-- Header Banner -->
+    <div class="header-banner">
+      <h1>منصة طلبتي للمناهج والوزاريات 2026</h1>
+      <p>جميع المواد مقفلة • سعر تفعيل أي مادة 10,000 د.ع فقط 🔒</p>
+      <div class="phone-badge">📲 رقم زين كاش وآسيا حوالة المعتمد: 07734378998</div>
     </div>
+
+    <!-- Student Profile -->
+    <div class="profile-card">
+      <div class="profile-info">
+        <div class="profile-avatar">أح</div>
+        <div>
+          <div class="profile-name">أحمد سامي</div>
+          <div class="profile-grade">الصف: الثالث متوسط • بغداد</div>
+        </div>
+      </div>
+      <div class="profile-badge">مشترك موثق 🌟</div>
+    </div>
+
+    <!-- Activation Code Box -->
+    <div class="code-box">
+      <input type="text" id="studentCodeInput" class="code-input" placeholder="أدخل كود تفعيل المادة هنا..." />
+      <button onclick="redeemStudentCode()" class="btn-redeem">🔑 تفعيل وفتح المادة</button>
+    </div>
+
+    <!-- Books Grid -->
+    <div class="grid" id="studentBooksGrid"></div>
   </div>
 
-  <script>
-    const books = [
-      { id: 1, title: "الرياضيات - الثالث متوسط", category: "الرياضيات", rating: 4.9, desc: "المنهج الكامل مع حلول التمارين والأسئلة الوزارية المكررة 2026." },
-      { id: 2, title: "اللغة العربية - الثالث متوسط", category: "اللغة العربية", rating: 4.8, desc: "شامل القواعد، الأدب والنصوص والإنشاء مع نماذج وزارية معتمدة." },
-      { id: 3, title: "اللغة الإنجليزية - English for Iraq", category: "اللغة الإنجليزية", rating: 4.9, desc: "القواعد والقطع الاستيعابية والإنشاءات والتمارين الوزارية المترجمة." },
-      { id: 4, title: "الكيمياء - الثالث متوسط", category: "الكيمياء", rating: 4.8, desc: "المعادلات، المسائل الحسابية، والكشوفات الوزارية المضمونة 100%." },
-      { id: 5, title: "الفيزياء - الثالث متوسط", category: "الفيزياء", rating: 4.9, desc: "شرح القوانين الرياضية، ربط المقاومات، والمسائل المكررة وزارياً." },
-      { id: 6, title: "الأحياء - الثالث متوسط", category: "الأحياء", rating: 4.9, desc: "ملخص أجهزة جسم الإنسان مع كافة الرسومات والمخططات المطلوبة وزارياً." },
-      { id: 7, title: "الاجتماعيات - الثالث متوسط", category: "الاجتماعيات", rating: 4.8, desc: "التاريخ، الجغرافيا، والتربية الوطنية مع حلول الخرائط والتعاليل." },
-      { id: 8, title: "التربية الإسلامية - الثالث متوسط", category: "التربية الإسلامية", rating: 4.9, desc: "أحكام التلاوة، تفسير السور، والأحاديث النبوية الشريفة المعتمدة." },
-      { id: 9, title: "العلوم - الثالث متوسط", category: "العلوم", rating: 4.9, desc: "شامل ومكثف لجميع الوحدات التعليمية مع حلول أسئلة الفصول." }
-    ];
+  <!-- ======================================================== -->
+  <!-- 🛡️ واجهة الإدارة (Admin Panel) -->
+  <!-- ======================================================== -->
+  <div id="adminSection" class="tab-content">
+    <!-- Admin Login Card -->
+    <div id="adminLoginBox" class="admin-card" style="max-width: 420px; margin: 30px auto;">
+      <div class="admin-title" style="justify-content: center;">🛡️ تسجيل دخول الإدارة</div>
+      <div class="form-group">
+        <label class="form-label">اسم المستخدم:</label>
+        <input type="text" id="adminUser" class="form-inp" placeholder="admin" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">كلمة المرور السرية:</label>
+        <input type="password" id="adminPass" class="form-inp" placeholder="••••••••" />
+      </div>
+      <button onclick="loginAdmin()" class="btn-admin-submit">دخول لوحة التحكم 🚀</button>
+      <p style="text-align: center; font-size: 0.75rem; color: var(--muted); margin-top: 12px;">لوحة تحكم خاصة بإدارة منصة طلبتي</p>
+    </div>
 
-    let unlockedBooks = JSON.parse(localStorage.getItem('talabe_unlocked')) || [];
-
-    function renderBooks() {
-      const grid = document.getElementById('booksGrid');
-      grid.innerHTML = books.map(b => {
-        const isUnlocked = unlockedBooks.includes('all') || unlockedBooks.includes(b.id);
-        return `
-          <div class="book-card">
-            <div class="card-head">
-              <span class="category-badge">${b.category}</span>
-              <span class="rating-badge">★ ${b.rating}</span>
+    <!-- Admin Dashboard Controls -->
+    <div id="adminDashboard" style="display: none;">
+      <!-- Add New Book -->
+      <div class="admin-card">
+        <div class="admin-title">⚡ إضافة مادة جديدة وتوليد كود التفعيل (10,000 د.ع)</div>
+        <form onsubmit="handleCreateBook(event)">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-group">
+              <label class="form-label">اسم المادة:</label>
+              <input type="text" id="newBookTitle" class="form-inp" placeholder="مثال: التربية الإسلامية - الثالث متوسط" required />
             </div>
-            <h3 class="book-title">${b.title}</h3>
-            <p class="book-desc">${b.desc}</p>
-            <div class="book-footer">
-              <div>
-                <span class="price-label">سعر التفعيل:</span>
-                <span class="price-tag">10,000 د.ع</span>
-              </div>
-              <button onclick="${isUnlocked ? "alert('🎉 المادة مفعلة لديك وجاهزة للدراسة!')" : `openPaymentModal('${b.title}')`}" class="btn-lock" style="${isUnlocked ? 'background:#10b981;' : ''}">
-                ${isUnlocked ? 'مفعل ومتاح 🔓' : 'فتح المادة 🔒'}
-              </button>
+            <div class="form-group">
+              <label class="form-label">القسم:</label>
+              <input type="text" id="newBookCat" class="form-inp" placeholder="مثال: التربية الإسلامية" required />
             </div>
           </div>
-        `;
-      }).join('');
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-group">
+              <label class="form-label">كود التفعيل السري الخاص بالمادة:</label>
+              <input type="text" id="newBookCode" class="form-inp" placeholder="مثال: TAL-ISLAM-2026" style="text-transform:uppercase; font-family:monospace;" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">السعر:</label>
+              <input type="text" class="form-inp" value="10,000 د.ع" readonly style="background:#1e293b; color:#34d399; font-weight:bold;" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">ملخص ومحتوى المادة والأسئلة الوزارية (يظهر للطالب بعد فتح القفل):</label>
+            <textarea id="newBookContent" class="form-inp" placeholder="اكتب هنا شرح الدروس، حلول التمارين، والأسئلة الوزارية المهمة..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-admin-submit" style="background: #10b981;">➕ نشر المادة فوراً للطلاب</button>
+        </form>
+      </div>
+
+      <!-- Codes & Materials Management Table -->
+      <div class="admin-card">
+        <div class="admin-title">🔑 جدول جميع المواد وأكواد التفعيل المعتمدة (لإرسالها للطلاب)</div>
+        <div style="overflow-x: auto;">
+          <table class="codes-table">
+            <thead>
+              <tr>
+                <th>المادة الدراسية</th>
+                <th>القسم</th>
+                <th>كود التفعيل</th>
+                <th>السعر</th>
+                <th>إجراءات الإدارة</th>
+              </tr>
+            </thead>
+            <tbody id="adminMaterialsTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Purchase / Request Code -->
+<div id="payModal" class="modal-bg">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3 id="payModalTitle" style="font-weight:900; color:#fff;">طلب تفعيل المادة</h3>
+      <button onclick="document.getElementById('payModal').style.display='none'" class="btn-close">✕</button>
+    </div>
+
+    <div style="background:#0b0f19; padding:14px; border-radius:14px; border:1px solid #334155; margin-bottom:15px; font-size:0.85rem;">
+      <p style="color:#60a5fa; font-weight:bold; margin-bottom:6px;">💳 معلومات الدفع (المبلغ: 10,000 د.ع):</p>
+      <p>زين كاش: <b style="color:#38bdf8; font-family:monospace;">07734378998</b></p>
+      <p>آسيا حوالة: <b style="color:#38bdf8; font-family:monospace;">07734378998</b></p>
+      <p>بطاقة الرافدين: <b style="color:#38bdf8; font-family:monospace;">910160728184</b></p>
+    </div>
+
+    <form onsubmit="handleSendPaymentProof(event)">
+      <div class="form-group">
+        <label class="form-label">اسم الطالب:</label>
+        <input type="text" id="orderStuName" class="form-inp" value="أحمد سامي" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label">رقم الهاتف (الواتساب):</label>
+        <input type="text" id="orderStuPhone" class="form-inp" placeholder="077XXXXXXXX" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label">رقم الوصل / إشعار التحويل:</label>
+        <input type="text" id="orderStuTrans" class="form-inp" placeholder="مثال: 984521" required />
+      </div>
+      <button type="submit" class="btn-admin-submit">إرسال وتأكيد الطلب 🚀</button>
+      <a id="waDirectBtn" href="https://wa.me/9647734378998" target="_blank" style="display:block; text-align:center; background:#16a34a; color:#fff; text-decoration:none; padding:12px; border-radius:14px; font-weight:bold; font-size:0.9rem; margin-top:10px;">📲 مراسلة الدعم الفني فوراً عبر الواتساب</a>
+    </form>
+  </div>
+</div>
+
+<!-- Modal: View Content (When Unlocked) -->
+<div id="contentModal" class="modal-bg">
+  <div class="modal-box" style="max-width: 650px;">
+    <div class="modal-head">
+      <h3 id="contentModalTitle" style="font-weight:900; color:#34d399;">محتوى المادة المفتوحة 📖</h3>
+      <button onclick="document.getElementById('contentModal').style.display='none'" class="btn-close">✕</button>
+    </div>
+    <div id="contentModalBody" style="background:#0b0f19; padding:18px; border-radius:16px; border:1px solid #334155; font-size:0.95rem; line-height:1.8; white-space:pre-wrap; color:#f1f5f9; max-height:60vh; overflow-y:auto;"></div>
+  </div>
+</div>
+
+<footer>
+  <p style="font-weight:900; color:#60a5fa; margin-bottom:4px;">منصة طلبتي التعليمية - الثالث متوسط 2026 🇮🇶</p>
+  <p>الدعم الفني وخدمة المشتركين: 07734378998</p>
+</footer>
+
+<script>
+  // Initial Books Data
+  const defaultBooks = [
+    { id: 1, title: "الرياضيات - الثالث متوسط", category: "الرياضيات", code: "TAL-MATH-2026", content: "📌 أهم أسئلة الرياضيات الوزارية:\n1. حل المعادلات بالتحليل واستخراج العامل المشترك الأكبر.\n2. إيجاد الحد المفقود في المقدار الجبري ليصبح مربعاً كاملاً.\n3. حل متباينات القيمة المطلقة بيانيا وجبريا.\n4. المسائل الرياضية الخاصة بالمستطيل والمثلثات في الفصل الثالث." },
+    { id: 2, title: "اللغة العربية - قواعد وأدب ونصوص", category: "اللغة العربية", code: "TAL-ARAB-77", content: "📌 ملخص القواعد والأدب الوزاري:\n- الميزان الصرفي وأبواب الأفعال الثلاثية ومصادرها.\n- صياغة اسم الفاعل واسم المفعول وصيغ المبالغة.\n- الأدب: حياة معروف الرصافي، الجواهري، وإبراهيم طوقان مع القصائد المطلوبة للحفظ." },
+    { id: 3, title: "اللغة الإنجليزية - English for Iraq", category: "اللغة الإنجليزية", code: "TAL-ENG-99", content: "📌 English for Iraq Summary:\n- Unit 1: Giving reasons (so that you can), Telling the time, Describing places (There is / There are).\n- Official Ministerial Compositions: Write an email to a friend, Write an ad, Write about TV show." },
+    { id: 4, title: "الكيمياء - الثالث متوسط", category: "الكيمياء", code: "TAL-CHEM-88", content: "📌 الكشوفات والمعادلات المضمونة وزارياً:\n1. الكشف عن أيون الصوديوم في مركباته باستعمال كشف اللهب الجاف (يعطي لهب أصفر براق).\n2. كشف أيون الألمنيوم باستعمال هيدروكسيد الصوديوم.\n3. مسائل حساب النسبة الكتلية والحجمية للمذاب والمذيب." },
+    { id: 5, title: "الفيزياء - الثالث متوسط", category: "الفيزياء", code: "TAL-PHYS-2026", content: "📌 القوانين والمسائل الوزارية المكررة:\n- قانون كولوم وحساب القوة الكهربائية المتبادلة بين الشحنات.\n- ربط المقاومات على التوالي والتوازي وحساب المقاومة المكافئة والتيار الكلي.\n- قانون كفاءة المحولة الكهربائية وقدرة الملف الابتدائي والثانوي." },
+    { id: 6, title: "الأحياء - الثالث متوسط", category: "الأحياء", code: "TAL-BIO-2026", content: "📌 ملخص الأجهزة والرسومات المهمة:\n- الجهاز الهيكلي: تركيب السن ورسم العظم والمفصل.\n- الجهاز الهضمي: المعدة والأمعاء الدقيقة والغدد الملحقة.\n- جهاز الدوران: فصائل الدم، الدورة الدموية الكبرى والصغرى." }
+  ];
+
+  let books = JSON.parse(localStorage.getItem('talabe_books')) || defaultBooks;
+  let unlockedBookIds = JSON.parse(localStorage.getItem('talabe_unlocked')) || [];
+
+  function saveStorage() {
+    localStorage.setItem('talabe_books', JSON.stringify(books));
+    localStorage.setItem('talabe_unlocked', JSON.stringify(unlockedBookIds));
+  }
+
+  // Switch between Student and Admin tabs
+  function switchMainTab(tab) {
+    document.getElementById('studentSection').classList.remove('active');
+    document.getElementById('adminSection').classList.remove('active');
+    document.getElementById('tabStudentBtn').classList.remove('active');
+    document.getElementById('tabAdminBtn').classList.remove('active');
+
+    if (tab === 'student') {
+      document.getElementById('studentSection').classList.add('active');
+      document.getElementById('tabStudentBtn').classList.add('active');
+      renderStudentBooks();
+    } else {
+      document.getElementById('adminSection').classList.add('active');
+      document.getElementById('tabAdminBtn').classList.add('active');
+    }
+  }
+
+  // Admin Login
+  function loginAdmin() {
+    const u = document.getElementById('adminUser').value.trim();
+    const p = document.getElementById('adminPass').value.trim();
+    if ((u === 'admin' || u === 'Ahmed') && p === 'Ahmedsame1992') {
+      document.getElementById('adminLoginBox').style.display = 'none';
+      document.getElementById('adminDashboard').style.display = 'block';
+      renderAdminTable();
+    } else {
+      alert('❌ اسم المستخدم أو كلمة المرور غير صحيحة!');
+    }
+  }
+
+  // Render Student Cards
+  function renderStudentBooks() {
+    const grid = document.getElementById('studentBooksGrid');
+    grid.innerHTML = books.map(b => {
+      const isUnlocked = unlockedBookIds.includes('all') || unlockedBookIds.includes(b.id);
+      return `
+        <div class="book-card">
+          <div>
+            <div class="card-top">
+              <span class="cat-badge">${b.category}</span>
+              <span class="status-badge ${isUnlocked ? 'status-unlocked' : 'status-locked'}">
+                ${isUnlocked ? 'مفعل ومتاح 🔓' : 'مقفل (10,000 د.ع) 🔒'}
+              </span>
+            </div>
+            <h3 class="book-title">${b.title}</h3>
+            <p class="book-desc">${isUnlocked ? 'انقر على "قراءة المادة" لتصفح كافة الشروحات والأسئلة الوزارية.' : 'المنهج الكامل مع الأسئلة الوزارية المكررة وحلول التمارين المعتمدة 2026.'}</p>
+          </div>
+
+          <div class="book-footer">
+            <span class="price-text">10,000 د.ع</span>
+            ${isUnlocked ? `
+              <button onclick="viewBookContent(${b.id})" class="btn-action btn-read">📖 قراءة المادة</button>
+            ` : `
+              <button onclick="openPayModal('${b.title}')" class="btn-action btn-lock">فتح المادة 🔒</button>
+            `}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // Render Admin Management Table
+  function renderAdminTable() {
+    const tbody = document.getElementById('adminMaterialsTable');
+    tbody.innerHTML = books.map(b => `
+      <tr>
+        <td style="font-weight:bold; color:#fff;">${b.title}</td>
+        <td><span class="cat-badge">${b.category}</span></td>
+        <td><span class="code-badge">${b.code}</span></td>
+        <td style="color:#34d399; font-weight:bold;">10,000 د.ع</td>
+        <td>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            <button onclick="copyCode('${b.code}')" class="btn-copy">نسخ 📋</button>
+            <button onclick="sendCodeWhatsapp('${b.title}', '${b.code}')" class="btn-wa-send">واتساب 📲</button>
+            <button onclick="deleteBook(${b.id})" class="btn-delete">حذف 🗑️</button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  // Add New Book from Admin
+  function handleCreateBook(e) {
+    e.preventDefault();
+    const title = document.getElementById('newBookTitle').value.trim();
+    const category = document.getElementById('newBookCat').value.trim();
+    const code = document.getElementById('newBookCode').value.trim().toUpperCase();
+    const content = document.getElementById('newBookContent').value.trim();
+
+    const newBook = {
+      id: Date.now(),
+      title,
+      category,
+      code,
+      content: content || 'لا يوجد نص مضاف حتى الآن.'
+    };
+
+    books.unshift(newBook);
+    saveStorage();
+    renderAdminTable();
+    renderStudentBooks();
+    alert('✅ تم إضافة المادة وتوليد كود التفعيل بنجاح!');
+    e.target.reset();
+  }
+
+  // Delete Book
+  function deleteBook(id) {
+    if (confirm('هل أنت متأكد من رغبتك في حذف هذه المادة نهائياً؟')) {
+      books = books.filter(b => b.id !== id);
+      saveStorage();
+      renderAdminTable();
+      renderStudentBooks();
+    }
+  }
+
+  // Student Redeem Code
+  function redeemStudentCode() {
+    const code = document.getElementById('studentCodeInput').value.trim().toUpperCase();
+    if (!code) {
+      alert('يرجى كتابة كود التفعيل.');
+      return;
     }
 
-    let curBook = '';
-    function openPaymentModal(title) {
-      curBook = title;
-      document.getElementById('modalTitle').innerText = 'تفعيل ' + title + ' (10,000 د.ع)';
-      document.getElementById('payModal').style.display = 'flex';
+    if (code === 'TAL-VIP-2026' || code === 'VIP2026') {
+      unlockedBookIds = ['all'];
+      saveStorage();
+      renderStudentBooks();
+      alert('🎉 مبروك! تم تفعيل وفتح جميع المواد والمناهج بنجاح!');
+      document.getElementById('studentCodeInput').value = '';
+      return;
     }
-    function openCodeModal() {
-      document.getElementById('codeModal').style.display = 'flex';
-    }
-    function promptInstallApp() {
-      alert("📱 لتثبيت التطبيق على هاتفك:\n1. اضغط على زر (⋮) في متصفح Chrome.\n2. اختر 'إضافة إلى الشاشة الرئيسية' أو 'Install App'.");
-    }
-    function sendOrder(e) {
-      e.preventDefault();
-      const phone = document.getElementById('stuPhone').value;
-      const trans = document.getElementById('stuTrans').value;
-      alert('✅ تم إرسال طلبك بنجاح! سيتم توجيهك للواتساب لإرسال الوصل واستلام الكود فوراً.');
-      window.open('https://wa.me/9647734378998?text=' + encodeURIComponent('مرحباً، قمت بتحويل 10,000 د.ع لمادة (' + curBook + ') رقم الوصل: ' + trans + ' رقمي: ' + phone), '_blank');
-      document.getElementById('payModal').style.display = 'none';
-    }
-    function redeemCode(e) {
-      e.preventDefault();
-      const code = document.getElementById('codeInp').value.trim().toUpperCase();
-      if (code === 'TAL-VIP-2026' || code === 'VIP2026') {
-        unlockedBooks = ['all'];
-        localStorage.setItem('talabe_unlocked', JSON.stringify(unlockedBooks));
-        renderBooks();
-        alert('🎉 مبروك! تم فتح وتفعيل جميع المواد والمناهج بنجاح!');
-        document.getElementById('codeModal').style.display = 'none';
-      } else {
-        alert('❌ كود التفعيل غير صحيح! تأكد من الكود أو تواصل مع الدعم عبر الواتساب 07734378998');
+
+    const found = books.find(b => b.code.toUpperCase() === code);
+    if (found) {
+      if (!unlockedBookIds.includes(found.id)) {
+        unlockedBookIds.push(found.id);
+        saveStorage();
       }
+      renderStudentBooks();
+      alert(`🎉 تم تفعيل وفتح "${found.title}" بنجاح!`);
+      document.getElementById('studentCodeInput').value = '';
+    } else {
+      alert('❌ كود التفعيل غير صالح! تأكد من كتابة الكود بشكل صحيح أو تواصل مع الدعم الفني على 07734378998.');
     }
+  }
 
-    renderBooks();
-  </script>
+  // View Unlocked Content
+  function viewBookContent(id) {
+    const book = books.find(b => b.id === id);
+    if (book) {
+      document.getElementById('contentModalTitle').innerText = '📖 ' + book.title;
+      document.getElementById('contentModalBody').innerText = book.content || 'تم فتح المادة بنجاح.';
+      document.getElementById('contentModal').style.display = 'flex';
+    }
+  }
+
+  // Pay Modal
+  let activeBookTitle = '';
+  function openPayModal(title) {
+    activeBookTitle = title;
+    document.getElementById('payModalTitle').innerText = 'تفعيل ' + title + ' (10,000 د.ع)';
+    document.getElementById('payModal').style.display = 'flex';
+  }
+
+  function handleSendPaymentProof(e) {
+    e.preventDefault();
+    const name = document.getElementById('orderStuName').value;
+    const phone = document.getElementById('orderStuPhone').value;
+    const trans = document.getElementById('orderStuTrans').value;
+
+    alert('✅ تم تسجيل طلبك بنجاح! سيتم نقلك للواتساب لتأكيد التحويل واستلام كود التفعيل فوراً.');
+    window.open('https://wa.me/9647734378998?text=' + encodeURIComponent('مرحباً منصة طلبتي، قمت بتحويل 10,000 د.ع لتفعيل مادة (' + activeBookTitle + ') الطالب: ' + name + ' رقم الوصل: ' + trans), '_blank');
+    document.getElementById('payModal').style.display = 'none';
+  }
+
+  // Helpers for Admin
+  function copyCode(code) {
+    navigator.clipboard.writeText(code);
+    alert('📋 تم نسخ الكود: ' + code);
+  }
+
+  function sendCodeWhatsapp(title, code) {
+    const text = `مرحباً بك في منصة طلبتي التعليمية 🎓\nتم تأكيد اشتراكك في: ${title}\n🔑 كود التفعيل الخاص بك: ${code}\nيمكنك إدخاله في التطبيق الآن لفتح المادة مباشرة.`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+  }
+
+  // Initial Load
+  renderStudentBooks();
+</script>
+
 </body>
 </html>
