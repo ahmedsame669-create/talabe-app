@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة طلبتي التعليمية</title>
+    <style>
+        /* إعدادات عامة وتنسيق الخطوط */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #0b0f19; /* خلفية داكنة */
+            color: #ffffff; /* نص أبيض */
+            padding: 20px;
+        }
+        
+        /* ترويسة الصفحة */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            font-size: 28px;
+            color: #38bdf8; /* لون سماوي */
+            margin-bottom: 10px;
+        }
+        header p {
+            font-size: 16px;
+            color: #94a3b8; /* لون رمادي فاتح */
+        }
+
+        /* شريط التنبيه */
+        .banner {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        /* حاوية البطاقات */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr; /* عمود واحد في الشاشات الصغيرة */
+            gap: 20px;
+        }
+        
+        /* تعديل التخطيط للشاشات المتوسطة فما فوق */
+        @media (min-width: 768px) {
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr); /* عمودين */
+            }
+        }
+        @media (min-width: 1024px) {
+            .grid-container {
+                grid-template-columns: repeat(3, 1fr); /* ثلاثة أعمدة */
+            }
+        }
+
+        /* بطاقة المادة الواحدة */
+        .card {
+            background-color: #1e293b; /* خلفية البطاقة */
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #38bdf8;
+        }
+
+        .card h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #f8fafc;
+        }
+
+        /* شارة السعر */
+        .price {
+            background-color: #2563eb;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        /* زر التفعيل */
+        .btn {
+            background-color: #f97316; /* لون برتقالي */
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #ea580c;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- عنوان المنصة -->
+    <header>
+        <h1>منصة طلبتي التعليمية</h1>
+        <p>المنصة الأولى لطلاب الخارجي والمراحل الدراسية</p>
+    </header>
+
+    <!-- شريط التنبيه -->
+    <div class="banner">
+        ⚠️ جميع المواد مقفلة - سعر تفعيل أي مادة 10,000 د.ع فقط
+    </div>
+
+    <!-- شبكة المواد -->
+    <div class="grid-container">
+        
+        <!-- مادة 1 -->
+        <div class="card">
+            <div>
+                <h3>اللغة العربية - الثالث متوسط</h3>
+                <div class="price">10,000 د.ع</div>
+            </div>
+            <button class="btn" onclick="alert('تم تفعيل طلبك للمادة!')">تفعيل المادة الآن</button>
+        </div>
+
+        <!-- مادة 2 -->
+        <div class="card">
+            <div>
+                <h3>الرياضيات - الثالث متوسط</h3>
+                <div class="price">10,000 د.ع</div>
+            </div>
+            <button class="btn" onclick="alert('تم تفعيل طلبك للمادة!')">تفعيل المادة الآن</button>
+        </div>
+
+        <!-- مادة 3 -->
+        <div class="card">
+            <div>
+                <h3>اللغة الإنجليزية - الثالث متوسط</h3>
+                <div class="price">10,000 د.ع</div>
+            </div>
+            <button class="btn" onclick="alert('تم تفعيل طلبك للمادة!')">تفعيل المادة الآن</button>
+        </div>
+
+        <!-- مادة 4 -->
+        <div class="card">
+            <div>
+                <h3>الاجتماعيات - الثالث متوسط</h3>
+                <div class="price">10,000 د.ع</div>
+            </div>
+            <button class="btn" onclick="alert('تم تفعيل طلبك للمادة!')">تفعيل المادة الآن</button>
+        </div>
+
+        <!-- مادة 5 -->
+        <div class="card">
+            <div>
+                <h3>العلوم - الثالث متوسط</h3>
+                <div class="price">10,000 د.ع</div>
+            </div>
+            <button class="btn" onclick="alert('تم تفعيل طلبك للمادة!')">تفعيل المادة الآن</button>
+        </div>
+
+        <!-- مادة 6 -->
+        <div class="card">
+            <div>
+                <h3>الإسلامية - الثالث متوسط</h3>
+                <div class="price">10,000 د.ع</div>
+            </div>
+            <button class="btn" onclick="alert('تم تفعيل طلبك للمادة!')">تفعيل المادة الآن</button>
+        </div>
+
+    </div>
+
+</body>
+</html>
