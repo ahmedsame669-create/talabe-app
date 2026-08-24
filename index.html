@@ -21,8 +21,10 @@
             <h1 class="text-xl font-bold text-sky-400">منصة طلبتي</h1>
         </div>
         <div class="flex items-center space-x-2 space-x-reverse">
-            <button onclick="openStudentLogin()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-sm font-semibold transition">دخول الطالب</button>
-            <button onclick="openAdminModal()" class="bg-sky-600 hover:bg-sky-500 text-white px-3 py-1.5 rounded-lg text-sm font-semibold transition">لوحة الأدمن</button>
+            <div id="studentProfileArea">
+                <button onclick="openStudentLogin()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-sm font-semibold transition">تسجيل الطالب</button>
+            </div>
+            <button onclick="openAdminLoginModal()" class="bg-sky-600 hover:bg-sky-500 text-white px-3 py-1.5 rounded-lg text-sm font-semibold transition">لوحة الأدمن</button>
         </div>
     </header>
 
@@ -32,7 +34,7 @@
         <!-- شريط ترحيب وإعلان -->
         <section class="bg-gradient-to-r from-sky-900 to-indigo-900 p-4 rounded-xl shadow-lg mb-6 text-center">
             <h2 class="text-2xl font-bold mb-2">مرحباً بكم يا طلابنا الأعزاء 🌟</h2>
-            <p class="text-slate-300 text-sm">الملخصات والمرشحات الوزارية الحصرية (2012 - 2026) بدون ملل وباسم منصة طلبتي فقط!</p>
+            <p class="text-slate-300 text-sm">الملخصات والمرشحات الوزارية الحصرية (2012 - 2026) باسم منصة طلبتي فقط!</p>
         </section>
 
         <!-- تبويبات المراحل الدراسية -->
@@ -46,59 +48,134 @@
 
         <!-- قائمة المواد الدراسية -->
         <div id="subjectsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <!-- سيتم تعبئة المواد تلقائياً عبر الجافاسكريبت -->
+            <!-- يتم تعبئتها ديناميكياً -->
         </div>
     </main>
 
     <!-- زر واتساب عائم للدعم -->
-    <a href="https://wa.me/9647734378998?text=مرحباً، أريد الاستفسار عن فتح مواد منصة طلبتي التعليمية" target="_blank" class="fixed bottom-6 left-6 bg-emerald-500 hover:bg-emerald-600 text-white p-4 rounded-full shadow-2xl flex items-center justify-center z-50 transition transform hover:scale-110">
+    <a href="https://wa.me/9647734378998?text=مرحباً، أستاذ أحمد أريد الاستفسار عن تفعيل مواد منصة طلبتي" target="_blank" class="fixed bottom-6 left-6 bg-emerald-500 hover:bg-emerald-600 text-white p-4 rounded-full shadow-2xl flex items-center justify-center z-50 transition transform hover:scale-110">
         <span class="text-2xl">💬</span>
     </a>
 
-    <!-- نافذة قفل المادة والدفع -->
-    <div id="payModal" class="fixed inset-0 bg-black/80 hidden flex justify-center items-center p-4 z-50">
+    <!-- نافذة إدخال كود التفعيل للطالب -->
+    <div id="unlockModal" class="fixed inset-0 bg-black/80 hidden flex justify-center items-center p-4 z-50">
         <div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl w-full max-w-md shadow-2xl text-center">
             <div class="text-4xl mb-3">🔒</div>
-            <h3 class="text-xl font-bold text-amber-400 mb-2">المادة مقفلة (مرشحات وزاري 2012-2026)</h3>
-            <p class="text-slate-300 text-sm mb-4">لفتح هذه المادة والوصول للمرشحات والأجوبة المختصرة، السعر فقط <span class="text-emerald-400 font-bold">10,000 دينار</span>.</p>
+            <h3 id="unlockSubTitle" class="text-xl font-bold text-amber-400 mb-2">فتح المادة</h3>
+            <p class="text-slate-300 text-sm mb-3">سعر فتح المادة <span class="text-emerald-400 font-bold">10,000 دينار</span>.</p>
             
-            <div class="bg-slate-900 p-3 rounded-xl mb-4 text-right border border-slate-700">
+            <div class="bg-slate-900 p-3 rounded-xl mb-3 text-right border border-slate-700">
                 <p class="text-xs text-slate-400 mb-1">💳 تحويل عبر ماستركارد الرافدين:</p>
-                <p class="text-sky-300 font-mono font-bold text-lg select-all">910160728184</p>
+                <p class="text-sky-300 font-mono font-bold text-base select-all">910160728184</p>
             </div>
 
-            <p class="text-xs text-slate-400 mb-4">بعد التحويل، أرسل إيصال الدفع عبر واتساب لتفعيل المادة فوراً:</p>
-            
-            <div class="flex space-x-2 space-x-reverse">
-                <a id="whatsappPayBtn" href="#" target="_blank" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-2.5 rounded-xl font-bold transition text-center text-sm">إرسال الإصال واتساب</a>
-                <button onclick="closePayModal()" class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2.5 rounded-xl text-sm transition">إلغاء</button>
+            <p class="text-xs text-slate-400 mb-3">بعد التحويل، راسلنا على الواتساب للحصول على كود التفعيل:</p>
+            <a id="whatsappGetCodeBtn" href="#" target="_blank" class="block bg-emerald-600 hover:bg-emerald-500 text-white py-2 rounded-xl font-bold text-sm mb-4 transition">طلب الكود عبر واتساب (07734378998)</a>
+
+            <div class="border-t border-slate-700 pt-3 text-right">
+                <label class="block text-xs text-slate-300 mb-1">أدخل كود التفعيل الخاص بالمادة:</label>
+                <input type="text" id="activationCodeInput" placeholder="مثلاً: TALABE-7788" class="w-full bg-slate-900 border border-slate-700 p-2.5 rounded-xl mb-3 text-white text-center font-mono uppercase text-sm">
+                <div class="flex space-x-2 space-x-reverse">
+                    <button onclick="verifyActivationCode()" class="flex-1 bg-sky-600 hover:bg-sky-500 text-white py-2 rounded-xl font-bold text-sm">تفعيل الفتح</button>
+                    <button onclick="closeUnlockModal()" class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-xl text-sm">إلغاء</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- نافذة تسجيل دخول الطالب -->
+    <!-- نافذة تسجيل دخول الطالب (الاسم، الرقم، المحافظة) -->
     <div id="studentModal" class="fixed inset-0 bg-black/80 hidden flex justify-center items-center p-4 z-50">
         <div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl w-full max-w-sm shadow-2xl">
-            <h3 class="text-lg font-bold text-emerald-400 mb-3 text-center">تسجيل دخول الطالب</h3>
-            <p class="text-xs text-slate-400 mb-4 text-center">أدخل رقم هاتفك لتسجيل الحساب وتلقي الإشعارات.</p>
-            <input type="tel" id="studentPhone" placeholder="077XXXXXXXX" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl mb-4 text-white text-center font-mono">
+            <h3 class="text-lg font-bold text-emerald-400 mb-3 text-center">تسجيل بيانات الطالب</h3>
+            <div class="space-y-3 mb-4">
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">الاسم الكامل:</label>
+                    <input type="text" id="studentName" placeholder="أدخل اسمك هنا" class="w-full bg-slate-900 border border-slate-700 p-2.5 rounded-xl text-white text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">رقم الهاتف:</label>
+                    <input type="tel" id="studentPhone" placeholder="077XXXXXXXX" class="w-full bg-slate-900 border border-slate-700 p-2.5 rounded-xl text-white text-sm font-mono">
+                </div>
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">المحافظة:</label>
+                    <input type="text" id="studentGov" placeholder="مثلاً: بغداد، نينوى، البصرة..." class="w-full bg-slate-900 border border-slate-700 p-2.5 rounded-xl text-white text-sm">
+                </div>
+            </div>
             <div class="flex space-x-2 space-x-reverse">
-                <button onclick="submitStudentLogin()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-2.5 rounded-xl font-bold text-sm">دخول</button>
-                <button onclick="closeStudentLogin()" class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2.5 rounded-xl text-sm">إغلاق</button>
+                <button onclick="saveStudentData()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-2.5 rounded-xl font-bold text-sm">حفظ وتسجيل</button>
+                <button onclick="closeStudentLogin()" class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2.5 rounded-xl text-sm">إلغاء</button>
             </div>
         </div>
     </div>
 
-    <!-- نافذة لوحة تحكم الأدمن -->
-    <div id="adminModal" class="fixed inset-0 bg-black/80 hidden flex justify-center items-center p-4 z-50">
+    <!-- نافذة تسجيل دخول الأدمن -->
+    <div id="adminLoginModal" class="fixed inset-0 bg-black/80 hidden flex justify-center items-center p-4 z-50">
         <div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl w-full max-w-sm shadow-2xl">
-            <h3 class="text-lg font-bold text-sky-400 mb-4 text-center">دخول لوحة تحكم الأدمن</h3>
+            <h3 class="text-lg font-bold text-sky-400 mb-4 text-center">تسجيل دخول لوحة الأدمن</h3>
             <input type="text" id="adminUser" placeholder="اسم المستخدم" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl mb-3 text-white text-sm">
             <input type="password" id="adminPass" placeholder="كلمة المرور" class="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl mb-4 text-white text-sm">
             <div class="flex space-x-2 space-x-reverse">
-                <button onclick="checkAdminLogin()" class="flex-1 bg-sky-600 hover:bg-sky-500 text-white py-2.5 rounded-xl font-bold text-sm">دخول الأدمن</button>
-                <button onclick="closeAdminModal()" class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2.5 rounded-xl text-sm">إلغاء</button>
+                <button onclick="verifyAdminLogin()" class="flex-1 bg-sky-600 hover:bg-sky-500 text-white py-2.5 rounded-xl font-bold text-sm">دخول</button>
+                <button onclick="closeAdminLoginModal()" class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2.5 rounded-xl text-sm">إلغاء</button>
             </div>
+        </div>
+    </div>
+
+    <!-- نافذة لوحة تحكم الأدمن المبرمجة بالكامل داخل التطبيق -->
+    <div id="adminDashboardModal" class="fixed inset-0 bg-black/90 hidden flex flex-col z-50 p-4 overflow-y-auto">
+        <div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl w-full max-w-4xl mx-auto shadow-2xl my-auto">
+            <div class="flex justify-between items-center mb-6 border-b border-slate-700 pb-3">
+                <h2 class="text-xl font-bold text-sky-400">🛠️ لوحة تحكم الأدمن الشاملة</h2>
+                <button onclick="closeAdminDashboard()" class="bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded-lg text-xs">إغلاق اللوحة</button>
+            </div>
+
+            <!-- تبويبات الأدمن -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- قسم إضافة مادة جديدة -->
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">
+                    <h3 class="font-bold text-emerald-400 mb-3">➕ إضافة مادة دراسية جديدة أو مرشحات</h3>
+                    <div class="space-y-3 text-sm">
+                        <input type="text" id="newSubName" placeholder="اسم المادة (مثلاً: رياضيات - سادس علمي)" class="w-full bg-slate-800 border border-slate-700 p-2.5 rounded-lg text-white">
+                        <select id="newSubGrade" class="w-full bg-slate-800 border border-slate-700 p-2.5 rounded-lg text-white">
+                            <option value="سادس-علمي">السادس العلمي</option>
+                            <option value="سادس-ادبي">السادس الأدبي</option>
+                            <option value="ثالث-متوسط">الثالث المتوسط</option>
+                            <option value="سادس-ابتدائي">السادس الابتدائي</option>
+                        </select>
+                        <textarea id="newSubDesc" placeholder="تفاصيل المرشحات والوزاريات (2012-2026)..." class="w-full bg-slate-800 border border-slate-700 p-2.5 rounded-lg text-white h-20"></textarea>
+                        <input type="text" id="newSubCode" placeholder="كود التفعيل الخاص بالمادة (مثلاً: MATH6-992)" class="w-full bg-slate-800 border border-slate-700 p-2.5 rounded-lg text-white font-mono uppercase">
+                        <button onclick="addNewSubject()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-2.5 rounded-lg font-bold">حفظ ونشر المادة</button>
+                    </div>
+                </div>
+
+                <!-- قسم إدارة المواد وحذفها -->
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 flex flex-col">
+                    <h3 class="font-bold text-sky-400 mb-3">📚 المواد المتاحة حالياً (للحذف والإدارة)</h3>
+                    <div id="adminSubjectsList" class="space-y-2 overflow-y-auto max-h-60 flex-grow pr-1">
+                        <!-- تظهر المواد هنا -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- قسم عرض الطلاب المسجلين -->
+            <div class="mt-6 bg-slate-900 p-4 rounded-xl border border-slate-700">
+                <h3 class="font-bold text-amber-400 mb-3">👥 سجل الطلاب المسجلين في التطبيق</h3>
+                <div id="adminStudentsList" class="overflow-x-auto max-h-40 overflow-y-auto">
+                    <table class="w-full text-right text-xs text-slate-300">
+                        <thead class="bg-slate-800 text-sky-300">
+                            <tr>
+                                <th class="p-2">اسم الطالب</th>
+                                <th class="p-2">رقم الهاتف</th>
+                                <th class="p-2">المحافظة</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentsTableBody">
+                            <!-- يظهر الطلاب هنا -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -109,24 +186,32 @@
 
     <!-- جافاسكريبت التطبيق -->
     <script>
-        // بيانات تجريبية افتراضية شاملة لكل المراحل والمرشحات
-        const subjectsData = [
-            { id: 1, name: "الرياضيات - السادس العلمي", grade: "سادس-علمي", desc: "مرشحات وأسئلة وزاري مختصرة (2012-2026) حصرياً لمنصة طلبتي", locked: true },
-            { id: 2, name: "الفيزياء - السادس العلمي", grade: "سادس-علمي", desc: "أهم المسائل والتركيز على الفصول المهمة (2012-2026)", locked: true },
-            { id: 3, name: "الكيمياء - السادس العلمي", grade: "سادس-علمي", desc: "مرشحات العضوية والمسائل الحسابية المختصرة", locked: true },
-            { id: 4, name: "اللغة العربية - السادس الأدبي", grade: "سادس-ادبي", desc: "قواعد النفي والاستفهام والأسئلة الوزارية المختصرة", locked: true },
-            { id: 5, name: "التاريخ - السادس الأدبي", grade: "سادس-ادبي", desc: "التعاريف والتعاليل والوزاريات من 2012 لغاية 2026", locked: true },
-            { id: 6, name: "الاجتماعيات - الثالث المتوسط", grade: "ثالث-متوسط", desc: "جغرافيا وتاريخ وطنية (مرشحات نهائية مختصرة)", locked: true },
-            { id: 7, name: "الرياضيات - الثالث المتوسط", grade: "ثالث-متوسط", desc: "أهم الفصول والتمارين الوزارية المكررة", locked: true },
-            { id: 8, name: "العلوم - السادس الابتدائي", grade: "سادس-ابتدائي", desc: "ملخصات ومرشحات سريعة لضمان الدرجة الكاملة", locked: false },
-            { id: 9, name: "الاسلامية - السادس الابتدائي", grade: "سادس-ابتدائي", desc: "الحديث والقصص والمعاني بشكل مختصر", locked: false }
+        // تخزين البيانات محلياً أو افتراضياً
+        let subjects = JSON.parse(localStorage.getItem('talabe_subjects')) || [
+            { id: 1, name: "الرياضيات - السادس العلمي", grade: "سادس-علمي", desc: "مرشحات وأسئلة وزاري مختصرة (2012-2026)", code: "MATH123", locked: true },
+            { id: 2, name: "العلوم - السادس الابتدائي", grade: "سادس-ابتدائي", desc: "ملخصات سريعة لضمان الدرجة الكاملة", code: "FREE", locked: false }
         ];
+
+        let students = JSON.parse(localStorage.getItem('talabe_students')) || [];
+        let unlockedSubjects = JSON.parse(localStorage.getItem('talabe_unlocked')) || [];
+        let currentStudent = JSON.parse(localStorage.getItem('talabe_current_student')) || null;
+        let selectedSubjectForUnlock = null;
+
+        // تحديث عرض اسم الطالب في القمة إذا مسجل
+        function updateStudentUI() {
+            const area = document.getElementById('studentProfileArea');
+            if(currentStudent) {
+                area.innerHTML = `<span class="bg-emerald-500/20 text-emerald-400 text-xs px-3 py-1.5 rounded-lg font-bold">مرحباً، ${currentStudent.name} (${currentStudent.gov})</span>`;
+            } else {
+                area.innerHTML = `<button onclick="openStudentLogin()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-sm font-semibold transition">تسجيل الطالب</button>`;
+            }
+        }
 
         function renderSubjects(filter = 'all') {
             const container = document.getElementById('subjectsContainer');
             container.innerHTML = '';
             
-            const filtered = filter === 'all' ? subjectsData : subjectsData.filter(s => s.grade === filter);
+            const filtered = filter === 'all' ? subjects : subjects.filter(s => s.grade === filter);
             
             if(filtered.length === 0) {
                 container.innerHTML = `<p class="text-center text-slate-400 col-span-full py-6">لا توجد مواد مضافة لهذه المرحلة حالياً.</p>`;
@@ -134,18 +219,19 @@
             }
 
             filtered.forEach(sub => {
+                const isUnlocked = !sub.locked || unlockedSubjects.includes(sub.name);
                 const card = document.createElement('div');
                 card.className = "bg-slate-800 border border-slate-700 p-5 rounded-2xl shadow-md flex flex-col justify-between transition hover:border-sky-500";
                 card.innerHTML = `
                     <div>
                         <div class="flex justify-between items-start mb-2">
                             <h3 class="text-lg font-bold text-sky-300">${sub.name}</h3>
-                            ${sub.locked ? '<span class="bg-amber-500/20 text-amber-400 text-xs px-2.5 py-1 rounded-full font-semibold">🔒 مقفل (10,000 د.ع)</span>' : '<span class="bg-emerald-500/20 text-emerald-400 text-xs px-2.5 py-1 rounded-full font-semibold">🔓 مجاني</span>'}
+                            ${isUnlocked ? '<span class="bg-emerald-500/20 text-emerald-400 text-xs px-2.5 py-1 rounded-full font-semibold">🔓 مفتوحة</span>' : '<span class="bg-amber-500/20 text-amber-400 text-xs px-2.5 py-1 rounded-full font-semibold">🔒 مقفلة (10,000 د.ع)</span>'}
                         </div>
-                        <p class="text-slate-300 text-xs mb-4 leading-relaxed">${sub.desc}</p>
+                        <p class="text-slate-300 text-xs mb-4 leading-relaxed">${isUnlocked ? sub.desc : 'هذه المادة تحتوي على مرشحات وأسئلة وزاري (2012-2026) مختصرة وحصرية باسم منصة طلبتي.'}</p>
                     </div>
-                    <button onclick="handleSubjectClick('${sub.name}', ${sub.locked})" class="w-full ${sub.locked ? 'bg-amber-600 hover:bg-amber-500' : 'bg-sky-600 hover:bg-sky-500'} text-white py-2 rounded-xl text-sm font-bold transition">
-                        ${sub.locked ? 'فتح المادة (شراء)' : 'عرض المرشحات'}
+                    <button onclick='handleSubjectAction(${JSON.stringify(sub)}, ${isUnlocked})' class="w-full ${isUnlocked ? 'bg-emerald-600 hover:bg-emerald-500' : 'bg-amber-600 hover:bg-amber-500'} text-white py-2 rounded-xl text-sm font-bold transition">
+                        ${isUnlocked ? 'عرض المرشحات والوزاريات' : 'أدخل كود التفعيل (فتح)'}
                     </button>
                 `;
                 container.appendChild(card);
@@ -162,56 +248,156 @@
             renderSubjects(grade);
         }
 
-        function handleSubjectClick(subName, isLocked) {
-            if(isLocked) {
-                const encodedMsg = encodeURIComponent(`مرحباً، أود فتح مادة (${subName}) في منصة طلبتي، وقمت بالتحويل على ماستركارد الرافدين (910160728184). هذا هو إيصال الدفع:`);
-                document.getElementById('whatsappPayBtn').href = `https://wa.me/9647734378998?text=${encodedMsg}`;
-                document.getElementById('payModal').classList.remove('hidden');
+        function handleSubjectAction(sub, isUnlocked) {
+            if(isUnlocked) {
+                alert(`📚 محتوى المادة: ${sub.name}\n\n${sub.desc}\n\n(مرشحات وزاري مختصرة ومضمونة 100% باسم منصة طلبتي).`);
             } else {
-                alert('تم فتح المادة! جاري عرض مرشحات وأسئلة الوزاري المختصرة باسم منصة طلبتي.');
+                selectedSubjectForUnlock = sub;
+                document.getElementById('unlockSubTitle').innerText = `فتح مادة: ${sub.name}`;
+                const msg = encodeURIComponent(`مرحباً أستاذ أحمد، قمت بتحويل 10,000 دينار على ماستركارد الرافدين (910160728184) لفتح مادة (${sub.name}). أرجو تزويدي بكود التفعيل.`);
+                document.getElementById('whatsappGetCodeBtn').href = `https://wa.me/9647734378998?text=${msg}`;
+                document.getElementById('unlockModal').classList.remove('hidden');
             }
         }
 
-        function closePayModal() {
-            document.getElementById('payModal').classList.add('hidden');
+        function verifyActivationCode() {
+            const enteredCode = document.getElementById('activationCodeInput').value.trim();
+            if(enteredCode === selectedSubjectForUnlock.code) {
+                unlockedSubjects.push(selectedSubjectForUnlock.name);
+                localStorage.setItem('talabe_unlocked', JSON.stringify(unlockedSubjects));
+                alert('🎉 مبروك! تم تفعيل المادة بنجاح ويمكنك تصفح المرشحات الآن.');
+                closeUnlockModal();
+                renderSubjects();
+            } else {
+                alert('❌ كود التفعيل غير صحيح! تأكد من الكود المرسل من الإدارة.');
+            }
         }
 
-        function openStudentLogin() {
-            document.getElementById('studentModal').classList.remove('hidden');
+        function closeUnlockModal() {
+            document.getElementById('unlockModal').classList.add('hidden');
+            document.getElementById('activationCodeInput').value = '';
         }
-        function closeStudentLogin() {
-            document.getElementById('studentModal').classList.add('hidden');
-        }
-        function submitStudentLogin() {
-            const phone = document.getElementById('studentPhone').value;
-            if(phone.length < 10) {
-                alert('يرجى إدخال رقم هاتف صحيح');
+
+        // إدارة تسجيل الطالب
+        function openStudentLogin() { document.getElementById('studentModal').classList.remove('hidden'); }
+        function closeStudentLogin() { document.getElementById('studentModal').classList.add('hidden'); }
+        
+        function saveStudentData() {
+            const name = document.getElementById('studentName').value.trim();
+            const phone = document.getElementById('studentPhone').value.trim();
+            const gov = document.getElementById('studentGov').value.trim();
+
+            if(!name || phone.length < 10 || !gov) {
+                alert('يرجى ملء جميع الحقول بشكل صحيح (الاسم، ورقم الهاتف، والمحافظة).');
                 return;
             }
-            alert('تم تسجيل الدخول بنجاح عبر الرقم: ' + phone);
+
+            currentStudent = { name, phone, gov };
+            localStorage.setItem('talabe_current_student', JSON.stringify(currentStudent));
+            
+            // حفظ في قائمة الطلاب
+            students.push(currentStudent);
+            localStorage.setItem('talabe_students', JSON.stringify(students));
+
+            alert(`أهلاً بك يا ${name} من محافظة ${gov}! تم تسجيل دخولك بنجاح.`);
             closeStudentLogin();
+            updateStudentUI();
         }
 
-        function openAdminModal() {
-            document.getElementById('adminModal').classList.remove('hidden');
-        }
-        function closeAdminModal() {
-            document.getElementById('adminModal').classList.add('hidden');
-        }
-        function checkAdminLogin() {
+        // تسجيل دخول الأدمن
+        function openAdminLoginModal() { document.getElementById('adminLoginModal').classList.remove('hidden'); }
+        function closeAdminLoginModal() { document.getElementById('adminLoginModal').classList.add('hidden'); }
+
+        function verifyAdminLogin() {
             const user = document.getElementById('adminUser').value;
             const pass = document.getElementById('adminPass').value;
-            
+
             if(user === 'fire' && pass === 'Ahmedsame1992') {
-                alert('مرحباً بك يا أحمد! تم تسجيل دخول الأدمن بنجاح.');
-                closeAdminModal();
-                window.location.href = "https://wa.me/9647734378998?text=مرحباً أدمن أحمد، تم تفعيل لوحة التحكم بنجاح";
+                closeAdminLoginModal();
+                openAdminDashboard();
             } else {
-                alert('خطأ في اسم المستخدم أو كلمة المرور!');
+                alert('خطأ في اسم المستخدم أو كلمة المرور الخاصة بالأدمن!');
             }
         }
 
-        // تشغيل عرض المواد عند بدء التشغيل
+        function openAdminDashboard() {
+            renderAdminSubjectsList();
+            renderAdminStudentsList();
+            document.getElementById('adminDashboardModal').classList.remove('hidden');
+        }
+        function closeAdminDashboard() { document.getElementById('adminDashboardModal').classList.add('hidden'); }
+
+        // وظائف لوحة الأدمن
+        function addNewSubject() {
+            const name = document.getElementById('newSubName').value.trim();
+            const grade = document.getElementById('newSubGrade').value;
+            const desc = document.getElementById('newSubDesc').value.trim();
+            const code = document.getElementById('newSubCode').value.trim().toUpperCase();
+
+            if(!name || !desc || !code) {
+                alert('يرجى تعبئة كافة الحقول وكود التفعيل.');
+                return;
+            }
+
+            const newSub = { id: Date.now(), name, grade, desc, code, locked: true };
+            subjects.push(newSub);
+            localStorage.setItem('talabe_subjects', JSON.stringify(subjects));
+
+            alert('✅ تمت إضافة المادة بنجاح ونشرها في التطبيق!');
+            document.getElementById('newSubName').value = '';
+            document.getElementById('newSubDesc').value = '';
+            document.getElementById('newSubCode').value = '';
+            renderAdminSubjectsList();
+            renderSubjects();
+        }
+
+        function deleteSubject(id) {
+            if(confirm('هل أنت متأكد من حذف هذه المادة؟')) {
+                subjects = subjects.filter(s => s.id !== id);
+                localStorage.setItem('talabe_subjects', JSON.stringify(subjects));
+                renderAdminSubjectsList();
+                renderSubjects();
+            }
+        }
+
+        function renderAdminSubjectsList() {
+            const list = document.getElementById('adminSubjectsList');
+            list.innerHTML = '';
+            subjects.forEach(sub => {
+                const item = document.createElement('div');
+                item.className = "bg-slate-800 p-2.5 rounded-lg flex justify-between items-center text-xs";
+                item.innerHTML = `
+                    <div>
+                        <span class="font-bold text-sky-300">${sub.name}</span>
+                        <span class="text-amber-400 mr-2 font-mono">[الكود: ${sub.code}]</span>
+                    </div>
+                    <button onclick="deleteSubject(${sub.id})" class="bg-red-600 hover:bg-red-500 text-white px-2.5 py-1 rounded">حذف</button>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        function renderAdminStudentsList() {
+            const tbody = document.getElementById('studentsTableBody');
+            tbody.innerHTML = '';
+            if(students.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" class="p-2 text-center text-slate-500">لا يوجد طلاب مسجلين بعد</td></tr>`;
+                return;
+            }
+            students.forEach(st => {
+                const row = document.createElement('tr');
+                row.className = "border-b border-slate-800";
+                row.innerHTML = `
+                    <td class="p-2">${st.name}</td>
+                    <td class="p-2 font-mono">${st.phone}</td>
+                    <td class="p-2">${st.gov}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // تشغيل أولي
+        updateStudentUI();
         renderSubjects();
     </script>
 </body>
