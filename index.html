@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>منصة طلبتي التعليمية | الثالث متوسط 🇮🇶</title>
+  <title>منصة طلبتي التعليمية | المنصة الأكاديمية الشاملة</title>
   
   <meta name="theme-color" content="#1e3a8a">
   <meta name="mobile-web-app-capable" content="yes">
@@ -35,7 +35,7 @@
     .container { max-width: 950px; margin: 0 auto; }
     
     @keyframes slideUp {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(18px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -98,7 +98,7 @@
     .brand-logo { width: 38px; height: 38px; border-radius: 12px; background: linear-gradient(135deg, #2563eb, #38bdf8); display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 4px 12px rgba(37,99,235,0.4); }
     .brand span { color: #38bdf8; }
 
-    /* Student Profile Chip in Header */
+    /* Student Profile Chip */
     .user-chip { display: flex; align-items: center; gap: 10px; background: #070b14; padding: 6px 12px 6px 6px; border-radius: 999px; border: 1px solid #1e293b; }
     .user-chip-avatar { width: 30px; height: 30px; border-radius: 50%; background: linear-gradient(135deg, #3b82f6, #f59e0b); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 900; color: #fff; }
     .user-chip-info { font-size: 0.8rem; line-height: 1.2; }
@@ -118,7 +118,7 @@
     .tab-content { display: none; animation: slideUp 0.3s ease-out; }
     .tab-content.active { display: block; }
 
-    /* VIP Hero Countdown Banner */
+    /* VIP Hero Banner */
     .vip-hero-banner {
       background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #2563eb 100%);
       border-radius: 24px;
@@ -129,17 +129,6 @@
       position: relative;
       overflow: hidden;
     }
-    .vip-hero-banner::after {
-      content: "2026";
-      position: absolute;
-      left: -10px;
-      bottom: -20px;
-      font-size: 6rem;
-      font-weight: 900;
-      color: rgba(255,255,255,0.04);
-      z-index: 0;
-      pointer-events: none;
-    }
     .vip-hero-content { position: relative; z-index: 1; }
     .vip-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(245,158,11,0.2); border: 1px solid #f59e0b; color: #fbbf24; padding: 4px 12px; border-radius: 999px; font-size: 0.8rem; font-weight: 900; margin-bottom: 8px; }
     .vip-hero-title { font-size: 1.5rem; font-weight: 900; color: #fff; margin-bottom: 6px; }
@@ -147,13 +136,6 @@
     .vip-badges-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
     .badge-pill { background: rgba(0,0,0,0.5); border: 1px solid #38bdf8; color: #7dd3fc; padding: 6px 14px; border-radius: 12px; font-size: 0.85rem; font-weight: bold; font-family: monospace; }
     .badge-offer { background: linear-gradient(135deg, #10b981, #059669); color: #fff; padding: 6px 14px; border-radius: 12px; font-size: 0.85rem; font-weight: 900; box-shadow: 0 4px 12px rgba(16,185,129,0.3); }
-
-    /* Fast Access Grid */
-    .fast-access-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 18px; }
-    .fast-card { background: #0f172a; border: 1px solid var(--border); border-radius: 16px; padding: 12px 8px; text-align: center; cursor: pointer; transition: 0.2s; }
-    .fast-card:active { transform: scale(0.95); }
-    .fast-card-icon { font-size: 1.6rem; margin-bottom: 4px; }
-    .fast-card-text { font-size: 0.75rem; font-weight: 800; color: #cbd5e1; }
 
     /* Code Input Box */
     .code-box { background: #0f172a; border: 1px solid var(--border); border-radius: 20px; padding: 16px; margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
@@ -209,27 +191,6 @@
     .btn-edit-action { background: #2563eb; color: #fff; border: none; padding: 8px 14px; border-radius: 10px; font-size: 0.82rem; font-weight: 800; cursor: pointer; }
     .btn-del-action { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); color: #f87171; padding: 8px 14px; border-radius: 10px; font-size: 0.82rem; font-weight: 800; cursor: pointer; }
 
-    /* Quiz Simulator */
-    .quiz-container { background: #0f172a; border: 1px solid var(--border); border-radius: 24px; padding: 22px; margin-bottom: 20px; }
-    .quiz-title { font-size: 1.3rem; font-weight: 900; color: #38bdf8; margin-bottom: 10px; text-align: center; }
-    .quiz-select-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin-bottom: 18px; }
-    .btn-subject-quiz { background: #070b14; border: 1px solid var(--border); color: #fff; padding: 12px 8px; border-radius: 14px; font-weight: 800; font-size: 0.88rem; cursor: pointer; text-align: center; transition: 0.2s; }
-    .btn-subject-quiz.selected { border-color: #38bdf8; background: #1e3a8a; color: #fff; box-shadow: 0 4px 12px rgba(37,99,235,0.4); }
-
-    .quiz-q-card { background: #070b14; border: 1px solid var(--border); border-radius: 18px; padding: 16px; margin-bottom: 14px; }
-    .quiz-q-title { font-weight: 800; font-size: 1rem; color: #fff; margin-bottom: 12px; }
-    .quiz-options { display: flex; flex-direction: column; gap: 8px; }
-    .quiz-opt-label { display: flex; align-items: center; gap: 10px; background: #0f172a; border: 1px solid #1e293b; padding: 10px 14px; border-radius: 12px; cursor: pointer; font-size: 0.9rem; transition: 0.2s; }
-    .quiz-opt-label:hover { border-color: #38bdf8; }
-
-    .quiz-score-banner { text-align: center; padding: 24px; border-radius: 20px; background: linear-gradient(135deg, #1e3a8a, #0f172a); border: 1px solid #38bdf8; margin-bottom: 20px; }
-    .quiz-score-num { font-size: 3.2rem; font-weight: 900; color: #34d399; font-family: monospace; }
-    
-    /* Ministerial Info Cards */
-    .info-card { background: #0f172a; border: 1px solid var(--border); border-radius: 20px; padding: 18px; margin-bottom: 14px; }
-    .info-card h3 { font-size: 1.1rem; font-weight: 900; color: #38bdf8; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-    .info-card p { font-size: 0.88rem; color: #cbd5e1; white-space: pre-wrap; line-height: 1.7; }
-
     /* Modal Backdrop */
     .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 1000; align-items: center; justify-content: center; padding: 10px; }
     .modal-box { background: #0f172a; border: 1px solid #334155; border-radius: 24px; padding: 20px; width: 100%; max-width: 800px; max-height: 95vh; display: flex; flex-direction: column; }
@@ -254,7 +215,7 @@
   <div class="auth-card">
     <div class="auth-logo-badge">🎓</div>
     <h2 class="auth-title">منصة طلبتي التعليمية</h2>
-    <p class="auth-subtitle">المنصة الشاملة والموثوقة لطلاب الثالث متوسط 🇮🇶</p>
+    <p class="auth-subtitle">المنصة الأكاديمية الشاملة لتحميل الملازم والكتب 🇮🇶</p>
 
     <!-- Auth Method Switcher -->
     <div class="auth-tabs">
@@ -305,7 +266,7 @@
         <input type="email" id="loginEmail" class="form-inp" placeholder="name@example.com" />
       </div>
 
-      <button type="submit" class="btn-auth-submit">دخول المنصة وبدء الدراسة 🚀</button>
+      <button type="submit" class="btn-auth-submit">دخول المنصة وتصفح المواد 🚀</button>
     </form>
     
     <div style="margin-top:16px; font-size:0.75rem; color:#64748b;">
@@ -323,7 +284,7 @@
   <div class="top-nav">
     <div class="brand">
       <div class="brand-logo">🎓</div>
-      <div>منصة <span>طلبتي</span> <span style="font-size:11px; background:#1e3a8a; padding:2px 8px; border-radius:6px; color:#38bdf8;">الثالث متوسط</span></div>
+      <div>منصة <span>طلبتي</span> <span style="font-size:11px; background:#1e3a8a; padding:2px 8px; border-radius:6px; color:#38bdf8;">التعليمية</span></div>
     </div>
     
     <!-- User Chip -->
@@ -331,147 +292,51 @@
       <div class="user-chip-avatar" id="headerUserAvatar">ع</div>
       <div class="user-chip-info">
         <div class="user-chip-name" id="headerUserName">علي حسن</div>
-        <div class="user-chip-gov" id="headerUserGov">بغداد • مشترك 🌟</div>
+        <div class="user-chip-gov" id="headerUserGov">بغداد • طالب 🌟</div>
       </div>
       <button onclick="logoutStudent()" class="btn-logout-student" title="تسجيل الخروج">🚪</button>
     </div>
   </div>
 
-  <!-- Horizontal Scroll Navigation -->
+  <!-- Navigation Bar -->
   <div class="nav-bar-scroll">
-    <button id="tabBtn-books" class="nav-tab-btn active" onclick="switchNavTab('books')">📚 ملازم وكتب المنهج</button>
-    <button id="tabBtn-quiz" class="nav-tab-btn" onclick="switchNavTab('quiz')">📝 امتحن نفسك (100)</button>
-    <button id="tabBtn-predictions" class="nav-tab-btn" onclick="switchNavTab('predictions')">⭐ المرشحات الذهبية</button>
-    <button id="tabBtn-questions" class="nav-tab-btn" onclick="switchNavTab('questions')">📂 بنك الأسئلة الوزارية</button>
-    <button id="tabBtn-calc" class="nav-tab-btn" onclick="switchNavTab('calc')">🧮 حاسبة الدخول الوزاري</button>
-    <button id="tabBtn-admin" class="nav-tab-btn admin-tab-btn" onclick="switchNavTab('admin')">🛡️ لوحة الإدارة</button>
+    <button id="tabBtn-books" class="nav-tab-btn active" onclick="switchNavTab('books')">📚 الملازم والكتب المتاحة</button>
+    <button id="tabBtn-admin" class="nav-tab-btn admin-tab-btn" onclick="switchNavTab('admin')">🛡️ لوحة التحكم والإدارة</button>
   </div>
 
   <!-- ======================================================== -->
-  <!-- 📚 تبويب المواد والملازم المنهجية -->
+  <!-- 📚 تبويب المواد والملازم المضافة -->
   <!-- ======================================================== -->
   <div id="section-books" class="tab-content active">
     
-    <!-- VIP Motivating Hero Banner -->
+    <!-- Hero Banner -->
     <div class="vip-hero-banner">
       <div class="vip-hero-content">
-        <div class="vip-tag">⭐ دفعة الوزاري 2026 الذهبية</div>
-        <h1 class="vip-hero-title">طريقك نحو الـ 100% والمعدل العالي 🇮🇶</h1>
-        <p class="vip-hero-desc">حمل جميع الكتب الوزارية الرسمية مجاناً • فعل الملازم الذهبية المقفولة لضمان الشرح والأسئلة الوزارية المكررة بـ 10,000 د.ع فقط لكل مادة.</p>
+        <div class="vip-tag">⭐ منصة الملازم والكتب المعتمدة</div>
+        <h1 class="vip-hero-title">تصفح وتحميل المناهج والملخصات الأكاديمية 🇮🇶</h1>
+        <p class="vip-hero-desc">تحميل الكتب المنهجية الرسمية مجاناً • تفعيل الملازم المقفولة المتميزة بكود التفعيل بـ 10,000 د.ع لكل ملزمة.</p>
         <div class="vip-badges-row">
-          <div class="badge-pill">📲 زين كاش وآسيا حوالة: 07734378998</div>
-          <div class="badge-offer">🔥 ضمان النجاح والتفوق</div>
+          <div class="badge-pill">📲 زين كاش وآسيا حوالة المعتمد: 07734378998</div>
+          <div class="badge-offer">🔥 محتوى دراسي معتمد</div>
         </div>
-      </div>
-    </div>
-
-    <!-- Fast Access Quick Tiles -->
-    <div class="fast-access-grid">
-      <div class="fast-card" onclick="switchNavTab('quiz')">
-        <div class="fast-card-icon">📝</div>
-        <div class="fast-card-text">امتحن نفسك</div>
-      </div>
-      <div class="fast-card" onclick="switchNavTab('predictions')">
-        <div class="fast-card-icon">⭐</div>
-        <div class="fast-card-text">مرشحات 100%</div>
-      </div>
-      <div class="fast-card" onclick="switchNavTab('questions')">
-        <div class="fast-card-icon">📂</div>
-        <div class="fast-card-text">وزاريات سابقة</div>
-      </div>
-      <div class="fast-card" onclick="switchNavTab('calc')">
-        <div class="fast-card-icon">🧮</div>
-        <div class="fast-card-text">حاسبة الدخول</div>
       </div>
     </div>
 
     <!-- Code Input Box -->
     <div class="code-box">
-      <input type="text" id="studentCodeInput" class="code-input" placeholder="أدخل كود تفعيل الملزمة السري هنا..." />
+      <input type="text" id="studentCodeInput" class="code-input" placeholder="أدخل كود تفعيل الملزمة هنا..." />
       <button onclick="redeemStudentCode()" class="btn-redeem">🔑 تفعيل وفتح الملزمة</button>
     </div>
 
     <!-- Search Input -->
-    <input type="text" id="booksSearchInp" oninput="filterBooks()" placeholder="🔍 ابحث عن أي مادة (مثال: رياضيات، أحياء، كيمياء...)" class="search-inp" />
+    <input type="text" id="booksSearchInp" oninput="filterBooks()" placeholder="🔍 ابحث في الملازم والكتب المتاحة..." class="search-inp" />
 
     <!-- Books Grid -->
     <div class="grid" id="studentBooksGrid"></div>
   </div>
 
   <!-- ======================================================== -->
-  <!-- 📝 تبويب "امتحن نفسك" من 100 درجة -->
-  <!-- ======================================================== -->
-  <div id="section-quiz" class="tab-content">
-    <div class="quiz-container">
-      <div class="quiz-title">📝 نظام الاختبار الوزاري التجريبي الذاتي</div>
-      <p style="text-align: center; color: var(--muted); font-size: 0.88rem; margin-bottom: 16px;">اختر الكتاب والمادة لاختبار نفسك مباشرة (الامتحان من 100 درجة مع الحلول والتصحيح النموذجي):</p>
-      
-      <div class="quiz-select-grid" id="quizSubjectSelectors"></div>
-
-      <div id="activeQuizArea" style="display:none;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; background:#070b14; padding:10px 14px; border-radius:14px; border:1px solid #1e293b;">
-          <span id="currentQuizSubjectName" style="font-weight:900; color:#38bdf8;"></span>
-          <span style="font-size:12px; color:#34d399; font-weight:bold;">الدرجة الكلية: 100 درجة</span>
-        </div>
-
-        <form id="quizForm" onsubmit="submitQuizExam(event)">
-          <div id="quizQuestionsContainer"></div>
-          <button type="submit" class="btn-admin-submit" style="background:#10b981; font-size:1.05rem;">📊 إنهاء الامتحان وحساب الدرجة من 100</button>
-        </form>
-      </div>
-
-      <div id="quizResultArea" style="display:none;">
-        <div class="quiz-score-banner">
-          <div style="font-size:1rem; color:#93c5fd; font-weight:bold; margin-bottom:4px;">نتيجتك في الامتحان الوزاري التجريبي:</div>
-          <div class="quiz-score-num" id="quizFinalScore">0 / 100</div>
-          <div id="quizScoreFeedback" style="font-size:1.1rem; font-weight:900; margin-top:8px;"></div>
-        </div>
-
-        <h4 style="font-weight:900; color:#38bdf8; margin-bottom:12px;">🔍 تصحيح الإجابات والأجوبة النموذجية:</h4>
-        <div id="quizCorrectionContainer"></div>
-        <button onclick="resetQuizState()" class="btn-admin-submit" style="margin-top:14px;">🔄 إعادة الامتحان أو اختيار مادة أخرى</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ======================================================== -->
-  <!-- ⭐ تبويب المرشحات الوزارية الذهبية -->
-  <!-- ======================================================== -->
-  <div id="section-predictions" class="tab-content">
-    <div style="background:#0f172a; border:1px solid var(--border); border-radius:22px; padding:18px; margin-bottom:16px;">
-      <h2 style="font-size:1.25rem; font-weight:900; color:#fbbf24; margin-bottom:4px;">⭐ المرشحات الذهبية للامتحانات الوزارية 2026</h2>
-      <p style="font-size:0.85rem; color:#94a3b8;">أهم التعاليل والمقارنات والمسائل والإنشاءات ذات التكرار الوزاري المضمون بنسبة 100%.</p>
-    </div>
-    <div id="predictionsListContainer"></div>
-  </div>
-
-  <!-- ======================================================== -->
-  <!-- 📂 تبويب بنك الأسئلة الوزارية -->
-  <!-- ======================================================== -->
-  <div id="section-questions" class="tab-content">
-    <div style="background:#0f172a; border:1px solid var(--border); border-radius:22px; padding:18px; margin-bottom:16px;">
-      <h2 style="font-size:1.25rem; font-weight:900; color:#38bdf8; margin-bottom:4px;">📂 بنك الأسئلة والأجوبة النموذجية للثالث متوسط</h2>
-      <p style="font-size:0.85rem; color:#94a3b8;">أسئلة السنوات السابقة مع الحلول النموذجية المعتمدة لدى مركز الفحص والتقويم التربوي.</p>
-    </div>
-    <div id="ministerialQuestionsContainer"></div>
-  </div>
-
-  <!-- ======================================================== -->
-  <!-- 🧮 تبويب حاسبة الدخول الوزاري -->
-  <!-- ======================================================== -->
-  <div id="section-calc" class="tab-content">
-    <div class="admin-card">
-      <div class="admin-title">🧮 حاسبة السعي السنوي وشروط الدخول الوزاري</div>
-      <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:14px;">أدخل درجات السعي السنوي لكل مادة لمعرفة هل أنت مشمول بالدخول للامتحانات الوزارية:</p>
-      
-      <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(130px, 1fr)); gap:10px; margin-bottom:14px;" id="calcGradesInputs"></div>
-      <button onclick="calculateMinisterialEntry()" class="btn-admin-submit">📊 فحص الدخول الوزاري والمعدل</button>
-      <div id="calcResultDisplay" style="margin-top:16px; display:none; padding:14px; border-radius:14px;"></div>
-    </div>
-  </div>
-
-  <!-- ======================================================== -->
-  <!-- 🛡️ تبويب لوحة الإدارة (Admin Panel) -->
+  <!-- 🛡️ تبويب لوحة الإدارة (تحكم كامل يدوي 100%) -->
   <!-- ======================================================== -->
   <div id="section-admin" class="tab-content">
     <!-- Admin Login -->
@@ -492,62 +357,67 @@
     <div id="adminDashboard" style="display: none;">
       <div class="admin-card">
         <div class="admin-header-bar">
-          <div class="admin-title">🛡️ مرحباً بك في لوحة تحكم الإدارة</div>
+          <div class="admin-title">🛡️ لوحة التحكم الكاملة للإدارة</div>
           <button onclick="logoutAdmin()" class="btn-logout">🚪 تسجيل الخروج</button>
         </div>
 
-        <h3 id="adminFormHeading" style="font-size: 1rem; font-weight:900; color:#38bdf8; margin-bottom: 12px;">⚡ إضافة أو تعديل مادة دراسية وملف PDF</h3>
+        <h3 id="adminFormHeading" style="font-size: 1rem; font-weight:900; color:#38bdf8; margin-bottom: 12px;">⚡ إضافة كتاب / ملزمة جديدة يدوياً</h3>
         <form onsubmit="handleSaveMaterial(event)">
           <input type="hidden" id="editMaterialId" value="" />
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
             <div class="form-group">
-              <label class="form-label">اسم المادة / الملزمة:</label>
-              <input type="text" id="matTitle" class="form-inp" placeholder="مثال: ملزمة الرياضيات" required />
+              <label class="form-label">اسم المادة / الكتاب / الملزمة:</label>
+              <input type="text" id="matTitle" class="form-inp" placeholder="اكتب اسم المادة أو الكتاب..." required />
             </div>
             <div class="form-group">
-              <label class="form-label">القسم / التخصص:</label>
-              <input type="text" id="matCat" class="form-inp" placeholder="مثال: الرياضيات" required />
+              <label class="form-label">القسم / التصنيف:</label>
+              <input type="text" id="matCat" class="form-inp" placeholder="مثال: علمي، أدبي، لغات..." required />
             </div>
           </div>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
             <div class="form-group">
-              <label class="form-label">كود التفعيل السري (المقفل):</label>
-              <input type="text" id="matCode" class="form-inp" placeholder="TAL-MATH-2026" style="text-transform:uppercase; font-family:monospace;" required />
+              <label class="form-label">كود التفعيل السري المخصص (يدوياً):</label>
+              <input type="text" id="matCode" class="form-inp" placeholder="مثال: VIP-BOOK-2026" style="text-transform:uppercase; font-family:monospace;" required />
             </div>
             <div class="form-group">
               <label class="form-label">سعر التفعيل:</label>
-              <input type="text" class="form-inp" value="10,000 د.ع" readonly style="background:#1e293b; color:#34d399; font-weight:bold;" />
+              <input type="text" id="matPrice" class="form-inp" value="10,000 د.ع" placeholder="10,000 د.ع" style="color:#34d399; font-weight:bold;" />
             </div>
           </div>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
             <div class="form-group">
-              <label class="form-label">🔗 رابط تحميل الكتاب الوزاري (مجاني):</label>
+              <label class="form-label">🔗 رابط ملف PDF للكتاب المفتوح (مجاني):</label>
               <input type="url" id="matFreePdfUrl" class="form-inp" placeholder="https://drive.google.com/..." />
             </div>
             <div class="form-group">
-              <label class="form-label">🔗 رابط الملزمة المقفولة (PDF):</label>
+              <label class="form-label">🔗 رابط ملف PDF للملزمة المقفولة بالكود:</label>
               <input type="url" id="matPdfUrl" class="form-inp" placeholder="https://drive.google.com/..." />
             </div>
           </div>
 
           <div class="form-group">
-            <label class="form-label">📝 الشرح والملخص الوزاري:</label>
-            <textarea id="matContent" class="form-inp" placeholder="اكتب هنا ملخص التعاليل والتعاريف والأسئلة الوزارية المهمة..."></textarea>
+            <label class="form-label">📝 وصف مختصر للمادة:</label>
+            <input type="text" id="matDesc" class="form-inp" placeholder="وصف يظهر للطالب عن محتوى المادة..." />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">📖 الشرح والملخص الداخلي (يظهر عند فتح الملزمة):</label>
+            <textarea id="matContent" class="form-inp" placeholder="اكتب هنا الملخص والأسئلة والحلول النموذجية..."></textarea>
           </div>
 
           <div style="display:flex; gap:10px;">
             <button type="submit" id="btnSaveMat" class="btn-admin-submit" style="background: #10b981; flex:2;">💾 حفظ ونشر المادة</button>
-            <button type="button" onclick="cancelEditMaterial()" id="btnCancelEdit" class="btn-admin-submit" style="background:#334155; flex:1; display:none;">إلغاء</button>
+            <button type="button" onclick="cancelEditMaterial()" id="btnCancelEdit" class="btn-admin-submit" style="background:#334155; flex:1; display:none;">إلغاء التعديل</button>
           </div>
         </form>
       </div>
 
       <!-- Codes & Materials Management List -->
       <div class="admin-card">
-        <div class="admin-title">🔑 كشف أكواد المواد والاشتراكات (لإرسالها للطلاب بعد التحويل)</div>
+        <div class="admin-title">🔑 إدارة المواد المضافة وأكواد التفعيل</div>
         <div id="adminMaterialsList" class="admin-codes-list"></div>
       </div>
     </div>
@@ -569,183 +439,28 @@
         🔍 فتح وتحميل نسخة PDF كاملة
       </a>
       <button onclick="copyCurrentContent()" class="btn-action-modal btn-download-pdf">
-        📋 نسخ نص الملخص والأسئلة
+        📋 نسخ نص الملخص
       </button>
     </div>
   </div>
 </div>
 
 <footer>
-  <p style="font-weight:900; color:#38bdf8; margin-bottom:4px;">منصة طلبتي التعليمية - الصف الثالث متوسط 🇮🇶</p>
+  <p style="font-weight:900; color:#38bdf8; margin-bottom:4px;">منصة طلبتي التعليمية 🎓</p>
   <p>الدعم الفني والاشتراكات عبر زين كاش وآسيا حوالة: 07734378998</p>
 </footer>
 
 <script>
-  // ==========================================
-  // 📚 1. All 3rd Intermediate Subjects Data
-  // ==========================================
-  const defaultBooks = [
-    { 
-      id: 1, 
-      title: "التربية الإسلامية والقرآن الكريم", 
-      category: "التربية الإسلامية", 
-      code: "TAL-ISLAM-10", 
-      isUsed: false, 
-      freePdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      desc: "شامل السور القرآنية للحفظ، الأحاديث النبوية الشريفة، ومعاني الكلمات وأحكام التلاوة.",
-      content: "📌 ملخص التربية الإسلامية الوزاري:\n- السور المقررة للحفظ: سورة الحشر، سورة النجم.\n- أحكام التلاوة: المد الأصلي، المد المتصل، المد المنفصل، ومد البدل.\n- الأحاديث النبوية: في البر والإحسان، حلاوة الإيمان، والشهيد."
-    },
-    { 
-      id: 2, 
-      title: "اللغة العربية - القواعد والأدب والإملاء", 
-      category: "اللغة العربية", 
-      code: "TAL-ARAB-20", 
-      isUsed: false, 
-      freePdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      desc: "قواعد اللغة العربية كاملة، الأدب والنصوص والشعراء مع الإنشاءات الوزارية المضمونة.",
-      content: "📌 ملخص قواعد اللغة العربية والأدب:\n- أبواب الأفعال الثلاثية ومصادرها (فتحُ ضمٍّ، فتحُ كسرٍ، فتحتان...).\n- المشتقات: اسم الفاعل، صيغ المبالغة، اسم المفعول، الصفة المشبهة، اسم التفضيل، اسم الآلة.\n- الأدب: معروف الرصافي، الجواهري، إبراهيم طوقان، أحمد شوقي، بدر شاكر السياب."
-    },
-    { 
-      id: 3, 
-      title: "اللغة الإنجليزية - English for Iraq", 
-      category: "اللغة الإنجليزية", 
-      code: "TAL-ENG-30", 
-      isUsed: false, 
-      freePdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      desc: "الوحدات من 1 إلى 8 مع القطع الاستيعابية، الإنشاءات الثمانية، والقواعد الوزارية.",
-      content: "📌 ملخص قواعد والإنشاءات الإنجليزية:\n- Unit 1: Giving reasons (so that you can), Describing places (There is/are).\n- Unit 2: Invitations, Preferences, Suggestions.\n- Unit 3: Comparisons, If Conditionals (First & Second), Passive Voice.\n- الإنشاءات الوزارية المهمة: Car of the year, An email to invite a friend, Wildlife, A TV program."
-    },
-    { 
-      id: 4, 
-      title: "الرياضيات - الجزء الأول والثاني", 
-      category: "الرياضيات", 
-      code: "TAL-MATH-40", 
-      isUsed: false, 
-      freePdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      desc: "الجذور والعمليات الحقيقية، التطبيقات، المقادير الجبرية، المعادلات، والهندسة والإحصاء.",
-      content: "📌 أهم المسائل والأسئلة الوزارية في الرياضيات:\n1. تبسيط المقادير العددية التي تحوي جذوراً حقيقية وتنسيب المقام.\n2. إيجاد الحد المفقود في المقدار الجبري ليصبح مربعاً كاملاً (قانون الحد المفقود).\n3. حل المعادلات بالتحليل، إكمال المربع، والقانون العام (الدستور والمميز Δ).\n4. حل متباينات القيمة المطلقة بيانيا وجبريا."
-    },
-    { 
-      id: 5, 
-      title: "علم الأحياء - المنهج الوزاري", 
-      category: "الأحياء", 
-      code: "TAL-BIO-50", 
-      isUsed: false, 
-      freePdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      desc: "أجهزة جسم الإنسان كاملة، الرسوم التوضيحية المطلوبة وزارياً، والتعاليل والوظائف.",
-      content: "📌 أهم تعاليل ورسوم الأحياء الوزارية:\n- الرسوم الوزارية المكررة: تركيب السن، العظم في المظهر الخارجي والمقطع العرضي، الخلية العصبية، نطفة وبيضة الإنسان، الزغابة المعوية.\n- التعاليل المهمة: تقوس أخمص القدم في الإنسان، وجود الأقراص البينية في عضلة القلب، احتواء الكبد على الصفراء."
-    },
-    { 
-      id: 6, 
-      title: "الكيمياء - الثالث متوسط", 
-      category: "الكيمياء", 
-      code: "TAL-CHEM-60", 
-      isUsed: false, 
-      freePdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      desc: "الترتيب الإلكتروني، الجدول الدوري، عناصر الزمر الأولى إلى السابعة، والمعادلات والكشوفات.",
-      content: "📌 ملخص الكشوفات والمسائل الوزارية في الكيمياء:\n- مسائل النسبة الكتلية والحجمية للفصل الرابع (التركيز والنسبة المئوية بدقة).\n- الكشوفات الوزارية المؤكدة: الكشف عن أيون الصوديوم، الكشف عن غاز الأمونيا، والكشف عن الكبريتات.\n- تحضير الغازات صناعياً ومختبرياً: غاز الميثان، الإثيلين، والأستيلين مع رسم الجهاز."
-    },
-    { 
-      id: 7, 
-      title: "الفيزياء - الثالث متوسط", 
-      category: "الفيزياء", 
-      code: "TAL-PHYS-70", 
-      isUsed: false, 
-      freePdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      desc: "الكهربائية الساكنة والمتحركة، المغناطيسية، مسائل ربط المقاومات، المحولة الكهربائية، والطاقة.",
-      content: "📌 ملخص مسائل وقوانين الفيزياء الوزارية:\n- مسائل قانون كولوم والمجال الكهربائي (الفصل الأول).\n- مسائل ربط المقاومات على التوالي والتوازي وحساب المقاومة المكافئة وفق قانون أوم R = V/I.\n- مسائل المحولة الكهربائية (الفصل السابع): حساب عدد اللفات، الفولتية، والتيار، وكفاءة المحولة η = (P2/P1) * 100%."
-    },
-    { 
-      id: 8, 
-      title: "الاجتماعيات (الجغرافيا، التاريخ، الوطنية)", 
-      category: "الاجتماعيات", 
-      code: "TAL-SOC-80", 
-      isUsed: false, 
-      freePdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      desc: "جغرافية العراق وتضاريسه ومناخه، تاريخ العراق الحديث والمعاهدات، والتربية الوطنية.",
-      content: "📌 ملخص الاجتماعيات الوزاري الشامل:\n- الجغرافيا: موقع العراق ومساحته وأهميته، أقسام السطح (المنطقة الجبلية، المتموجة، السهل الرسوبي، الهضبة الغربية)، الموارد المائية ونبات العراق الطبيعي.\n- التاريخ: ثورة العشرين وأسبابها، معاهدة 1930، حركة رشيد عالي الكيلاني 1941.\n- الوطنية: مفهوم الدستور، الحقوق والحريات، واجبات المواطن والمؤسسات الدستورية."
-    },
-    { 
-      id: 9, 
-      title: "الحاسوب وتقنية المعلومات", 
-      category: "الحاسوب", 
-      code: "TAL-COMP-90", 
-      isUsed: false, 
-      freePdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      desc: "برامج الجداول الإلكترونية، أمن المعلومات، الخوارزميات، وشبكات الحاسوب والإنترنت.",
-      content: "📌 ملخص الحاسوب الوزاري:\n- الخوارزميات والمخططات الانسيابية وطرق كتابتها وتتبعها.\n- برامج مايكروسوفت إكسل وتنسيق الخلايا والدوال الحسابية (SUM, AVERAGE, MAX, MIN).\n- أمن المعلومات وحماية البيانات والجرائم الإلكترونية."
-    }
-  ];
-
-  // ==========================================
-  // 📝 2. Quiz Questions Database (100 Marks System)
-  // ==========================================
-  const quizBank = {
-    "الرياضيات": [
-      { q: "ما هو ناتج ضرب: (√5 - √3)(√5 + √3) ؟", opts: ["2", "8", "√15", "15"], correct: 0, exp: "وفق فرق بين مربعين: (√5)² - (√3)² = 5 - 3 = 2" },
-      { q: "الحد المفقود في المقدار: x² + ... + 49 ليصبح مربعاً كاملاً هو:", opts: ["14x", "7x", "28x", "49x"], correct: 0, exp: "قانون الحد الأوسط: 2 × √(x²) × √(49) = 2 × x × 7 = 14x" },
-      { q: "حل المعادلة: x² - 9 = 0 في R هو:", opts: ["{3, -3}", "{9}", "{3}", "{0, 9}"], correct: 0, exp: "x² = 9 إذن x = ±3" },
-      { q: "إذا كان المميز Δ = 0 فإن جذري المعادلة التربيعية يكونان:", opts: ["حقيقيين متساويين", "غير حقيقيين", "نسبيين مختلفين", "مركبين"], correct: 0, exp: "عندما Δ = 0 تكون المعادلة ذات جذر حقيقي واحد مكرر (متساويين)." },
-      { q: "مجموعة حل المتباينة |x| < 3 هي:", opts: ["-3 < x < 3", "x > 3 أو x < -3", "x = 3", "x ≤ 3"], correct: 0, exp: "متباينة القيمة المطلقة ذات علامة الأصغر تتضمن حرف العطف (و)." }
-    ],
-    "الأحياء": [
-      { q: "الجزء المسؤول عن نقل الأيعاز العصبي من جسم الخلية إلى الخارج هو:", opts: ["المحور", "التشجرات", "الغشاء", "النواة"], correct: 0, exp: "المحور هو امتداد ينقل الإيعاز بعيداً عن جسم الخلية العصبية." },
-      { q: "عدد عظام القفص الصدري في الإنسان هو:", opts: ["24 ضلعاً + عظم القص", "12 ضلعاً فقط", "30 ضلعاً", "20 ضلعاً"], correct: 0, exp: "يتألف القفص الصدري من 12 زوجاً من الأضلاع (24) بالإضافة إلى عظم القص." },
-      { q: "تقع الغدة النخامية في جسم الإنسان في:", opts: ["قاعدة الدماغ", "الرقبة", "فوق الكلية", "البنكرياس"], correct: 0, exp: "الغدة النخامية تقع في أسفل قاعدة الدماغ وتسمى سيدة الغدد." },
-      { q: "فصيلة الدم التي تعتبر واهباً عاماً لجميع الفصائل هي:", opts: ["فصيلة O", "فصيلة AB", "فصيلة A", "فصيلة B"], correct: 0, exp: "الفصيلة O خالية من المستضدات لذلك تعطي لجميع الفصائل." },
-      { q: "العضو المسؤول عن إفراز مادة الصفراء لهضم الدهون هو:", opts: ["الكبد", "المعدة", "البنكرياس", "الطحال"], correct: 0, exp: "الكبد يصنع الصفراء وتخزن في كيس الصفراء." }
-    ],
-    "الكيمياء": [
-      { q: "عنصر المغنيسيوم Mg عدده الذري 12، ينتهي ترتيبه الإلكتروني بـ:", opts: ["3s²", "2p⁶", "3p¹", "4s²"], correct: 0, exp: "الترتيب الإلكتروني: 1s² 2s² 2p⁶ 3s²." },
-      { q: "يتم الكشف عن غاز الأمونيا NH3 باستخدام ساق مبللة بـ:", opts: ["حامض الهيدروكلوريك HCl", "الماء المقطر", "حامض الكبريتيك", "الكحول"], correct: 0, exp: "يتكون ضباب أبيض من كلوريد الأمونيوم NH4Cl." },
-      { q: "المركب العضوي الهيدروكربوني غير المشبع الذي يحتوي على آصرة ثلاثية هو:", opts: ["غاز الأستيلين C2H2", "غاز الميثان CH4", "غاز الإثيلين C2H4", "غاز البروبان"], correct: 0, exp: "الأستيلين مركب ألكايني غير مشبع برابطة ثلاثية بين ذرتي الكربون." },
-      { q: "الشب الاعتيادي هو ملح مزدوج يتكون من كبريتات البوتاسيوم وكبريتات:", opts: ["الألمنيوم", "الصوديوم", "المغنيسيوم", "الكالسيوم"], correct: 0, exp: "صيغة الشب: KAl(SO4)2 . 12H2O." },
-      { q: "العنصر الذي يقع في الزمرة الأولى والدورة الثانية هو:", opts: ["الليثيوم Li (عدده الذري 3)", "الصوديوم Na", "الهيدروجين H", "البوتاسيوم K"], correct: 0, exp: "الليثيوم ترتيبه 1s² 2s¹ (دورة 2، زمرة 1)." }
-    ],
-    "الفيزياء": [
-      { q: "وحدة قياس الشحنة الكهربائية في النظام الدولي للوحدات هي:", opts: ["كولوم (Coulomb)", "أمبير", "فولت", "أوم"], correct: 0, exp: "تقاس الشحنة الكهربائية بوحدة الكولوم C." },
-      { q: "عند ربط مقاومتين (2 أوم و 4 أوم) على التوالي فإن المقاومة المكافئة تكون:", opts: ["6 أوم", "8 أوم", "2 أوم", "1.33 أوم"], correct: 0, exp: "في التوالي: R_eq = R1 + R2 = 2 + 4 = 6 أوم." },
-      { q: "الجهاز المستعمل لقياس فرق الجهد الكهربائي بين نقطتين في الدائرة هو:", opts: ["الفولطميتر (Voltmeter)", "الأميتر", "الأوميتر", "الغالڤانوميتر"], correct: 0, exp: "الفولطميتر يربط على التوازي لقياس فرق الجهد." },
-      { q: "إذا كان عدد لفات الملف الثانوي أكبر من الابتدائي فإن المحولة تكون:", opts: ["رافعة للفولتية", "خافضة للفولتية", "عديمة التأثير", "مقاومة"], correct: 0, exp: "عندما N2 > N1 تكون المحولة رافعة للفولتية خافضة للتيار." },
-      { q: "المجال المغناطيسي داخل ملف حلزوني ينساب فيه تيار مستمر يكون:", opts: ["خطوطاً مستقيمة متوازية", "دوائر متحدة المركز", "عشوائياً", "صفراً"], correct: 0, exp: "المجال داخل الملف منتظم وموازي للمحور." }
-    ]
-  };
-
-  // ==========================================
-  // ⭐ 3. Golden Predictions & Ministerial Questions Data
-  // ==========================================
-  const predictionsData = [
-    { subject: "الرياضيات", text: "1. إيجاد الحد المفقود في المقدار الجبري (10 درجات مؤكدة).\n2. حل نظام من معادلتين خطيتين بيانياً أو بالتعويض أو بالحذف (10 درجات).\n3. حل المسائل اللفظية للفصل الثالث الخاصة بالمستطيل والسجادة والمسبح.\n4. متباينات القيمة المطلقة مع التمثيل على خط الأعداد." },
-    { subject: "الأحياء", text: "1. رسوم وزارية مؤكدة: تركيب السن، المظهر الخارجي للعظم، الزغابة المعوية، الخلية العصبية النموذجية.\n2. تعاليل مؤكدة: وجود الأقراص البينية في القلب، خلو كريات الدم الحمر الناضجة من النواة، وجود فتحة الفؤاد والبواب في المعدة.\n3. مقارنات: العضلات الهيكلية والقلبية والملساء، الشهيق والزفير، حوض الذكر والأنثى." },
-    { subject: "الكيمياء", text: "1. تحضير غاز الميثان أو الإثيلين أو الأستيلين مختبرياً مع رسم الجهاز وكتابة المعادلة الموزونة (10 درجات).\n2. مسألة حساب النسبة الكتلية والحجمية للفصل الرابع (10 درجات).\n3. الكشوفات: الكشف عن أيون الألمنيوم أو الصوديوم أو غاز الأمونيا." },
-    { subject: "اللغة العربية", text: "1. صياغة اسم الفاعل واسم المفعول وعملهما، وإعراب المعمول.\n2. الميزان الصرفي وأبواب الأفعال ومصادرها.\n3. الأدب: حياة معروف الرصافي وقصيدته الأرملة المرضعة، الجواهري وقصيدة دجلة الخير." }
-  ];
-
-  const ministerialQuestionsData = [
-    { year: "2024 الدور الأول", subject: "الرياضيات", text: "س1: بسط المقدار العددي التالي باستعمال ترتيب العمليات: (√12 / 3∛125) ÷ (5∛8 / √25)\nالحل النموذجي: تبسيط الجذور ينتج 2√3/15 ÷ 10/5 = √3/15." },
-    { year: "2024 الدور الأول", subject: "الأحياء", text: "س: علل: تقوس أخمص القدم في الإنسان؟\nالجواب النموذجي: لتسهيل عملية المشي والركض بصورة مريحة وامتصاص الصدمات أثناء الحركة." },
-    { year: "2024 الدور الثاني", subject: "الكيمياء", text: "س: ما الفرق بين كلوريد الصوديوم النقي وغير النقي؟\nالجواب: النقي مادة لا تمتص الرطوبة من الجو (لا تتميأ)، أما غير النقي فيمتص الرطوبة لاحتوائه على شوائب كلوريد الكالسيوم أو المغنيسيوم." }
-  ];
-
-  // Storage Variables
-  let books = JSON.parse(localStorage.getItem('talabe_v7_books')) || defaultBooks;
-  let unlockedBookIds = JSON.parse(localStorage.getItem('talabe_v7_unlocked')) || [];
-  let currentStudent = JSON.parse(localStorage.getItem('talabe_v7_student')) || null;
-  let isAdminLoggedIn = localStorage.getItem('talabe_v7_admin_logged') === 'true';
+  // Storage Variables - Blank or Custom Admin Managed
+  let books = JSON.parse(localStorage.getItem('talabe_v8_books')) || [];
+  let unlockedBookIds = JSON.parse(localStorage.getItem('talabe_v8_unlocked')) || [];
+  let currentStudent = JSON.parse(localStorage.getItem('talabe_v8_student')) || null;
+  let isAdminLoggedIn = localStorage.getItem('talabe_v8_admin_logged') === 'true';
 
   function saveStorage() {
     try {
-      localStorage.setItem('talabe_v7_books', JSON.stringify(books));
-      localStorage.setItem('talabe_v7_unlocked', JSON.stringify(unlockedBookIds));
+      localStorage.setItem('talabe_v8_books', JSON.stringify(books));
+      localStorage.setItem('talabe_v8_unlocked', JSON.stringify(unlockedBookIds));
     } catch(e) {
       console.error(e);
     }
@@ -796,13 +511,13 @@
       loginTime: Date.now()
     };
 
-    localStorage.setItem('talabe_v7_student', JSON.stringify(currentStudent));
+    localStorage.setItem('talabe_v8_student', JSON.stringify(currentStudent));
     checkAuthSession();
   }
 
   function logoutStudent() {
     if (confirm('هل ترغب في تسجيل الخروج من حساب الطالب؟')) {
-      localStorage.removeItem('talabe_v7_student');
+      localStorage.removeItem('talabe_v8_student');
       currentStudent = null;
       checkAuthSession();
     }
@@ -813,9 +528,8 @@
       document.getElementById('authOverlay').style.display = 'none';
       document.getElementById('mainAppShell').style.display = 'block';
       
-      // Update Header Avatar & Name
       document.getElementById('headerUserName').innerText = currentStudent.name;
-      document.getElementById('headerUserGov').innerText = `${currentStudent.gov} • مشترك 🌟`;
+      document.getElementById('headerUserGov').innerText = `${currentStudent.gov} • طالب 🌟`;
       document.getElementById('headerUserAvatar').innerText = currentStudent.name.charAt(0);
 
       renderStudentBooks();
@@ -834,10 +548,6 @@
     document.getElementById(`tabBtn-${tabKey}`).classList.add('active');
 
     if (tabKey === 'books') renderStudentBooks();
-    if (tabKey === 'quiz') initQuizSubjectSelectors();
-    if (tabKey === 'predictions') renderPredictions();
-    if (tabKey === 'questions') renderMinisterialQuestions();
-    if (tabKey === 'calc') initCalcInputs();
     if (tabKey === 'admin') checkAdminSession();
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -848,8 +558,19 @@
     const grid = document.getElementById('studentBooksGrid');
     const filtered = books.filter(b => b.title.includes(filterText) || b.category.includes(filterText));
     
+    if (books.length === 0) {
+      grid.innerHTML = `
+        <div style="grid-column: 1/-1; text-align:center; padding:40px 20px; background:#0f172a; border-radius:22px; border:1px dashed #334155;">
+          <div style="font-size:2.5rem; margin-bottom:10px;">📚</div>
+          <h3 style="color:#fff; font-weight:bold; margin-bottom:6px;">لا توجد كتب أو ملازم مضافة حالياً</h3>
+          <p style="color:#94a3b8; font-size:0.9rem;">يمكن للمسؤول إضافة الكتب والملازم والأكواد وروابط الـ PDF يدوياً من خلال لوحة الإدارة.</p>
+        </div>
+      `;
+      return;
+    }
+
     if (filtered.length === 0) {
-      grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:var(--muted); padding:30px;">لم يتم العثور على مادة بهذا الاسم.</p>';
+      grid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:var(--muted); padding:30px;">لم يتم العثور على مادة مطابقة للبحث.</p>';
       return;
     }
 
@@ -861,22 +582,24 @@
             <div class="card-top">
               <span class="cat-badge">${b.category}</span>
               <span class="status-badge ${isUnlocked ? 'status-unlocked' : 'status-locked'}">
-                ${isUnlocked ? 'مفعل ومتاح 🔓' : 'مقفل (10,000 د.ع) 🔒'}
+                ${isUnlocked ? 'مفعل ومتاح 🔓' : 'مقفل (' + (b.price || '10,000 د.ع') + ') 🔒'}
               </span>
             </div>
             <h3 class="book-title">${b.title}</h3>
-            <p class="book-desc">${isUnlocked ? 'تم فتح الملزمة الذهبية! يمكنك تصفح الشرح والأسئلة الوزارية وتحميل نسخة الـ PDF كاملة.' : b.desc}</p>
+            <p class="book-desc">${isUnlocked ? 'تم فتح الملزمة! يمكنك تصفح الشرح وتحميل ملف الـ PDF كاملاً.' : (b.desc || 'ملف دراسي معتمد.')}</p>
           </div>
 
           <div class="book-actions-group">
-            <a href="${b.freePdfUrl || 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'}" target="_blank" class="btn-free-download">
-              ⬇️ تحميل الكتاب الوزاري الرسمي مجاناً
-            </a>
+            ${b.freePdfUrl ? `
+              <a href="${b.freePdfUrl}" target="_blank" class="btn-free-download">
+                ⬇️ تحميل الكتاب المفتوح (PDF) مجاناً
+              </a>
+            ` : ''}
 
             <div class="card-lock-row">
-              <span class="price-text">10,000 د.ع</span>
+              <span class="price-text">${b.price || '10,000 د.ع'}</span>
               ${isUnlocked ? `
-                <button onclick="openPdfViewer(${b.id})" class="btn-action btn-read">📖 فتح الملزمة</button>
+                <button onclick="openPdfViewer(${b.id})" class="btn-action btn-read">📖 تصفح الملزمة</button>
               ` : `
                 <button onclick="redirectToWhatsAppBuy('${b.title}')" class="btn-action btn-lock">🔓 فتح الملزمة</button>
               `}
@@ -896,7 +619,7 @@
   function redirectToWhatsAppBuy(bookTitle) {
     const studentName = currentStudent ? currentStudent.name : 'طالب';
     const studentGov = currentStudent ? currentStudent.gov : 'العراق';
-    const msg = `مرحباً منصة طلبتي التعليمية 🎓\nأنا الطالب: ${studentName} من محافظة: (${studentGov})\nأريد تفعيل وتحميل الملزمة الذهبية لمادة: (${bookTitle})\nسأقوم بتحويل 10,000 د.ع عبر زين كاش / آسيا حوالة إلى الرقم: 07734378998\nيرجى تزويدي بكود التفعيل بعد التحويل.`;
+    const msg = `مرحباً منصة طلبتي التعليمية 🎓\nأنا الطالب: ${studentName} من محافظة: (${studentGov})\nأريد تفعيل وتحميل الملزمة الخاصة بـ: (${bookTitle})\nسأقوم بتحويل المبلغ عبر زين كاش / آسيا حوالة إلى الرقم: 07734378998\nيرجى تزويدي بكود التفعيل بعد إرسال الوصل.`;
     window.location.href = `https://wa.me/9647734378998?text=${encodeURIComponent(msg)}`;
   }
 
@@ -927,7 +650,7 @@
 
     saveStorage();
     renderStudentBooks();
-    alert(`🎉 مبروك! تم فتح ملزمة "${found.title}" بنجاح! يمكنك الآن تصفحها بالكامل.`);
+    alert(`🎉 مبروك! تم فتح "${found.title}" بنجاح! يمكنك الآن تصفحها بالكامل.`);
     codeInput.value = '';
     openPdfViewer(found.id);
   }
@@ -941,7 +664,7 @@
 
     document.getElementById('pdfModalTitle').innerText = '📖 ' + book.title;
     document.getElementById('textViewContainer').innerText = book.content || 'تم فتح المادة بنجاح.';
-    document.getElementById('openExternalPdfBtn').href = book.pdfUrl || 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
+    document.getElementById('openExternalPdfBtn').href = book.pdfUrl || '#';
 
     document.getElementById('pdfModal').style.display = 'flex';
   }
@@ -949,7 +672,7 @@
   function copyCurrentContent() {
     if (currentActiveBook && currentActiveBook.content) {
       navigator.clipboard.writeText(currentActiveBook.content);
-      alert('📋 تم نسخ محتوى الملزمة والأسئلة بنجاح!');
+      alert('📋 تم نسخ المحتوى بنجاح!');
     }
   }
 
@@ -958,177 +681,7 @@
   }
 
   // ==========================================
-  // 📝 4. Quiz Simulator Engine (100 Marks)
-  // ==========================================
-  let selectedQuizSubject = "الرياضيات";
-  let activeQuestions = [];
-
-  function initQuizSubjectSelectors() {
-    const container = document.getElementById('quizSubjectSelectors');
-    const subjects = Object.keys(quizBank);
-    container.innerHTML = subjects.map(s => `
-      <button type="button" class="btn-subject-quiz ${s === selectedQuizSubject ? 'selected' : ''}" onclick="selectQuizSubject('${s}')">
-        📖 ${s}
-      </button>
-    `).join('');
-    loadQuizForSubject(selectedQuizSubject);
-  }
-
-  function selectQuizSubject(subj) {
-    selectedQuizSubject = subj;
-    initQuizSubjectSelectors();
-  }
-
-  function loadQuizForSubject(subj) {
-    activeQuestions = quizBank[subj] || [];
-    document.getElementById('currentQuizSubjectName').innerText = `امتحان مادة: ${subj}`;
-    document.getElementById('activeQuizArea').style.display = 'block';
-    document.getElementById('quizResultArea').style.display = 'none';
-
-    const container = document.getElementById('quizQuestionsContainer');
-    const marksPerQ = Math.round(100 / activeQuestions.length);
-
-    container.innerHTML = activeQuestions.map((qObj, idx) => `
-      <div class="quiz-q-card">
-        <div class="quiz-q-title">س${idx + 1}: ${qObj.q} <span style="color:#38bdf8; font-size:12px;">(${marksPerQ} درجات)</span></div>
-        <div class="quiz-options">
-          ${qObj.opts.map((opt, oIdx) => `
-            <label class="quiz-opt-label">
-              <input type="radio" name="q_${idx}" value="${oIdx}" required />
-              <span>${opt}</span>
-            </label>
-          `).join('')}
-        </div>
-      </div>
-    `).join('');
-  }
-
-  function submitQuizExam(e) {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    let correctCount = 0;
-    const marksPerQ = 100 / activeQuestions.length;
-    let correctionHTML = '';
-
-    activeQuestions.forEach((qObj, idx) => {
-      const userVal = parseInt(formData.get(`q_${idx}`));
-      const isCorrect = (userVal === qObj.correct);
-      if (isCorrect) correctCount++;
-
-      correctionHTML += `
-        <div class="quiz-q-card" style="border-color:${isCorrect ? '#10b981' : '#ef4444'}; background:${isCorrect ? 'rgba(16,185,129,0.05)' : 'rgba(239,68,68,0.05)'};">
-          <div class="quiz-q-title">
-            ${isCorrect ? '✅' : '❌'} س${idx + 1}: ${qObj.q}
-          </div>
-          <div style="font-size:0.9rem; margin-bottom:4px;">
-            إجابتك: <span style="font-weight:bold; color:${isCorrect ? '#34d399' : '#f87171'};">${qObj.opts[userVal] || 'لم تجب'}</span>
-          </div>
-          ${!isCorrect ? `<div style="font-size:0.9rem; color:#34d399; font-weight:bold; margin-bottom:4px;">الإجابة النموذجية الصحيحة: ${qObj.opts[qObj.correct]}</div>` : ''}
-          <div style="font-size:0.83rem; color:#94a3b8; margin-top:6px; border-top:1px dashed #334155; padding-top:6px;">
-            💡 <strong>الشرح والتوضيح الوزاري:</strong> ${qObj.exp}
-          </div>
-        </div>
-      `;
-    });
-
-    const finalScore = Math.round(correctCount * marksPerQ);
-    document.getElementById('quizFinalScore').innerText = `${finalScore} / 100`;
-
-    const feedback = document.getElementById('quizScoreFeedback');
-    if (finalScore >= 90) { feedback.innerText = "🏆 ممتاز جداً! مستواك مؤهل للحصول على 100 في الامتحان الوزاري."; feedback.style.color = "#34d399"; }
-    else if (finalScore >= 75) { feedback.innerText = "👏 جيد جداً! لديك فهم قوي للمادة مع الحاجة لبعض التركيز."; feedback.style.color = "#38bdf8"; }
-    else if (finalScore >= 50) { feedback.innerText = "⚠️ ناجح، ولكن تحتاج لمراجعة الملاحظات والتعاليل أدناه."; feedback.style.color = "#fbbf24"; }
-    else { feedback.innerText = "❌ راسب! راجع الملزمة وحلول الأسئلة النموذجية وأعد الاختبار."; feedback.style.color = "#f87171"; }
-
-    document.getElementById('quizCorrectionContainer').innerHTML = correctionHTML;
-    document.getElementById('activeQuizArea').style.display = 'none';
-    document.getElementById('quizResultArea').style.display = 'block';
-  }
-
-  function resetQuizState() {
-    loadQuizForSubject(selectedQuizSubject);
-  }
-
-  // ==========================================
-  // ⭐ 5. Predictions & Ministerial Questions
-  // ==========================================
-  function renderPredictions() {
-    const container = document.getElementById('predictionsListContainer');
-    container.innerHTML = predictionsData.map(p => `
-      <div class="info-card">
-        <h3><span>📌 ${p.subject}</span> <span style="font-size:11px; background:rgba(245,158,11,0.2); color:#fbbf24; padding:3px 8px; border-radius:6px;">مضمون 100% ⭐</span></h3>
-        <p>${p.text}</p>
-      </div>
-    `).join('');
-  }
-
-  function renderMinisterialQuestions() {
-    const container = document.getElementById('ministerialQuestionsContainer');
-    container.innerHTML = ministerialQuestionsData.map(q => `
-      <div class="info-card">
-        <h3><span>📝 ${q.subject}</span> <span style="font-size:11px; color:#38bdf8; font-family:monospace;">${q.year}</span></h3>
-        <p>${q.text}</p>
-      </div>
-    `).join('');
-  }
-
-  // ==========================================
-  // 🧮 6. Ministerial Entry Calculator
-  // ==========================================
-  const ministerialSubjects = ["التربية الإسلامية", "اللغة العربية", "اللغة الإنجليزية", "الرياضيات", "الأحياء", "الكيمياء", "الفيزياء", "الاجتماعيات"];
-
-  function initCalcInputs() {
-    const container = document.getElementById('calcGradesInputs');
-    container.innerHTML = ministerialSubjects.map((s, i) => `
-      <div>
-        <label style="font-size:0.75rem; color:#94a3b8; font-weight:bold; display:block; margin-bottom:4px;">${s}:</label>
-        <input type="number" id="calc_sub_${i}" min="0" max="100" class="form-inp" placeholder="السعي..." />
-      </div>
-    `).join('');
-  }
-
-  function calculateMinisterialEntry() {
-    let failCount = 0;
-    let total = 0;
-    let validCount = 0;
-
-    ministerialSubjects.forEach((_, i) => {
-      const val = parseFloat(document.getElementById(`calc_sub_${i}`).value);
-      if (!isNaN(val)) {
-        total += val;
-        validCount++;
-        if (val < 50) failCount++;
-      }
-    });
-
-    if (validCount < 8) {
-      alert('يرجى إدخال درجات كافة المواد الثمانية لحساب الدخول الوزاري بدقة.');
-      return;
-    }
-
-    const avg = (total / 8).toFixed(1);
-    const disp = document.getElementById('calcResultDisplay');
-    disp.style.display = 'block';
-
-    if (failCount <= 3) {
-      disp.style.background = 'rgba(16,185,129,0.15)';
-      disp.style.border = '1px solid #10b981';
-      disp.innerHTML = `
-        <h3 style="color:#34d399; font-weight:900; margin-bottom:6px;">🎉 مبروك! أنت مشمول بالدخول للامتحانات الوزارية</h3>
-        <p style="font-size:0.9rem;">معدلك السنوي: <strong>${avg}%</strong> • عدد مواد الإكمال: <strong>${failCount} مواد</strong> (الحد المسموح 3 مواد كحد أقصى).</p>
-      `;
-    } else {
-      disp.style.background = 'rgba(239,68,68,0.15)';
-      disp.style.border = '1px solid #ef4444';
-      disp.innerHTML = `
-        <h3 style="color:#f87171; font-weight:900; margin-bottom:6px;">❌ غير مشمول بالدخول الوزاري حالياً</h3>
-        <p style="font-size:0.9rem;">معدلك: <strong>${avg}%</strong> • عدد مواد الرسوب: <strong>${failCount} مواد</strong> (يجب أن لا يتجاوز عدد مواد الرسوب 3 مواد).</p>
-      `;
-    }
-  }
-
-  // ==========================================
-  // 🛡️ 7. Admin Dashboard & Editing
+  // 🛡️ Admin Dashboard & Manual Controls
   // ==========================================
   function checkAdminSession() {
     if (isAdminLoggedIn) {
@@ -1146,7 +699,7 @@
     const p = document.getElementById('adminPass').value.trim();
     if ((u === 'admin' || u === 'Ahmed') && p === 'Ahmedsame1992') {
       isAdminLoggedIn = true;
-      localStorage.setItem('talabe_v7_admin_logged', 'true');
+      localStorage.setItem('talabe_v8_admin_logged', 'true');
       checkAdminSession();
     } else {
       alert('❌ اسم المستخدم أو كلمة المرور غير صحيحة!');
@@ -1156,13 +709,18 @@
   function logoutAdmin() {
     if (confirm('هل أنت متأكد من تسجيل الخروج من لوحة الإدارة؟')) {
       isAdminLoggedIn = false;
-      localStorage.removeItem('talabe_v7_admin_logged');
+      localStorage.removeItem('talabe_v8_admin_logged');
       checkAdminSession();
     }
   }
 
   function renderAdminList() {
     const container = document.getElementById('adminMaterialsList');
+    if (books.length === 0) {
+      container.innerHTML = '<p style="text-align:center; color:var(--muted); padding:16px;">لا توجد مواد مضافة حتى الآن. يمكنك إضافة مادة جديدة من النموذج أعلاه.</p>';
+      return;
+    }
+
     container.innerHTML = books.map(b => `
       <div class="admin-code-item">
         <div class="admin-code-header">
@@ -1175,7 +733,12 @@
             <span style="font-size:0.8rem; color:#94a3b8; font-weight:bold;">🔑 كود التفعيل السري:</span>
             <button onclick="copyCode('${b.code}')" class="btn-quick-copy">📋 نسخ الكود</button>
           </div>
-          <div class="code-text-highlight" onclick="copyCode('${b.code}')" style="cursor:pointer;">${b.code}</div>
+          <div class="code-text-highlight" onclick="copyCode('${b.code}')" style="cursor:pointer;" title="انقر لنسخ الكود">${b.code}</div>
+        </div>
+
+        <div style="font-size:0.82rem; color:#94a3b8; display:flex; flex-direction:column; gap:4px;">
+          ${b.freePdfUrl ? `<div>📗 رابط الكتاب المفتوح: <a href="${b.freePdfUrl}" target="_blank" style="color:#38bdf8;">معاينة الرابط</a></div>` : ''}
+          ${b.pdfUrl ? `<div>🔒 رابط الملزمة المقفولة: <a href="${b.pdfUrl}" target="_blank" style="color:#38bdf8;">معاينة الرابط</a></div>` : ''}
         </div>
 
         <div class="admin-actions-row">
@@ -1186,7 +749,7 @@
           </div>
 
           <div style="display:flex; gap:6px;">
-            <a href="https://wa.me/?text=${encodeURIComponent('مرحباً بك في منصة طلبتي التعليمية 🎓\nتم تأكيد اشتراكك في: ' + b.title + '\n🔑 كود التفعيل الخاص بك: ' + b.code + '\nأدخل الكود في التطبيق وسيفتح لك ملف الملزمة كاملاً.')}" target="_blank" class="btn-wa-action">
+            <a href="https://wa.me/?text=${encodeURIComponent('مرحباً بك في منصة طلبتي التعليمية 🎓\nتم تفعيل اشتراكك في: ' + b.title + '\n🔑 كود التفعيل الخاص بك: ' + b.code + '\nأدخل الكود في التطبيق لفتح الملزمة كاملاً.')}" target="_blank" class="btn-wa-action">
               📲 واتساب
             </a>
             <button onclick="editMaterial(${b.id})" class="btn-edit-action">✏️ تعديل</button>
@@ -1203,8 +766,10 @@
     const title = document.getElementById('matTitle').value.trim();
     const category = document.getElementById('matCat').value.trim();
     const code = document.getElementById('matCode').value.trim().toUpperCase();
-    const freePdfUrl = document.getElementById('matFreePdfUrl').value.trim() || 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
-    const pdfUrl = document.getElementById('matPdfUrl').value.trim() || 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
+    const price = document.getElementById('matPrice').value.trim() || '10,000 د.ع';
+    const freePdfUrl = document.getElementById('matFreePdfUrl').value.trim();
+    const pdfUrl = document.getElementById('matPdfUrl').value.trim();
+    const desc = document.getElementById('matDesc').value.trim() || 'ملف دراسي معتمد.';
     const content = document.getElementById('matContent').value.trim();
 
     if (editId) {
@@ -1213,24 +778,27 @@
         mat.title = title;
         mat.category = category;
         mat.code = code;
+        mat.price = price;
         mat.freePdfUrl = freePdfUrl;
         mat.pdfUrl = pdfUrl;
+        mat.desc = desc;
         mat.content = content;
       }
-      alert('✅ تم تحديث بيانات المادة وملف الـ PDF بنجاح!');
+      alert('✅ تم تحديث بيانات المادة وملفات الـ PDF بنجاح!');
     } else {
       books.unshift({
         id: Date.now(),
         title,
         category,
         code,
+        price,
         isUsed: false,
         freePdfUrl,
         pdfUrl,
-        content: content || 'شرح المادة والأسئلة الوزارية وحلول التمارين المعتمدة.',
-        desc: 'الملزمة النموذجية والشاملة للمنهج الوزاري الجديد.'
+        desc,
+        content: content || 'تم فتح المادة بنجاح.'
       });
-      alert('✅ تم إضافة المادة وتوليد كود التفعيل بنجاح!');
+      alert('✅ تم إضافة الكتاب / الملزمة وتوليد كود التفعيل بنجاح!');
     }
 
     cancelEditMaterial();
@@ -1247,11 +815,13 @@
     document.getElementById('matTitle').value = mat.title;
     document.getElementById('matCat').value = mat.category;
     document.getElementById('matCode').value = mat.code;
+    document.getElementById('matPrice').value = mat.price || '10,000 د.ع';
     document.getElementById('matFreePdfUrl').value = mat.freePdfUrl || '';
     document.getElementById('matPdfUrl').value = mat.pdfUrl || '';
+    document.getElementById('matDesc').value = mat.desc || '';
     document.getElementById('matContent').value = mat.content || '';
 
-    document.getElementById('adminFormHeading').innerText = `✏️ تعديل مادة: ${mat.title}`;
+    document.getElementById('adminFormHeading').innerText = `✏️ تعديل: ${mat.title}`;
     document.getElementById('btnSaveMat').innerText = '💾 حفظ التعديلات';
     document.getElementById('btnCancelEdit').style.display = 'block';
 
@@ -1263,11 +833,13 @@
     document.getElementById('matTitle').value = '';
     document.getElementById('matCat').value = '';
     document.getElementById('matCode').value = '';
+    document.getElementById('matPrice').value = '10,000 د.ع';
     document.getElementById('matFreePdfUrl').value = '';
     document.getElementById('matPdfUrl').value = '';
+    document.getElementById('matDesc').value = '';
     document.getElementById('matContent').value = '';
 
-    document.getElementById('adminFormHeading').innerText = '⚡ إضافة مادة جديدة وتوليد كود التفعيل';
+    document.getElementById('adminFormHeading').innerText = '⚡ إضافة كتاب / ملزمة جديدة يدوياً';
     document.getElementById('btnSaveMat').innerText = '💾 حفظ ونشر المادة';
     document.getElementById('btnCancelEdit').style.display = 'none';
   }
@@ -1287,7 +859,7 @@
     alert('📋 تم نسخ الكود بنجاح: ' + code);
   }
 
-  // Initial Execution on Page Load
+  // Initial Execution
   checkAuthSession();
 </script>
 
