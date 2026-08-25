@@ -1163,7 +1163,7 @@
       📌 <b style="color:#fff;">طريقة فتح المادة وتحميلها PDF:</b>
       <ol style="margin-right:18px; margin-top:6px;">
         <li>انسخ رقم الماستر كارد بالأعلى وحول مبلغ <b style="color:#34d399;">(10,000 دينار)</b>.</li>
-        <li>اضغط على الزر الأخضر بالأسفل للتواصل عبر الواتساب مع الإدارة.</li>
+        <li>اضغط على الزر الأخضر بالأسفل للتواصل المباشر مع رقم الإدارة: <b style="color:#38bdf8; direction:ltr; display:inline-block;">07734378998</b>.</li>
         <li>ستصلك رسالة جاهزة لطلب كود التفعيل الخاص بالمادة.</li>
         <li>بعد استلام الكود من الأدمن، الصقه في خانة التفعيل لتفتح المادة مباشرة وتتمكن من تصفحها وتحميلها بصيغة <b style="color:#38bdf8;">PDF</b> على جهازك!</li>
       </ol>
@@ -1236,7 +1236,7 @@
   let currentUser = JSON.parse(localStorage.getItem(STORAGE_KEY_USER)) || null;
   let booksList = JSON.parse(localStorage.getItem(STORAGE_KEY_BOOKS)) || DEFAULT_BOOKS;
   let predList = JSON.parse(localStorage.getItem(STORAGE_KEY_PRED)) || DEFAULT_PREDICTIONS;
-  let thawabitList = JSON.parse(localStorage.getItem(STORAGE_KEY_THAWABIT)) || DEFAULT_THAWABIT;
+  let thawabitList = JSON.parse(STORAGE_KEY_THAWABIT ? localStorage.getItem(STORAGE_KEY_THAWABIT) : null) || DEFAULT_THAWABIT;
   let globalNotice = JSON.parse(localStorage.getItem(STORAGE_KEY_NOTICE)) || DEFAULT_NOTICE;
   let currentQuizSubject = 'الرياضيات';
 
@@ -1861,7 +1861,8 @@
 
     const message = `السلام عليكم ورحمة الله وبركاته 🌸%0A%0Aأريد فتح وتفعيل هذه المادة بـ 10 آلاف دينار (عبر ماستر كارد الرافدين 910160728184):%0A📚 *المادة:* ${title} (${type})%0A👨‍🎓 *اسم الطالب:* ${studentName}%0A📍 *المحافظة:* ${studentGov}%0A📱 *رقم الهاتف:* ${studentPhone}%0A%0Aيرجى إرسال كود التفعيل لأفتح المادة وأقوم بتحميلها PDF على جهازي. شكراً جزيلاً! ✨`;
 
-    window.open(`https://api.whatsapp.com/send?text=${message}`, '_blank');
+    const adminWhatsAppNumber = '9647734378998';
+    window.open(`https://api.whatsapp.com/send?phone=${adminWhatsAppNumber}&text=${message}`, '_blank');
     closeMastercardModal();
   }
 
