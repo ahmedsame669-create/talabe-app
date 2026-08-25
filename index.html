@@ -430,10 +430,10 @@
     }
     .price-tag { font-size: 1.05rem; font-weight: 900; color: #34d399; font-family: monospace; }
     .btn-action {
-      padding: 8px 16px;
+      padding: 8px 14px;
       border-radius: 12px;
       font-weight: 900;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       cursor: pointer;
       border: none;
       display: inline-flex;
@@ -754,13 +754,13 @@
     <div class="vip-hero-banner">
       <div class="vip-tag">⭐ المناهج والملازم الشاملة</div>
       <h1 class="vip-hero-title">تحميل وتصفح الملازم والكتب المنهجية المعتمدة 🇮🇶</h1>
-      <p class="vip-hero-desc">تصفح ملفات PDF والشروحات الوزارية المعتمدة • تفعيل الملازم المقفولة بـ 10 آلاف دينار عبر ماستر كارد الرافدين أو كود التفعيل.</p>
+      <p class="vip-hero-desc">تصفح ملفات PDF والشروحات الوزارية المعتمدة • تفعيل الملازم المقفولة بـ 10 آلاف دينار عبر ماستر كارد الرافدين والتواصل واتساب.</p>
       
       <div class="mastercard-showcase">
         <div class="mc-info-side">
           <div class="mc-logo-badge">Master</div>
           <div>
-            <div style="font-size:0.78rem; color:#94a3b8; font-weight:800;">دفع إلكتروني عبر ماستر كارد الرافدين:</div>
+            <div style="font-size:0.78rem; color:#94a3b8; font-weight:800;">رقم ماستر كارد الرافدين المعتمد:</div>
             <div class="mc-num-text">910160728184</div>
           </div>
         </div>
@@ -1124,57 +1124,60 @@
       <h3 id="pdfViewerTitle" style="color:#38bdf8; font-weight:900; font-size:1.1rem;">📖 تصفح الملزمة</h3>
       <span id="pdfViewerCat" style="font-size:0.75rem; color:#94a3b8;">المنهاج الوزاري المعتمد</span>
     </div>
+    <button onclick="downloadPdfDirect()" id="pdfDownloadBtn" class="btn-action btn-read" style="background:#2563eb; color:#fff; display:none;">
+      📥 تحميل ملف الـ PDF
+    </button>
     <button onclick="closePdfViewer()" class="btn-close">✕ إغلاق</button>
   </div>
   <div class="pdf-modal-body" id="pdfViewerBody"></div>
 </div>
 
-<!-- 💳 Mastercard Payment Modal -->
+<!-- 💳 Modal: Lock Request & WhatsApp Gateway -->
 <div id="mastercardPaymentModal" class="modal-bg">
   <div class="modal-box">
     <div class="modal-head">
       <h3 style="font-weight:900; color:#fbbf24; display:flex; align-items:center; gap:8px; font-size:1.05rem;">
-        <span class="mc-logo-badge">Master</span> دفع واشتراك إلكتروني (ماستر كارد الرافدين)
+        🔒 فتح وقفل المادة (10,000 دينار عراقي)
       </h3>
       <button onclick="closeMastercardModal()" class="btn-close">✕</button>
     </div>
 
+    <!-- Mastercard Copy Info Box -->
     <div class="mc-card-ui">
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <div class="mc-chip"></div>
-        <div style="font-size:0.85rem; font-weight:900; color:#38bdf8;">Rafidain Bank 🇮🇶</div>
+        <div style="font-size:0.85rem; font-weight:900; color:#38bdf8;">ماستر كارد الرافدين 🇮🇶</div>
       </div>
-      <div style="font-family:monospace; font-size:1.25rem; font-weight:900; color:#fff; letter-spacing:2px; margin:8px 0; text-align:center;">
+      <div style="font-family:monospace; font-size:1.35rem; font-weight:900; color:#fff; letter-spacing:2px; margin:8px 0; text-align:center; direction:ltr;">
         9101 6072 8184
       </div>
-      <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#94a3b8;">
-        <span>المنصة: TALABATI VIP</span>
+      <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.75rem; color:#94a3b8;">
         <span>المبلغ: 10,000 د.ع</span>
+        <button type="button" onclick="copyPaymentNumber('910160728184', 'ماستر كارد الرافدين')" class="btn-copy-sm" style="background:#f59e0b; color:#000;">
+          📋 نسخ رقم الماستر كارد
+        </button>
       </div>
     </div>
 
-    <form onsubmit="handleExecuteMastercardPayment(event)">
-      <div class="form-group">
-        <label class="form-label">المادة المطلوب تفعيلها:</label>
-        <input type="text" id="mcModalItemTitle" class="form-inp" readonly />
-        <input type="hidden" id="mcModalItemId" />
-        <input type="hidden" id="mcModalItemType" />
-      </div>
+    <div style="background:#091226; border:1px solid #1e3567; border-radius:16px; padding:14px; margin-bottom:14px; text-align:right; font-size:0.88rem; color:#cbd5e1; line-height:1.6;">
+      📌 <b style="color:#fff;">طريقة فتح المادة وتحميلها PDF:</b>
+      <ol style="margin-right:18px; margin-top:6px;">
+        <li>انسخ رقم الماستر كارد بالأعلى وحول مبلغ <b style="color:#34d399;">(10,000 دينار)</b>.</li>
+        <li>اضغط على الزر الأخضر بالأسفل للتواصل عبر الواتساب مع الإدارة.</li>
+        <li>ستصلك رسالة جاهزة لطلب كود التفعيل الخاص بالمادة.</li>
+        <li>بعد استلام الكود من الأدمن، الصقه في خانة التفعيل لتفتح المادة مباشرة وتتمكن من تصفحها وتحميلها بصيغة <b style="color:#38bdf8;">PDF</b> على جهازك!</li>
+      </ol>
+    </div>
 
-      <div class="form-group">
-        <label class="form-label">رقم بطاقتك / الهاتف المحول منه:</label>
-        <input type="text" id="mcModalUserCard" class="form-inp" placeholder="077XXXXXXXX أو رقم الحساب" required />
-      </div>
+    <div>
+      <input type="hidden" id="mcModalItemId" />
+      <input type="hidden" id="mcModalItemType" />
+      <input type="hidden" id="mcModalItemTitle" />
 
-      <div class="form-group">
-        <label class="form-label">المبلغ الإجمالي:</label>
-        <input type="text" class="form-inp" value="10,000 دينار عراقي" readonly />
-      </div>
-
-      <button type="submit" class="btn-submit-main" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
-        ✅ تأكيد الدفع وفتح المادة فورياً
+      <button type="button" onclick="handleWhatsAppOrder()" class="btn-submit-main" style="background: linear-gradient(135deg, #25d366, #128c7e); display:flex; align-items:center; justify-content:center; gap:8px;">
+        📲 الانتقال إلى الواتساب وطلب كود التفعيل
       </button>
-    </form>
+    </div>
   </div>
 </div>
 
@@ -1282,7 +1285,6 @@
         renderAdminAll();
         switchNavTab('admin');
       } else {
-        // Strict student route: Always start on books tab!
         switchNavTab('books');
       }
     } else {
@@ -1344,7 +1346,6 @@
   }
 
   function switchNavTab(tab) {
-    // Strict protection: If not admin, completely block admin tab
     if (tab === 'admin' && (!currentUser || currentUser.role !== 'admin')) {
       tab = 'books';
     }
@@ -1404,12 +1405,17 @@
             <div class="card-lock-row">
               <span class="price-tag">${isUnlocked ? 'متاحة' : b.price}</span>
               ${isUnlocked ? `
-                <button class="btn-action btn-read" onclick="openPdfViewer('${b.title}', '${b.cat}', '${b.pdfUrl || ''}', '${b.pdfBase64 || ''}', '${escapeText(b.desc)}')">
-                  📖 فتح وقراءة الملزمة
-                </button>
+                <div style="display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end;">
+                  <button class="btn-action btn-read" onclick="openPdfViewer('${b.title}', '${b.cat}', '${b.pdfUrl || ''}', '${b.pdfBase64 || ''}', '${escapeText(b.desc)}')">
+                    📖 فتح وتصفح
+                  </button>
+                  <button class="btn-action" style="background:#2563eb; color:#fff;" onclick="downloadItemPdf('${b.title}', '${b.pdfUrl || ''}', '${b.pdfBase64 || ''}', '${escapeText(b.desc)}')">
+                    📥 تحميل PDF
+                  </button>
+                </div>
               ` : `
-                <button class="btn-action btn-lock" onclick="openMastercardModal('${b.id}', '${b.title}', 'book')">
-                  💳 فتح بـ 10,000 د.ع
+                <button class="btn-action btn-lock" onclick="openMastercardModal('${b.id}', '${b.title}', 'ملزمة / كتاب')">
+                  🔒 فتح القفل (10 آلاف)
                 </button>
               `}
             </div>
@@ -1445,12 +1451,17 @@
             <div class="card-lock-row">
               <span class="price-tag">${isUnlocked ? 'متاحة' : p.price}</span>
               ${isUnlocked ? `
-                <button class="btn-action btn-read" onclick="openPdfViewer('${p.title}', '${p.cat}', '${p.pdfUrl || ''}', '${p.pdfBase64 || ''}', '${escapeText(p.desc)}')">
-                  📖 فتح وقراءة المرشحة
-                </button>
+                <div style="display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end;">
+                  <button class="btn-action btn-read" onclick="openPdfViewer('${p.title}', '${p.cat}', '${p.pdfUrl || ''}', '${p.pdfBase64 || ''}', '${escapeText(p.desc)}')">
+                    📖 فتح وتصفح
+                  </button>
+                  <button class="btn-action" style="background:#8b5cf6; color:#fff;" onclick="downloadItemPdf('${p.title}', '${p.pdfUrl || ''}', '${p.pdfBase64 || ''}', '${escapeText(p.desc)}')">
+                    📥 تحميل PDF
+                  </button>
+                </div>
               ` : `
-                <button class="btn-action btn-lock" onclick="openMastercardModal('${p.id}', '${p.title}', 'pred')">
-                  💳 فتح بـ 10,000 د.ع
+                <button class="btn-action btn-lock" onclick="openMastercardModal('${p.id}', '${p.title}', 'مرشحة نجاح')">
+                  🔒 فتح القفل (10 آلاف)
                 </button>
               `}
             </div>
@@ -1512,13 +1523,13 @@
       currentUser.unlockedIds.push(id);
       localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser));
     }
-    alert(`🎉 تهانينا! تم تفعيل وفتح [ ${title} ] بنجاح!`);
+    alert(`🎉 تهانينا! تم تفعيل وفتح [ ${title} ] بنجاح! يمكنك الآن تصفحها وتحميلها PDF.`);
     renderStudentBooks();
     renderStudentPredictions();
   }
 
   // =========================================================================
-  // 🛡️ Admin Dashboard Functions
+  // 🛡️ Admin Dashboard Logic
   // =========================================================================
   function switchAdminSection(sec) {
     ['addBook', 'addPred', 'manage', 'thawabit', 'notice'].forEach(s => {
@@ -1729,11 +1740,19 @@
   }
 
   // =========================================================================
-  // 📄 PDF Viewer Engine
+  // 📖 PDF Viewer & Direct Download Engine
   // =========================================================================
+  let currentActivePdf = { title: '', url: '', base64: '', desc: '' };
+
   function openPdfViewer(title, cat, url, base64, desc) {
+    currentActivePdf = { title, url, base64, desc };
     document.getElementById('pdfViewerTitle').textContent = '📖 ' + title;
     document.getElementById('pdfViewerCat').textContent = 'القسم: ' + cat;
+
+    const downloadBtn = document.getElementById('pdfDownloadBtn');
+    if (downloadBtn) {
+      downloadBtn.style.display = 'inline-flex';
+    }
 
     const body = document.getElementById('pdfViewerBody');
     if (base64) {
@@ -1752,6 +1771,64 @@
     document.getElementById('pdfViewerModal').style.display = 'flex';
   }
 
+  function downloadPdfDirect() {
+    if (!currentActivePdf || !currentActivePdf.title) return;
+    downloadItemPdf(currentActivePdf.title, currentActivePdf.url, currentActivePdf.base64, currentActivePdf.desc);
+  }
+
+  function downloadItemPdf(title, url, base64, desc) {
+    const filename = `${title.replace(/[\/\\:*?"<>|]/g, '_')}.pdf`;
+    
+    if (base64) {
+      const a = document.createElement('a');
+      a.href = base64;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      return;
+    }
+
+    if (url) {
+      const a = document.createElement('a');
+      a.href = url;
+      a.target = '_blank';
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      return;
+    }
+
+    // Fallback printable / reader
+    const printWindow = window.open('', '_blank');
+    if (printWindow) {
+      printWindow.document.write(`
+        <html dir="rtl" lang="ar">
+        <head>
+          <title>${title}</title>
+          <style>
+            body { font-family: sans-serif; padding: 40px; line-height: 1.8; color: #111; }
+            h1 { color: #1d4ed8; border-bottom: 2px solid #1d4ed8; padding-bottom: 10px; }
+            p { font-size: 16px; white-space: pre-wrap; }
+          </style>
+        </head>
+        <body>
+          <h1>منصة طلبتي التعليمية 🎓</h1>
+          <h2>${title}</h2>
+          <hr/>
+          <p>${desc || 'محتوى المادة الدراسية'}</p>
+        </body>
+        </html>
+      `);
+      printWindow.document.close();
+      printWindow.focus();
+      setTimeout(() => { printWindow.print(); }, 500);
+    } else {
+      alert(`📥 جاري فتح وتحميل: ${title}`);
+    }
+  }
+
   function closePdfViewer() {
     document.getElementById('pdfViewerModal').style.display = 'none';
     document.getElementById('pdfViewerBody').innerHTML = '';
@@ -1762,7 +1839,7 @@
   }
 
   // =========================================================================
-  // 💳 Mastercard Checkout Modal
+  // 📲 WhatsApp Lock Order Gateway (10,000 IQD)
   // =========================================================================
   function openMastercardModal(id, title, type) {
     document.getElementById('mcModalItemId').value = id;
@@ -1775,17 +1852,22 @@
     document.getElementById('mastercardPaymentModal').style.display = 'none';
   }
 
-  function handleExecuteMastercardPayment(e) {
-    e.preventDefault();
-    const id = document.getElementById('mcModalItemId').value;
-    const title = document.getElementById('mcModalItemTitle').value;
+  function handleWhatsAppOrder() {
+    const title = document.getElementById('mcModalItemTitle').value || 'المادة الدراسية';
+    const type = document.getElementById('mcModalItemType').value || 'ملزمة / مرشحة';
+    const studentName = currentUser ? currentUser.name : 'طالب المنصة';
+    const studentPhone = currentUser && currentUser.phone ? currentUser.phone : '';
+    const studentGov = currentUser && currentUser.gov ? currentUser.gov : '';
+
+    const message = `السلام عليكم ورحمة الله وبركاته 🌸%0A%0Aأريد فتح وتفعيل هذه المادة بـ 10 آلاف دينار (عبر ماستر كارد الرافدين 910160728184):%0A📚 *المادة:* ${title} (${type})%0A👨‍🎓 *اسم الطالب:* ${studentName}%0A📍 *المحافظة:* ${studentGov}%0A📱 *رقم الهاتف:* ${studentPhone}%0A%0Aيرجى إرسال كود التفعيل لأفتح المادة وأقوم بتحميلها PDF على جهازي. شكراً جزيلاً! ✨`;
+
+    window.open(`https://api.whatsapp.com/send?text=${message}`, '_blank');
     closeMastercardModal();
-    unlockItemForStudent(id, title);
   }
 
   function copyPaymentNumber(num, name) {
     navigator.clipboard.writeText(num);
-    alert(`✅ تم نسخ رقم ${name} بنجاح: ${num}`);
+    alert(`✅ تم نسخ رقم ${name} بنجاح: ${num}\n(حول المبلغ ثم اضغط على زر الواتساب لإرسال الطلب للأدمن)`);
   }
 
   // =========================================================================
