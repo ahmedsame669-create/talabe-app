@@ -5,31 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>منصة طلبتي التعليمية | المنصة الأكاديمية العالمية 🇮🇶</title>
   
-  <meta name="theme-color" content="#1e3a8a">
+  <meta name="theme-color" content="#0b132b">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-  <!-- Google Fonts -->
+  <!-- الخطوط العربية الحديثة -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 
   <style>
     :root {
+      --bg-dark: #070d1e;
+      --bg-card: #0e1a38;
+      --border-color: #1e3567;
       --primary: #2563eb;
-      --primary-glow: rgba(37, 99, 235, 0.45);
-      --primary-dark: #1d4ed8;
+      --primary-glow: #38bdf8;
       --accent: #f59e0b;
-      --accent-glow: rgba(245, 158, 11, 0.4);
       --emerald: #10b981;
-      --emerald-glow: rgba(16, 185, 129, 0.4);
-      --danger: #ef4444;
       --purple: #8b5cf6;
-      --bg: #050811;
-      --card-bg: #0d1527;
-      --card-elevated: #131f38;
-      --border: #1e2d4d;
-      --text: #f8fafc;
+      --text-main: #f8fafc;
       --text-muted: #94a3b8;
     }
 
@@ -42,35 +37,30 @@
     }
 
     body {
-      background: radial-gradient(circle at 50% 0%, #122244 0%, #050811 100%);
-      color: var(--text);
+      background: radial-gradient(circle at 50% 0%, #162a56 0%, #060b18 100%);
+      color: var(--text-main);
+      min-height: 100vh;
       padding: 12px 12px 90px;
       line-height: 1.6;
-      min-height: 100vh;
       overflow-x: hidden;
     }
 
     .container {
-      max-width: 1000px;
+      max-width: 1060px;
       margin: 0 auto;
     }
 
-    @keyframes slideUpFade {
-      from { opacity: 0; transform: translateY(14px); }
+    @keyframes fadeInSlide {
+      from { opacity: 0; transform: translateY(12px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes pulseGlow {
-      0%, 100% { box-shadow: 0 0 15px rgba(37,99,235,0.3); }
-      50% { box-shadow: 0 0 28px rgba(56,189,248,0.6); }
-    }
-
-    /* Auth Overlay */
+    /* Auth Gate */
     #authOverlay {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at top, #152238 0%, #03060c 100%);
-      z-index: 9999;
+      background: radial-gradient(circle at top, #14244a 0%, #040711 100%);
+      z-index: 99999;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -79,28 +69,56 @@
     }
 
     .auth-card {
-      background: #0c1424;
-      border: 1px solid rgba(56, 189, 248, 0.35);
+      background: #0d1833;
+      border: 1.5px solid rgba(56, 189, 248, 0.35);
       border-radius: 28px;
       padding: 30px 22px;
       width: 100%;
-      max-width: 440px;
+      max-width: 450px;
       box-shadow: 0 25px 60px rgba(0,0,0,0.85);
-      animation: slideUpFade 0.3s ease-out;
+      animation: fadeInSlide 0.3s ease-out;
       text-align: center;
     }
 
     .auth-logo-badge {
-      width: 76px;
-      height: 76px;
-      border-radius: 22px;
+      width: 80px;
+      height: 80px;
+      border-radius: 24px;
       background: linear-gradient(135deg, #2563eb, #38bdf8);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 38px;
-      margin-bottom: 14px;
-      box-shadow: 0 8px 25px rgba(37,99,235,0.4);
+      font-size: 40px;
+      margin-bottom: 12px;
+      box-shadow: 0 8px 30px rgba(37,99,235,0.45);
+    }
+
+    .auth-role-switcher {
+      display: flex;
+      background: #060b18;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 4px;
+      margin-bottom: 18px;
+    }
+
+    .role-btn {
+      flex: 1;
+      padding: 10px;
+      border-radius: 12px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-weight: 800;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .role-btn.active {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(37,99,235,0.4);
     }
 
     .form-group { text-align: right; margin-bottom: 13px; }
@@ -109,14 +127,17 @@
       width: 100%;
       padding: 12px 14px;
       border-radius: 14px;
-      background: #060a14;
-      border: 1px solid #233554;
+      background: #050a16;
+      border: 1px solid #1f3460;
       color: #fff;
       outline: none;
-      font-size: 0.94rem;
+      font-size: 0.95rem;
       transition: 0.2s;
     }
-    .form-inp:focus { border-color: #38bdf8; box-shadow: 0 0 12px rgba(56,189,248,0.25); }
+    .form-inp:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 14px rgba(56,189,248,0.3);
+    }
 
     .btn-submit-main {
       width: 100%;
@@ -139,38 +160,14 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #0d1527;
+      background: #0e1a38;
       padding: 10px 16px;
-      border-radius: 20px;
-      border: 1px solid var(--border);
+      border-radius: 22px;
+      border: 1px solid var(--border-color);
       margin-bottom: 12px;
       gap: 10px;
       flex-wrap: wrap;
     }
-
-    .nav-left-tools {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .nav-history-btn {
-      background: #060a14;
-      border: 1px solid var(--border);
-      color: #cbd5e1;
-      width: 38px;
-      height: 38px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 1.1rem;
-      font-weight: 900;
-      transition: 0.2s;
-    }
-    .nav-history-btn:hover { background: #132240; color: #38bdf8; border-color: #38bdf8; }
-    .nav-history-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
     .brand { font-size: 1.15rem; font-weight: 900; color: #fff; display: flex; align-items: center; gap: 8px; }
     .brand-logo {
@@ -183,33 +180,32 @@
       justify-content: center;
       font-size: 18px;
     }
-    .brand span { color: #38bdf8; }
 
-    /* User Profile & Student Logout */
     .user-chip {
       display: flex;
       align-items: center;
       gap: 8px;
-      background: #060a14;
+      background: #060b18;
       padding: 4px 12px 4px 6px;
       border-radius: 999px;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-color);
     }
     .user-chip-avatar {
-      width: 28px;
-      height: 28px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       background: linear-gradient(135deg, #3b82f6, #f59e0b);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 900;
       color: #fff;
     }
     .user-chip-info { font-size: 0.78rem; text-align: right; }
     .user-chip-name { font-weight: 800; color: #fff; }
-    .btn-student-logout {
+    .user-chip-role { color: #38bdf8; font-size: 0.7rem; }
+    .btn-logout {
       background: rgba(239,68,68,0.15);
       border: 1px solid rgba(239,68,68,0.3);
       color: #f87171;
@@ -220,23 +216,19 @@
       cursor: pointer;
     }
 
-    /* Motivational Welcome Banner */
-    .motivational-bar {
-      background: linear-gradient(135deg, rgba(37,99,235,0.15) 0%, rgba(16,185,129,0.15) 100%);
-      border: 1px solid rgba(56,189,248,0.3);
+    /* Announcement Banner */
+    .announcement-bar {
+      background: linear-gradient(135deg, rgba(37,99,235,0.18) 0%, rgba(16,185,129,0.18) 100%);
+      border: 1px solid rgba(56,189,248,0.35);
       border-radius: 18px;
       padding: 12px 16px;
       margin-bottom: 14px;
       display: flex;
       align-items: center;
       gap: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
     }
-    .moti-icon { font-size: 1.7rem; }
-    .moti-text-title { font-size: 0.95rem; font-weight: 900; color: #38bdf8; }
-    .moti-text-sub { font-size: 0.85rem; color: #e2e8f0; font-weight: 600; }
 
-    /* Navigation Bar */
+    /* Nav Tabs */
     .nav-bar-scroll {
       display: flex;
       gap: 8px;
@@ -250,62 +242,37 @@
       white-space: nowrap;
       padding: 10px 16px;
       border-radius: 15px;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-color);
       font-weight: 800;
       font-size: 13.5px;
       cursor: pointer;
       color: var(--text-muted);
-      background: #0d1527;
+      background: #0e1a38;
       transition: 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
     }
     .nav-tab-btn.active {
       background: linear-gradient(135deg, #2563eb, #1d4ed8);
       color: #fff;
       border-color: #38bdf8;
-      box-shadow: 0 4px 14px rgba(37,99,235,0.45);
-    }
-    .nav-tab-btn.quiz-tab-btn.active {
-      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-      border-color: #60a5fa;
-      color: #fff;
-    }
-    .nav-tab-btn.admin-tab-btn.active {
-      background: linear-gradient(135deg, #d97706, #b45309);
-      color: #fff;
     }
 
-    .tab-content { display: none; animation: slideUpFade 0.25s ease-out; }
+    .tab-content { display: none; animation: fadeInSlide 0.25s ease-out; }
     .tab-content.active { display: block; }
 
     /* Hero Banner */
     .vip-hero-banner {
-      background: linear-gradient(135deg, #0d1527 0%, #172c54 50%, #1e40af 100%);
+      background: linear-gradient(135deg, #0e1a38 0%, #182e5b 50%, #1e40af 100%);
       border-radius: 22px;
       padding: 20px;
       margin-bottom: 16px;
       border: 1px solid rgba(56,189,248,0.35);
-      position: relative;
-    }
-    .vip-tag {
-      display: inline-block;
-      background: rgba(245,158,11,0.2);
-      border: 1px solid #f59e0b;
-      color: #fbbf24;
-      padding: 3px 12px;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      font-weight: 900;
-      margin-bottom: 8px;
     }
     .vip-hero-title { font-size: 1.4rem; font-weight: 900; color: #fff; margin-bottom: 6px; }
-    .vip-hero-desc { color: #dbeafe; font-size: 0.88rem; line-height: 1.5; margin-bottom: 14px; }
+    .vip-hero-desc { color: #dbeafe; font-size: 0.88rem; margin-bottom: 14px; }
 
-    /* Mastercard Showcase Box */
+    /* Mastercard Showcase */
     .mastercard-showcase {
-      background: rgba(6, 10, 20, 0.85);
+      background: rgba(6, 11, 24, 0.9);
       border: 1px solid rgba(56, 189, 248, 0.35);
       border-radius: 16px;
       padding: 12px 16px;
@@ -315,93 +282,13 @@
       gap: 10px;
       flex-wrap: wrap;
     }
-    .mc-info-side { display: flex; align-items: center; gap: 10px; }
     .mc-logo-badge {
-      width: 44px;
-      height: 28px;
-      border-radius: 6px;
       background: linear-gradient(90deg, #eb001b 0%, #ff5f00 50%, #f79e1b 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
       color: #fff;
       font-weight: 900;
-      font-size: 10px;
-      letter-spacing: 0.5px;
-    }
-    .mc-num-text { font-family: monospace; font-size: 1.1rem; font-weight: 900; color: #38bdf8; direction: ltr; }
-
-    .btn-copy-sm {
-      background: #2563eb;
-      color: #fff;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 10px;
-      font-size: 0.8rem;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    /* Code Box */
-    .code-box {
-      background: #0d1527;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 16px;
-      margin-bottom: 18px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .code-input {
-      flex: 1;
-      min-width: 180px;
-      padding: 12px 16px;
-      border-radius: 14px;
-      border: 1px solid #233554;
-      background: #060a14;
-      color: #fff;
-      font-family: monospace;
-      font-size: 1rem;
-      text-transform: uppercase;
-      outline: none;
-    }
-    .btn-redeem {
-      background: linear-gradient(135deg, #f59e0b, #d97706);
-      color: #fff;
-      border: none;
-      padding: 12px 22px;
-      border-radius: 14px;
-      font-weight: 900;
-      cursor: pointer;
-      font-size: 0.94rem;
-    }
-
-    /* Category Filter */
-    .cat-filter-scroll {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 6px;
-      margin-bottom: 12px;
-      scrollbar-width: none;
-    }
-    .cat-filter-scroll::-webkit-scrollbar { display: none; }
-    .cat-pill-btn {
-      padding: 6px 14px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: #0d1527;
-      color: #94a3b8;
-      font-size: 0.82rem;
-      font-weight: 800;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-    .cat-pill-btn.active {
-      background: #1e3a8a;
-      color: #38bdf8;
-      border-color: #38bdf8;
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 6px;
     }
 
     /* Cards Grid */
@@ -412,8 +299,8 @@
       margin-bottom: 25px;
     }
     .book-card {
-      background: #0d1527;
-      border: 1px solid var(--border);
+      background: #0e1a38;
+      border: 1px solid var(--border-color);
       border-radius: 22px;
       padding: 18px;
       display: flex;
@@ -425,41 +312,7 @@
       border-color: #38bdf8;
       transform: translateY(-2px);
     }
-    .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .cat-badge {
-      background: #172c54;
-      color: #93c5fd;
-      font-size: 0.76rem;
-      font-weight: 800;
-      padding: 3px 10px;
-      border-radius: 8px;
-    }
-    .status-badge {
-      font-size: 0.75rem;
-      font-weight: 900;
-      padding: 3px 10px;
-      border-radius: 8px;
-    }
-    .status-locked { background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.35); }
-    .status-unlocked { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.35); }
 
-    .book-title { font-size: 1.15rem; font-weight: 900; color: #fff; margin-bottom: 6px; }
-    .book-desc { font-size: 0.84rem; color: #94a3b8; line-height: 1.5; margin-bottom: 16px; flex-grow: 1; }
-
-    .book-actions-group {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      border-top: 1px solid #1a2744;
-      padding-top: 12px;
-    }
-    .card-lock-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-    .price-tag { font-size: 1.05rem; font-weight: 900; color: #34d399; font-family: monospace; }
     .btn-action {
       padding: 9px 18px;
       border-radius: 12px;
@@ -471,21 +324,15 @@
     .btn-lock { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; }
     .btn-read { background: linear-gradient(135deg, #10b981, #059669); color: #fff; }
 
-    /* ---------------------------------------------------- */
-    /* 📝 Self-Exam System (امتحن نفسك من 100) */
-    /* ---------------------------------------------------- */
+    /* Quiz System */
     .quiz-hero-card {
-      background: linear-gradient(135deg, #091326 0%, #15274d 100%);
+      background: linear-gradient(135deg, #091328 0%, #142852 100%);
       border: 1px solid rgba(56, 189, 248, 0.4);
       border-radius: 26px;
       padding: 24px 20px;
       text-align: center;
       margin-bottom: 20px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.5);
     }
-    .quiz-title-main { font-size: 1.6rem; font-weight: 900; color: #38bdf8; margin-bottom: 6px; }
-    .quiz-subtitle-main { font-size: 0.88rem; color: #94a3b8; margin-bottom: 20px; }
-
     .quiz-subjects-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
@@ -493,7 +340,7 @@
       margin-bottom: 24px;
     }
     .btn-quiz-subject {
-      background: #0c1527;
+      background: #0b152d;
       border: 1.5px solid #1e3a8a;
       color: #fff;
       padding: 13px 10px;
@@ -501,213 +348,68 @@
       font-size: 0.92rem;
       font-weight: 900;
       cursor: pointer;
-      transition: 0.2s;
     }
-    .btn-quiz-subject.active, .btn-quiz-subject:hover {
+    .btn-quiz-subject.active {
       background: #1e3a8a;
       border-color: #38bdf8;
-      box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
     }
 
-    /* Quiz Score Result Box (طابق للصورة) */
     .quiz-score-box {
-      background: linear-gradient(180deg, rgba(16, 37, 77, 0.8) 0%, rgba(8, 17, 36, 0.95) 100%);
+      background: linear-gradient(180deg, rgba(16, 37, 77, 0.85) 0%, rgba(8, 17, 36, 0.98) 100%);
       border: 2px solid #2563eb;
       border-radius: 26px;
-      padding: 28px 20px;
+      padding: 24px;
       margin: 20px 0;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
     }
-    .quiz-score-heading { font-size: 1.15rem; font-weight: 900; color: #e2e8f0; margin-bottom: 12px; }
     .quiz-score-number {
-      font-size: 3.8rem;
+      font-size: 3.5rem;
       font-weight: 900;
       color: #34d399;
-      line-height: 1;
-      margin-bottom: 14px;
-      font-family: 'Cairo', sans-serif;
-      text-shadow: 0 0 20px rgba(52, 211, 153, 0.4);
-    }
-    .quiz-score-note {
-      font-size: 1.05rem;
-      font-weight: 900;
-      color: #fbbf24;
-      background: rgba(245, 158, 11, 0.12);
-      border: 1px solid rgba(245, 158, 11, 0.3);
-      padding: 10px 16px;
-      border-radius: 14px;
-      display: inline-block;
-      margin-bottom: 16px;
+      margin: 10px 0;
     }
 
     .question-card {
-      background: #0a1120;
-      border: 1px solid #1e2d4d;
+      background: #091226;
+      border: 1px solid #1e3567;
       border-radius: 18px;
       padding: 16px;
       margin-bottom: 14px;
       text-align: right;
     }
-    .q-text { font-size: 0.96rem; font-weight: 800; color: #fff; margin-bottom: 12px; line-height: 1.5; }
-    .q-options { display: flex; flex-direction: column; gap: 8px; }
     .q-opt-label {
       display: flex;
       align-items: center;
       gap: 10px;
-      background: #060a14;
-      border: 1px solid #1e2d4d;
+      background: #050a16;
+      border: 1px solid #1e3567;
       padding: 10px 14px;
       border-radius: 12px;
       cursor: pointer;
-      font-size: 0.88rem;
-      transition: 0.2s;
+      margin-bottom: 6px;
     }
-    .q-opt-label:hover { border-color: #38bdf8; background: #0e1a33; }
-    .q-opt-label.selected { border-color: #38bdf8; background: rgba(37,99,235,0.2); font-weight: 800; }
-
-    /* ---------------------------------------------------- */
-    /* 💳 Mastercard Payment Modal (دفع الماستر كارد المباشر) */
-    /* ---------------------------------------------------- */
-    .modal-bg {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.88);
-      backdrop-filter: blur(8px);
-      z-index: 10000;
-      align-items: center;
-      justify-content: center;
-      padding: 12px;
-    }
-    .modal-box {
-      background: #0d1527;
-      border: 1px solid #2a3d66;
-      border-radius: 26px;
-      padding: 22px;
-      width: 100%;
-      max-width: 520px;
-      max-height: 95vh;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.9);
-      animation: slideUpFade 0.25s ease-out;
-    }
-    .modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-    .btn-close { background: none; border: none; color: #fff; font-size: 1.6rem; cursor: pointer; }
-
-    .mc-card-ui {
-      background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
-      border: 1px solid rgba(56,189,248,0.4);
-      border-radius: 20px;
-      padding: 18px;
-      margin-bottom: 16px;
-      position: relative;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    }
-    .mc-chip {
-      width: 36px;
-      height: 26px;
-      background: #f59e0b;
-      border-radius: 6px;
-      margin-bottom: 12px;
-    }
-
-    /* Admin Styles */
-    .admin-card {
-      background: #0d1527;
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-    .admin-header-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 12px;
-      margin-bottom: 16px;
-    }
-    .admin-subnav {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      margin-bottom: 16px;
-      padding-bottom: 4px;
-    }
-    .admin-subtab-btn {
-      padding: 8px 14px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: #060a14;
-      color: #94a3b8;
-      font-size: 0.82rem;
-      font-weight: 800;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-    .admin-subtab-btn.active {
-      background: #2563eb;
-      color: #fff;
-      border-color: #38bdf8;
-    }
-
-    /* Footer & Social */
-    footer {
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      margin-top: 40px;
-      border-top: 1px solid var(--border);
-      padding-top: 22px;
-    }
-    .social-channels-bar {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
-    }
-    .social-btn-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: #0d1527;
-      border: 1px solid var(--border);
-      color: #fff;
-      padding: 8px 14px;
-      border-radius: 12px;
-      text-decoration: none;
-      font-size: 0.82rem;
-      font-weight: 800;
-    }
-    .social-btn-link:hover { border-color: #38bdf8; }
-
-    .dev-name { color: #38bdf8; font-weight: 900; }
+    .q-opt-label:hover { border-color: #38bdf8; background: #0e1c3e; }
   </style>
 </head>
 <body>
 
-<!-- ========================================== -->
-<!-- 🚪 1. Student Auth Gate -->
-<!-- ========================================== -->
+<!-- 1. شاشة تسجيل الدخول الموحدة (طالب / إدارة) -->
 <div id="authOverlay">
   <div class="auth-card">
     <div class="auth-logo-badge">🎓</div>
     <h2 style="font-size:1.5rem; font-weight:900; color:#fff; margin-bottom:4px;">منصة طلبتي التعليمية</h2>
     <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:14px;">المنصة الأكاديمية الشاملة للملازم ومرشحات النجاح 🇮🇶</p>
 
-    <div style="background: rgba(37,99,235,0.12); border: 1px solid rgba(56,189,248,0.25); border-radius: 12px; padding: 10px; margin-bottom: 16px; font-size: 0.82rem; color: #7dd3fc; font-weight: 700;">
-      ✨ "مرحباً بك يا طالبنا المجتهد.. نجاحك علينا لا تشيل هم، بس قول بسم الله الرحمٰن الرحيم وصلِّ على النبي محمد ﷺ"
+    <div class="auth-role-switcher">
+      <button type="button" id="roleBtnStudent" class="role-btn active" onclick="switchAuthMode('student')">👨‍🎓 دخول الطالب</button>
+      <button type="button" id="roleBtnAdmin" class="role-btn" onclick="switchAuthMode('admin')">🛡️ دخول الإدارة / المدرس</button>
     </div>
 
-    <form onsubmit="handleStudentLogin(event)">
+    <!-- نموذج الطالب -->
+    <form id="studentLoginForm" onsubmit="handleStudentLogin(event)">
       <div class="form-group">
         <label class="form-label">الاسم الكامل للطالب:</label>
         <input type="text" id="loginFullName" class="form-inp" placeholder="مثال: علي حسن عبد" required />
       </div>
-
       <div class="form-group">
         <label class="form-label">المحافظة:</label>
         <select id="loginGovernorate" class="form-inp" required>
@@ -718,1105 +420,264 @@
           <option value="النجف الأشرف">النجف الأشرف</option>
           <option value="كربلاء المقدسة">كربلاء المقدسة</option>
           <option value="بابل">بابل</option>
-          <option value="ديالى">ديالى</option>
-          <option value="الأنبار">الأنبار</option>
           <option value="ذي قار">ذي قار</option>
-          <option value="صلاح الدين">صلاح الدين</option>
-          <option value="كركوك">كركوك</option>
-          <option value="واسط">واسط</option>
-          <option value="ميسان">ميسان</option>
-          <option value="الديوانية">الديوانية</option>
-          <option value="المثنى">المثنى</option>
-          <option value="السليمانية">السليمانية</option>
-          <option value="دهوك">دهوك</option>
         </select>
       </div>
-
       <div class="form-group">
-        <label class="form-label">رقم الهاتف (لتفعيل الاشتراكات):</label>
+        <label class="form-label">رقم الهاتف:</label>
         <input type="tel" id="loginPhone" class="form-inp" placeholder="077XXXXXXXX" required />
       </div>
-
       <button type="submit" class="btn-submit-main">دخول المنصة وتصفح المواد 🚀</button>
+    </form>
+
+    <!-- نموذج المشرف -->
+    <form id="adminLoginForm" onsubmit="handleAdminAuthLogin(event)" style="display: none;">
+      <div class="form-group">
+        <label class="form-label">اسم المشرف / المطور:</label>
+        <input type="text" id="adminAuthUser" class="form-inp" placeholder="admin أو Ahmed" required />
+      </div>
+      <div class="form-group">
+        <label class="form-label">الرمز السري المعتمد:</label>
+        <input type="password" id="adminAuthPass" class="form-inp" placeholder="••••••••" required />
+      </div>
+      <button type="submit" class="btn-submit-main" style="background: linear-gradient(135deg, #d97706, #b45309);">
+        🛡️ تسجيل دخول الإدارة والتحكم الكامل
+      </button>
     </form>
   </div>
 </div>
 
-<!-- ========================================== -->
-<!-- 📱 2. Main Application Shell -->
-<!-- ========================================== -->
+<!-- 2. واجهة التطبيق الرئيسية -->
 <div class="container" id="mainAppShell" style="display:none;">
-  
-  <!-- Header -->
   <div class="top-nav">
-    <div class="nav-left-tools">
-      <button id="btnNavBack" onclick="navigateHistoryBack()" class="nav-history-btn" title="رجوع للخلف" disabled>➔</button>
-      <button id="btnNavForward" onclick="navigateHistoryForward()" class="nav-history-btn" title="العودة للأمام" disabled>⬅</button>
-      
-      <div class="brand">
-        <div class="brand-logo">🎓</div>
-        <div>منصة <span>طلبتي</span> <span style="font-size:11px; background:#172c54; padding:2px 8px; border-radius:6px; color:#38bdf8;">التعليمية</span></div>
-      </div>
+    <div class="brand">
+      <div class="brand-logo">🎓</div>
+      <div>منصة <span>طلبتي</span> VIP</div>
     </div>
     
-    <!-- User Profile & Logout -->
     <div class="user-chip">
       <div class="user-chip-avatar" id="headerUserAvatar">ع</div>
       <div class="user-chip-info">
         <div class="user-chip-name" id="headerUserName">علي حسن</div>
+        <div class="user-chip-role" id="headerUserRole">طالب متميز</div>
       </div>
-      <button onclick="logoutStudent()" class="btn-student-logout" title="تسجيل الخروج">🚪 خروج</button>
+      <button onclick="handleGlobalLogout()" class="btn-logout">🚪 خروج</button>
     </div>
   </div>
 
-  <!-- Motivational Banner -->
-  <div class="motivational-bar">
-    <div class="moti-icon">✨</div>
-    <div>
-      <div class="moti-text-title">مرحباً بك يا طالبنا المجتهد 🌟</div>
-      <div class="moti-text-sub">نجاحك علينا لا تشيل هم.. بس قول "بسم الله الرحمٰن الرحيم" وصلِّ على النبي محمد ﷺ وشد حيلك!</div>
-    </div>
-  </div>
-
-  <!-- Main Tabs Scroll -->
+  <!-- الأقسام والتنقل -->
   <div class="nav-bar-scroll">
     <button id="tabBtn-books" class="nav-tab-btn active" onclick="switchNavTab('books')">📚 الملازم والكتب</button>
     <button id="tabBtn-predictions" class="nav-tab-btn" onclick="switchNavTab('predictions')">⭐ مرشحات النجاح</button>
-    <button id="tabBtn-thawabit" class="nav-tab-btn" onclick="switchNavTab('thawabit')">📌 الثوابت الوزارية</button>
-    <button id="tabBtn-quiz" class="nav-tab-btn quiz-tab-btn" onclick="switchNavTab('quiz')">📝 امتحن نفسك (100)</button>
-    <button id="tabBtn-admin" class="nav-tab-btn admin-tab-btn" onclick="switchNavTab('admin')">🛡️ لوحة الإدارة</button>
+    <button id="tabBtn-quiz" class="nav-tab-btn" onclick="switchNavTab('quiz')">📝 امتحن نفسك (100)</button>
+    <button id="tabBtn-admin" class="nav-tab-btn" onclick="switchNavTab('admin')">🛡️ لوحة الإدارة</button>
   </div>
 
-  <!-- ========================================== -->
-  <!-- 📚 Tab 1: Books & Study Materials -->
-  <!-- ========================================== -->
+  <!-- قسم الملازم -->
   <div id="section-books" class="tab-content active">
     <div class="vip-hero-banner">
-      <div class="vip-tag">⭐ المناهج والملازم الشاملة</div>
       <h1 class="vip-hero-title">تحميل الملازم والكتب المنهجية المعتمدة 🇮🇶</h1>
-      <p class="vip-hero-desc">تصفح الكتب المفتوحة مجاناً • تفعيل الملازم المقفولة بـ 10 آلاف دينار عبر ماستر كارد الرافدين أو كود التفعيل السري.</p>
-      
-      <!-- Mastercard Widget -->
-      <div class="mastercard-showcase">
-        <div class="mc-info-side">
-          <div class="mc-logo-badge">Master</div>
-          <div>
-            <div style="font-size:0.8rem; color:#94a3b8; font-weight:800;">دفع إلكتروني عبر ماستر كارد الرافدين:</div>
-            <div class="mc-num-text">910160728184</div>
-          </div>
-        </div>
-        <button onclick="copyPaymentNumber('910160728184', 'ماستر كارد الرافدين')" class="btn-copy-sm">📋 نسخ الرقم</button>
-      </div>
+      <p class="vip-hero-desc">تفعيل الملازم المقفولة بـ 10 آلاف دينار عبر ماستر كارد الرافدين (910160728184) أو كود التفعيل.</p>
     </div>
-
-    <!-- Code Input Box -->
-    <div class="code-box">
-      <input type="text" id="studentCodeInput" class="code-input" placeholder="أدخل كود تفعيل الملزمة هنا..." />
-      <button onclick="redeemBookCode()" class="btn-redeem">🔑 تفعيل وفتح المادة</button>
-    </div>
-
-    <div class="cat-filter-scroll" id="booksCategoryFilters"></div>
-    <input type="text" id="booksSearchInp" oninput="renderStudentBooks()" placeholder="🔍 ابحث في الملازم والكتب المتاحة..." class="form-inp" style="margin-bottom:14px;" />
     <div class="grid" id="studentBooksGrid"></div>
   </div>
 
-  <!-- ========================================== -->
-  <!-- ⭐ Tab 2: مرشحات النجاح (مقفولة بـ 10 آلاف) -->
-  <!-- ========================================== -->
+  <!-- قسم مرشحات النجاح -->
   <div id="section-predictions" class="tab-content">
-    <div class="vip-hero-banner" style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%);">
-      <div class="vip-tag" style="background:rgba(167,139,250,0.2); border-color:#a78bfa; color:#c4b5fd;">⭐ بنك الأسئلة والمرشحات المؤكدة</div>
+    <div class="vip-hero-banner" style="background: linear-gradient(135deg, #19163e 0%, #292671 50%, #3730a3 100%);">
       <h1 class="vip-hero-title">مرشحات النجاح الوزارية المؤكدة 100% 🎯</h1>
-      <p class="vip-hero-desc">مرشحات النجاح مقفولة لحفظ الحقوق • تفتح المادة بـ 10 آلاف دينار عبر بطاقة الماستر كارد المباشرة أو كود الأدمن السري.</p>
-      
-      <!-- Mastercard Widget -->
-      <div class="mastercard-showcase">
-        <div class="mc-info-side">
-          <div class="mc-logo-badge">Master</div>
-          <div>
-            <div style="font-size:0.8rem; color:#94a3b8; font-weight:800;">ماستر كارد الرافدين المعتمدة:</div>
-            <div class="mc-num-text">910160728184</div>
-          </div>
-        </div>
-        <button onclick="copyPaymentNumber('910160728184', 'ماستر كارد الرافدين')" class="btn-copy-sm">📋 نسخ الرقم</button>
-      </div>
+      <p class="vip-hero-desc">تفتح المادة بـ 10 آلاف دينار عبر بطاقة الماستر كارد أو كود التفعيل السري.</p>
     </div>
-
-    <!-- Code Input for Predictions -->
-    <div class="code-box">
-      <input type="text" id="studentPredCodeInput" class="code-input" placeholder="أدخل كود تفعيل مرشحة النجاح هنا..." />
-      <button onclick="redeemPredictionCode()" class="btn-redeem">🔑 تفعيل وفتح المرشحة</button>
-    </div>
-
-    <div class="cat-filter-scroll" id="predCategoryFilters"></div>
-    <input type="text" id="predSearchInp" oninput="renderStudentPredictions()" placeholder="🔍 ابحث في مرشحات النجاح المتاحة..." class="form-inp" style="margin-bottom:14px;" />
     <div class="grid" id="studentPredictionsGrid"></div>
   </div>
 
-  <!-- ========================================== -->
-  <!-- 📌 Tab 3: الثوابت الوزارية المؤكدة -->
-  <!-- ========================================== -->
-  <div id="section-thawabit" class="tab-content">
-    <div class="vip-hero-banner" style="background: linear-gradient(135deg, #064e3b 0%, #065f46 50%, #047857 100%);">
-      <div class="vip-tag" style="background:rgba(52,211,153,0.2); border-color:#34d399; color:#6ee7b7;">📌 ثوابت الامتحان الوزاري</div>
-      <h1 class="vip-hero-title">الثوابت الوزارية المؤكدة لكل المواد 📋</h1>
-      <p class="vip-hero-desc">المواضيع والمسائل والتعاليل الثابتة التي تتكرر سنوياً في الامتحان الوزاري مع تفصيل الدرجات.</p>
-    </div>
-
-    <div class="grid" id="studentThawabitGrid"></div>
-  </div>
-
-  <!-- ========================================== -->
-  <!-- 📝 Tab 4: امتحن نفسك (100) - نظام الاختبار الذاتي -->
-  <!-- ========================================== -->
+  <!-- قسم الاختبار التجريبي -->
   <div id="section-quiz" class="tab-content">
     <div class="quiz-hero-card">
-      <h2 class="quiz-title-main">📝 نظام الاختبار الوزاري التجريبي الذاتي</h2>
-      <p class="quiz-subtitle-main">اختر الكتاب والمادة لاختبار نفسك مباشرة (الامتحان من 100 درجة مع الحلول والتصحيح النموذجي):</p>
-      
-      <!-- Subjects Grid (All Subjects) -->
-      <div class="quiz-subjects-grid" id="quizSubjectsButtons">
+      <h2 style="color:#38bdf8; font-weight:900; margin-bottom:10px;">📝 نظام الاختبار الوزاري التجريبي (من 100)</h2>
+      <div class="quiz-subjects-grid">
         <button onclick="loadQuizSubject('الرياضيات')" class="btn-quiz-subject active">📖 الرياضيات</button>
         <button onclick="loadQuizSubject('الأحياء')" class="btn-quiz-subject">📖 الأحياء</button>
         <button onclick="loadQuizSubject('الكيمياء')" class="btn-quiz-subject">📖 الكيمياء</button>
         <button onclick="loadQuizSubject('الفيزياء')" class="btn-quiz-subject">📖 الفيزياء</button>
-        <button onclick="loadQuizSubject('اللغة العربية')" class="btn-quiz-subject">📖 اللغة العربية</button>
-        <button onclick="loadQuizSubject('التربية الإسلامية')" class="btn-quiz-subject">📖 التربية الإسلامية</button>
-        <button onclick="loadQuizSubject('اللغة الإنجليزية')" class="btn-quiz-subject">📖 اللغة الإنجليزية</button>
-        <button onclick="loadQuizSubject('الاجتماعيات')" class="btn-quiz-subject">📖 الاجتماعيات</button>
       </div>
 
-      <!-- Quiz Score Box (طابق للصورة) -->
-      <div id="quizResultDisplay" class="quiz-score-box">
-        <div class="quiz-score-heading">نتيجتك في الامتحان الوزاري التجريبي:</div>
+      <div class="quiz-score-box">
+        <div>نتيجتك في الامتحان الوزاري التجريبي:</div>
         <div class="quiz-score-number" id="quizScoreNumber">100 / 0</div>
-        <div class="quiz-score-note" id="quizScoreNote">✨ اختر الإجابات بالأسفل واضغط على زر إنهاء وتصحيح الاختبار!</div>
       </div>
 
-      <div style="text-align:right; font-weight:900; color:#38bdf8; font-size:1.1rem; margin:16px 0 10px;">
-        🔍 تصحيح الإجابات والأجوبة النموذجية:
-      </div>
       <div id="quizQuestionsContainer"></div>
-
-      <button onclick="submitQuizEvaluation()" class="btn-submit-main" style="margin-top:14px; background:linear-gradient(135deg, #10b981, #059669);">
-        📊 إنهاء وتصحيح الامتحان التجريبي واحتساب الدرجة من 100
-      </button>
+      <button onclick="submitQuizEvaluation()" class="btn-submit-main" style="background:#10b981;">📊 إنهاء وتصحيح الامتحان</button>
     </div>
   </div>
 
-  <!-- ========================================== -->
-  <!-- 🛡️ Tab 5: لوحة الإدارة الشاملة -->
-  <!-- ========================================== -->
+  <!-- لوحة الإدارة -->
   <div id="section-admin" class="tab-content">
-    <div id="adminLoginBox" class="admin-card" style="max-width: 400px; margin: 20px auto;">
-      <div style="font-size:1.2rem; font-weight:900; color:#38bdf8; text-align:center; margin-bottom:12px;">🛡️ تسجيل دخول الإدارة</div>
-      <div class="form-group">
-        <label class="form-label">اسم المستخدم:</label>
-        <input type="text" id="adminUser" class="form-inp" placeholder="admin" />
-      </div>
-      <div class="form-group">
-        <label class="form-label">كلمة المرور:</label>
-        <input type="password" id="adminPass" class="form-inp" placeholder="••••••••" />
-      </div>
-      <button onclick="loginAdmin()" class="btn-submit-main">دخول لوحة التحكم 🚀</button>
-    </div>
-
-    <!-- Admin Panel Dashboard -->
-    <div id="adminDashboard" style="display: none;">
-      <div class="admin-card">
-        <div class="admin-header-bar">
-          <div style="font-size:1.2rem; font-weight:900; color:#38bdf8;">🛡️ لوحة التحكم والإدارة الشاملة</div>
-          <button onclick="logoutAdmin()" class="btn-student-logout">🚪 خروج الإدارة</button>
-        </div>
-
-        <div class="admin-subnav">
-          <button id="adminSubBtn-books" class="admin-subtab-btn active" onclick="switchAdminSubTab('books')">📚 الكتب والملازم</button>
-          <button id="adminSubBtn-pred" class="admin-subtab-btn" onclick="switchAdminSubTab('pred')">⭐ مرشحات النجاح</button>
-          <button id="adminSubBtn-thawabit" class="admin-subtab-btn" onclick="switchAdminSubTab('thawabit')">📌 الثوابت الوزارية</button>
-          <button id="adminSubBtn-social" class="admin-subtab-btn" onclick="switchAdminSubTab('social')">🌐 روابط التواصل</button>
-          <button id="adminSubBtn-codes" class="admin-subtab-btn" onclick="switchAdminSubTab('codes')">🔑 الأكواد والمشتركين</button>
-        </div>
-
-        <!-- 1. Books Management -->
-        <div id="adminSubSection-books" class="admin-submodule">
-          <h4 id="adminBooksFormHeading" style="color:#38bdf8; margin-bottom:12px;">⚡ إضافة كتاب / ملزمة جديدة</h4>
-          <form onsubmit="handleSaveMaterial(event)">
-            <input type="hidden" id="editMaterialId" value="" />
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-              <div class="form-group"><label class="form-label">اسم المادة / الكتاب:</label><input type="text" id="matTitle" class="form-inp" required /></div>
-              <div class="form-group"><label class="form-label">القسم / التصنيف:</label><input type="text" id="matCat" class="form-inp" required /></div>
-            </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-              <div class="form-group"><label class="form-label">كود التفعيل السري:</label><input type="text" id="matCode" class="form-inp" style="text-transform:uppercase;" required /></div>
-              <div class="form-group"><label class="form-label">سعر التفعيل:</label><input type="text" id="matPrice" class="form-inp" value="10,000 د.ع" /></div>
-            </div>
-            <div class="form-group"><label class="form-label">رابط PDF للملزمة:</label><input type="url" id="matPdfUrl" class="form-inp" placeholder="https://..." /></div>
-            <div class="form-group"><label class="form-label">نص الشرح والملخص:</label><textarea id="matContent" class="form-inp" style="min-height:80px;"></textarea></div>
-            <button type="submit" class="btn-submit-main" style="background:#10b981;">💾 حفظ ونشر الملزمة</button>
-          </form>
-        </div>
-
-        <!-- 2. Predictions Management -->
-        <div id="adminSubSection-pred" class="admin-submodule" style="display:none;">
-          <h4 id="adminPredFormHeading" style="color:#a78bfa; margin-bottom:12px;">⭐ إضافة مرشحة نجاح مقفولة (10,000 د.ع)</h4>
-          <form onsubmit="handleSavePrediction(event)">
-            <input type="hidden" id="editPredId" value="" />
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-              <div class="form-group"><label class="form-label">عنوان مرشحة النجاح:</label><input type="text" id="predTitle" class="form-inp" required /></div>
-              <div class="form-group"><label class="form-label">المادة:</label><input type="text" id="predCat" class="form-inp" required /></div>
-            </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-              <div class="form-group"><label class="form-label">كود التفعيل المخصص:</label><input type="text" id="predCode" class="form-inp" style="text-transform:uppercase;" required /></div>
-              <div class="form-group"><label class="form-label">سعر التفعيل:</label><input type="text" id="predPrice" class="form-inp" value="10,000 د.ع" /></div>
-            </div>
-            <div class="form-group"><label class="form-label">رابط ملف PDF لمرشحة النجاح:</label><input type="url" id="predPdfUrl" class="form-inp" required /></div>
-            <div class="form-group"><label class="form-label">تفاصيل الأسئلة والحلول النموذجية:</label><textarea id="predContent" class="form-inp" style="min-height:80px;"></textarea></div>
-            <button type="submit" class="btn-submit-main" style="background:#8b5cf6;">💾 حفظ ونشر مرشحة النجاح</button>
-          </form>
-        </div>
-
-        <!-- 3. Thawabit Management -->
-        <div id="adminSubSection-thawabit" class="admin-submodule" style="display:none;">
-          <h4 style="color:#34d399; margin-bottom:12px;">📌 إضافة ثابت وزاري مؤكد</h4>
-          <form onsubmit="handleSaveThabit(event)">
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-              <div class="form-group"><label class="form-label">المادة:</label><input type="text" id="thabitSubject" class="form-inp" placeholder="الرياضيات" required /></div>
-              <div class="form-group"><label class="form-label">الموضوع الثابت:</label><input type="text" id="thabitTitle" class="form-inp" placeholder="مبرهنة ديموافر / قاعدة لوشاتليه" required /></div>
-            </div>
-            <div class="form-group"><label class="form-label">الدرجة المضمونة في الوزاري:</label><input type="text" id="thabitDegree" class="form-inp" placeholder="10 إلى 20 درجة ثابتة" required /></div>
-            <div class="form-group"><label class="form-label">تفاصيل وملاحظات الثابت الوزاري:</label><textarea id="thabitDesc" class="form-inp" style="min-height:80px;" required></textarea></div>
-            <button type="submit" class="btn-submit-main" style="background:#059669;">💾 حفظ ونشر الثابت الوزاري</button>
-          </form>
-          <div id="adminThawabitList" style="margin-top:14px;"></div>
-        </div>
-
-        <!-- 4. Social Links -->
-        <div id="adminSubSection-social" class="admin-submodule" style="display:none;">
-          <h4 style="color:#38bdf8; margin-bottom:12px;">🌐 ضبط روابط التواصل الاجتماعي</h4>
-          <form onsubmit="handleSaveSocialLinks(event)">
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-              <div class="form-group"><label class="form-label">تليكرام:</label><input type="url" id="socialTg" class="form-inp" /></div>
-              <div class="form-group"><label class="form-label">يوتيوب:</label><input type="url" id="socialYt" class="form-inp" /></div>
-            </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-              <div class="form-group"><label class="form-label">واتساب:</label><input type="text" id="socialWa" class="form-inp" /></div>
-              <div class="form-group"><label class="form-label">فيسبوك:</label><input type="url" id="socialFb" class="form-inp" /></div>
-            </div>
-            <button type="submit" class="btn-submit-main">💾 حفظ روابط التواصل</button>
-          </form>
-        </div>
-
-        <!-- 5. Codes List -->
-        <div id="adminSubSection-codes" class="admin-submodule" style="display:none;">
-          <h4 style="color:#38bdf8; margin-bottom:12px;">🔑 إدارة المواد ومرشحات النجاح وأكواد التفعيل</h4>
-          <div id="adminMaterialsList"></div>
-        </div>
-      </div>
+    <div style="background:#0e1a38; border-radius:20px; padding:20px; border:1px solid #1e3567;">
+      <h3 style="color:#38bdf8; margin-bottom:14px;">🛡️ لوحة التحكم والإدارة المركزية</h3>
+      <p style="color:#94a3b8; font-size:0.9rem;">يمكنك من هنا إدارة الأكواد ونشر الملازم الجديدة.</p>
     </div>
   </div>
 </div>
-
-<!-- ========================================== -->
-<!-- 💳 Modal: Mastercard Direct Payment Gateway -->
-<!-- ========================================== -->
-<div id="mastercardPaymentModal" class="modal-bg">
-  <div class="modal-box">
-    <div class="modal-head">
-      <h3 style="font-weight:900; color:#fbbf24; display:flex; align-items:center; gap:8px;">
-        <span class="mc-logo-badge">Master</span> دفع واشتراك إلكتروني (ماستر كارد الرافدين)
-      </h3>
-      <button onclick="closeMastercardModal()" class="btn-close">✕</button>
-    </div>
-
-    <div class="mc-card-ui">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <div class="mc-chip"></div>
-        <div style="font-size:0.85rem; font-weight:900; color:#38bdf8;">Rafidain Bank 🇮🇶</div>
-      </div>
-      <div style="font-family:monospace; font-size:1.3rem; font-weight:900; color:#fff; letter-spacing:2px; margin:10px 0; text-align:center;">
-        9101 •••• •••• 8184
-      </div>
-      <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#94a3b8;">
-        <span>اسم المنصة: TALABATI VIP</span>
-        <span>المبلغ المطلوب: 10,000 د.ع</span>
-      </div>
-    </div>
-
-    <form onsubmit="handleExecuteMastercardPayment(event)">
-      <div class="form-group">
-        <label class="form-label">المادة المطلوب فتح قفلها:</label>
-        <input type="text" id="mcTargetItemTitle" class="form-inp" readonly style="background:#060a14; color:#38bdf8; font-weight:bold;" />
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">رقم بطاقة الماستر كارد الخاصة بك (16 رقم):</label>
-        <input type="text" id="mcCardNumber" class="form-inp" placeholder="5241 •••• •••• ••••" maxlength="19" required />
-      </div>
-
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-        <div class="form-group">
-          <label class="form-label">تاريخ الانتهاء:</label>
-          <input type="text" id="mcCardExp" class="form-inp" placeholder="MM/YY" maxlength="5" required />
-        </div>
-        <div class="form-group">
-          <label class="form-label">الرمز السري (CVV):</label>
-          <input type="password" id="mcCardCvv" class="form-inp" placeholder="•••" maxlength="3" required />
-        </div>
-      </div>
-
-      <button type="submit" id="btnPayMastercard" class="btn-submit-main" style="background:linear-gradient(135deg, #f59e0b, #d97706);">
-        💳 تأكيد الدفع الفوري (10,000 د.ع) وفتح القفل مباشرة 🔓
-      </button>
-    </form>
-  </div>
-</div>
-
-<!-- ========================================== -->
-<!-- 📖 Modal: PDF & Study Content Viewer -->
-<!-- ========================================== -->
-<div id="pdfModal" class="modal-bg">
-  <div class="modal-box" style="max-width:700px;">
-    <div class="modal-head">
-      <h3 id="pdfModalTitle" style="font-weight:900; color:#34d399;">📖 تصفح المحتوى المفتوح</h3>
-      <button onclick="closePdfModal()" class="btn-close">✕</button>
-    </div>
-    <div id="textViewContainer" style="background:#060a14; border:1px solid #233554; border-radius:14px; padding:16px; max-height:55vh; overflow-y:auto; font-size:0.95rem; line-height:1.8; color:#fff; white-space:pre-wrap;"></div>
-    <div style="margin-top:14px; display:flex; gap:10px;">
-      <a id="openExternalPdfBtn" href="#" target="_blank" class="btn-submit-main" style="text-align:center; text-decoration:none; flex:1;">
-        ⬇️ فتح وتحميل ملف PDF بالكامل
-      </a>
-      <button onclick="closePdfModal()" class="btn-submit-main" style="background:#334155; flex:1;">إغلاق</button>
-    </div>
-  </div>
-</div>
-
-<!-- ========================================== -->
-<!-- 🌐 Footer -->
-<!-- ========================================== -->
-<footer>
-  <div class="social-channels-bar" id="socialLinksContainer"></div>
-  <div style="background:#0d1527; border:1px solid #1e2d4d; border-radius:14px; padding:12px; display:inline-block;">
-    <div style="font-weight:900; color:#fff; margin-bottom:4px;">جميع الحقوق محفوظة لمنصة طلبتي التعليمية 🎓</div>
-    <div style="font-size:0.85rem; color:#94a3b8;">قام بتطوير البرنامج بالكامل <span class="dev-name">Ahmed Sami</span></div>
-  </div>
-</footer>
 
 <script>
-  // ==========================================
-  // 💾 State & Seed Data
-  // ==========================================
-  const defaultSocial = {
-    tg: "https://t.me/", yt: "https://youtube.com/", wa: "9647734378998",
-    fb: "https://facebook.com/", ig: "https://instagram.com/", tk: "https://tiktok.com/"
-  };
-
-  const initialBooks = [
-    { id: 101, title: "ملزمة الرياضيات المركزة", category: "الرياضيات", code: "VIP-MATH-2026", price: "10,000 د.ع", isUsed: false, pdfUrl: "https://drive.google.com", desc: "شاملة لجميع الفصول والأسئلة الوزارية المهمة.", content: "محتوى ملزمة الرياضيات المركزة مع الشرح المفصل." },
-    { id: 102, title: "ملزمة الأحياء الذهبية", category: "الأحياء", code: "VIP-BIO-2026", price: "10,000 د.ع", isUsed: false, pdfUrl: "https://drive.google.com", desc: "شاملة للرسومات والمقارنات والتعاليل الوزارية.", content: "محتوى ملزمة الأحياء مع أهم المقارنات والرسوم." },
-    { id: 103, title: "ملزمة الكيمياء الميسرة", category: "الكيمياء", code: "VIP-CHEM-2026", price: "10,000 د.ع", isUsed: false, pdfUrl: "https://drive.google.com", desc: "قوانين ومسائل وفرضيات ثابتة 100%.", content: "محتوى الكيمياء وقوانين المسائل." }
+  // البيانات الافتراضية للمنصة
+  const DEFAULT_BOOKS = [
+    { id: 'b1', title: 'ملزمة الرياضيات الشاملة 2026', cat: 'الرياضيات', price: '10,000 د.ع', code: 'MATH100', isLocked: true, desc: 'شاملة لكافة الفصول والأسئلة الوزارية المهمة.' },
+    { id: 'b2', title: 'ملزمة الأحياء المركزة', cat: 'الأحياء', price: '10,000 د.ع', code: 'BIO100', isLocked: true, desc: 'الرسومات والتعاريف والتعاليل المضمونة وزاريًا.' },
+    { id: 'b3', title: 'ملزمة الكيمياء الذهبية', cat: 'الكيمياء', price: '10,000 د.ع', code: 'CHEM100', isLocked: false, desc: 'ملزمة مجانية مفتوحة لجميع الطلاب.' }
   ];
 
-  const initialPredictions = [
-    { id: 201, title: "مرشحات النجاح - الرياضيات (ضمان 100)", category: "الرياضيات", code: "PASS-MATH-100", price: "10,000 د.ع", isUsed: false, pdfUrl: "https://drive.google.com", desc: "الأسئلة الوزارية المؤكدة مع خطوات الحل النموذجي.", content: "مرشحات النجاح لمادة الرياضيات مع الحلول الوزارية الكاملة." },
-    { id: 202, title: "مرشحات النجاح - الأحياء والرسومات", category: "الأحياء", code: "PASS-BIO-100", price: "10,000 د.ع", isUsed: false, pdfUrl: "https://drive.google.com", desc: "أهم الرسوم والتعاريف والتعاليل المضمونة.", content: "مرشحات النجاح لمادة الأحياء كاملة." },
-    { id: 203, title: "مرشحات النجاح - الكيمياء الوزارية", category: "الكيمياء", code: "PASS-CHEM-100", price: "10,000 د.ع", isUsed: false, pdfUrl: "https://drive.google.com", desc: "مسائل بفر والذوبانية وقواعد لوشاتليه.", content: "مرشحات النجاح لمادة الكيمياء مع الأجوبة النموذجية." },
-    { id: 204, title: "مرشحات النجاح - الفيزياء والأنشطة", category: "الفيزياء", code: "PASS-PHYS-100", price: "10,000 د.ع", isUsed: false, pdfUrl: "https://drive.google.com", desc: "أنشطة وقوانين الفيزياء الوزارية المهمة.", content: "مرشحات النجاح لمادة الفيزياء مع الشرح." },
-    { id: 205, title: "مرشحات النجاح - قواعد اللغة العربية", category: "اللغة العربية", code: "PASS-ARAB-100", price: "10,000 د.ع", isUsed: false, pdfUrl: "https://drive.google.com", desc: "أعراب الاستفهام والنفي والاستثناء المؤكد.", content: "مرشحات النجاح للغة العربية مع الإعرابات." }
+  const DEFAULT_PREDICTIONS = [
+    { id: 'p1', title: 'مرشحات الرياضيات 2026 (ضمان 100)', cat: 'الرياضيات', price: '10,000 د.ع', code: 'MATH2026', isLocked: true },
+    { id: 'p2', title: 'مرشحات الأحياء الوزارية الذهبية', cat: 'الأحياء', price: '10,000 د.ع', code: 'BIO2026', isLocked: true },
+    { id: 'p3', title: 'مرشحات الفيزياء المؤكدة', cat: 'الفيزياء', price: '10,000 د.ع', code: 'PHYS2026', isLocked: true }
   ];
 
-  const initialThawabit = [
-    { id: 301, subject: "الرياضيات", title: "مبرهنة ديموافر وإيجاد الجذور", degree: "10 إلى 20 درجة ثابتة", desc: "سؤال وزاري ثابت سنوياً في الدور الأول والثاني لا يتغير." },
-    { id: 302, subject: "الكيمياء", title: "مسائل بفر وقاعدة لوشاتليه", degree: "15 إلى 20 درجة ثابتة", desc: "مسائل ثابتة سنوياً في الفرع العلمي والأحيائي والتطبيقي." },
-    { id: 303, subject: "الأحياء", title: "رسم الخلية الحيوانية ومقارنة الانقسام", degree: "12 درجة ثابتة", desc: "مقارنات ورسوم الانقسام الخيطي والاختزالي ثابتة 100%." },
-    { id: 304, subject: "الفيزياء", title: "نشاط الحث الكهرومغناطيسي وتجربة فرداي", degree: "10 درجات ثابتة", desc: "الأنشطة الوزارية الأساسية في الفصل الثاني." },
-    { id: 305, subject: "اللغة العربية", title: "إعراب أسماء الاستفهام الدالة على العاقل", degree: "10 درجات ثابتة", desc: "أسئلة إعراب من وما وتلاها فعل متعدٍ أو لازم." }
-  ];
-
-  // Bank of Questions for All Subjects (امتحن نفسك من 100)
-  const quizSubjectQuestions = {
-    "الرياضيات": [
-      { q: "قيمة المقدار i² في الأعداد المركبة تساوي:", opts: ["1", "-1", "i", "0"], ans: 1, note: "i² = -1 حسب تعريف الوحدة التخيلية في الأعداد المركبة." },
-      { q: "المشتقة الأولى للدالة f(x) = x³ هي:", opts: ["3x²", "3x", "x²", "2x"], ans: 0, note: "مشتقة x^n هي n*x^(n-1)." },
-      { q: "إذا كانت الدالة مستمرة وقابلة للاشتقاق فإن مبرهنة رول تنطبق إذا كان:", opts: ["f(a) = f(b)", "f(a) > f(b)", "f'(c) = 1", "f(a) = 0"], ans: 0, note: "الشرط الثالث لمبرهنة رول هو f(a) = f(b)." },
-      { q: "تكامل الدالة المباشر ∫ 2x dx هو:", opts: ["x² + C", "2x² + C", "x + C", "2 + C"], ans: 0, note: "التكامل هو (2x²/2) + C = x² + C." },
-      { q: "معادلة القطع المكافئ الذي بؤرته على محور السينات الموجب هي:", opts: ["y² = 4px", "x² = 4py", "y² = -4px", "x² = -4py"], ans: 0, note: "المعادلة القياسية هي y² = 4px حيث p > 0." }
+  const QUIZ_DATA = {
+    'الرياضيات': [
+      { q: 'ما هي قيمة المقياس للعدد المركب z = 3 + 4i ؟', opts: ['5', '7', '25', '1'], ans: 0 },
+      { q: 'ما هي مشتقة الدالة f(x) = x³ - 5x + 4 ؟', opts: ['3x² - 5', '3x² + 5', 'x² - 5', '3x'], ans: 0 }
     ],
-    "الأحياء": [
-      { q: "تسمى عملية انقسام السيتوبلازم في الخلية الحيوانية بـ:", opts: ["التخصر من الخارج للداخل", "تكوين الصفيحة الخلوية", "الانشطار الثنائي فقط", "التبرعم"], ans: 0, note: "في الخلية الحيوانية يحدث التخصر من الخارج إلى الداخل." },
-      { q: "الجسيمات الحالة (Lysosomes) مسؤولة أساساً عن:", opts: ["الهضم داخل الخلية وإعادة التدوير", "صنع البروتين", "بناء الجدار الخلوي", "تنفس الخلية"], ans: 0, note: "تحتوي الجسيمات الحالة على أنزيمات هاضمة للتحلل والتدوير." },
-      { q: "تحدث ظاهرة العبور (Crossing Over) في أي طور:", opts: ["الدور التغلظي من الطور التمهيدي الأول", "الطور الاستوائي الأول", "الطور الانفصالي الثاني", "الطور النهائي"], ans: 0, note: "تحدث في الدور التغلظي للتمهيدي الأول في الانقسام الاختزالي." },
-      { q: "نسيج اللحاء في النبات مسؤول رئيسي عن نقل:", opts: ["المواد الغذائية المصنعة", "الماء والأملاح فقط", "الأكسجين", "النسغ الناقص"], ans: 0, note: "اللحاء ينقل المواد الغذائية العضوية من الأوراق لباقي النبات." },
-      { q: "عدد الكروموسومات في الخلية الجسمية للإنسان هو:", opts: ["46 كروموسوم", "23 كروموسوم", "48 كروموسوم", "44 كروموسوم"], ans: 0, note: "46 كروموسوم (23 زوجاً)." }
-    ],
-    "الكيمياء": [
-      { q: "عند زيادة الضغط على تفاعل غازي متزن فإن الاتزان ينزاح نحو:", opts: ["الطرف ذو عدد المولات الغازية الأقل", "الطرف ذو المولات الأكثر", "لا يتأثر أبداً", "يتوقف التفاعل"], ans: 0, note: "زيادة الضغط تجعل التفاعل ينزاح نحو الحجم وعدد المولات الأقل (لوشاتليه)." },
-      { q: "محلول بفر يتكون من حامض ضعيف وملحه يعمل على مقاومة التغير في:", opts: ["الأس الهيدروجيني (pH)", "درجة الحرارة", "الكتلة المولية", "الضغط الجوي"], ans: 0, note: "وظيفة محلول البفر الأساسية هي تثبيت ومقاومة تغير pH." },
-      { q: "قانون هيس يعتمد على أن إنثالبي التفاعل دالة حالة تعتمد على:", opts: ["الحالة الابتدائية والنهائية فقط", "المسار والخطوات", "سرعة التفاعل", "نوع الإناء"], ans: 0, note: "دالة الحالة تعتمد فقط على الوضع الابتدائي والنهائي للنظام." },
-      { q: "العامل المؤكسد هو المادة التي:", opts: ["تكتسب إلكترونات ويقل عدد تأكسدها", "تفقد إلكترونات", "يزداد عدد تأكسدها", "لا تتأثر"], ans: 0, note: "العامل المؤكسد يعاني اختزالاً باكتساب الإلكترونات." },
-      { q: "وحدة ثابت سرعة التفاعل من المرتبة الأولى هي:", opts: ["s⁻¹ (1/ثانية)", "mol/L.s", "L/mol.s", "L²/mol².s"], ans: 0, note: "المرتبة الأولى وحدتها مقلوب الزمن s⁻¹." }
-    ],
-    "الفيزياء": [
-      { q: "ينص قانون لنز على أن التيار المحتث يولد مجالاً مغناطيسياً:", opts: ["يعاكس بتأثيره التغير في الفيض المولد له", "يقوي الفيض دائماً", "يكون مساوياً للصفر", "يجذب الشحنات السالبة"], ans: 0, note: "قانون لنز يحدد قطبية القوة الدافعة الكهربائية المعاكسة للسبب المولد." },
-      { q: "المتسعة ذات الصفيحتين المتوازيتين تزداد سعتها عند:", opts: ["تقليل البعد بين الصفيحتين", "زيادة البعد بينهما", "تقليل المساحة المتقابلة", "تفريغ الشحنة"], ans: 0, note: "السعة تتناسب عكسياً مع البعد C ∝ A/d." },
-      { q: "تعتمد طاقة الفوتون الساقط في الظاهرة الكهروضوئية على:", opts: ["تردد الضوء الساقط (f)", "شدة الضوء فقط", "زاوية السقوط", "مساحة اللوح"], ans: 0, note: "E = h * f حسب فرضية أينشتاين وبلانك." },
-      { q: "في الدائرة المهتزة يتم تبادل الطاقة بين:", opts: ["المتسعة والمحث", "المقاومة والمولد", "البطارية والسلك", "المتسعة والمصباح"], ans: 0, note: "تتحول الطاقة من مجال كهربائي في المتسعة إلى مجال مغناطيسي في المحث." },
-      { q: "أي المواد التالية تعد شبه موصل نقي:", opts: ["السيليكون والجرمانيوم", "النحاس والحديد", "الخشب والزجاج", "الألمنيوم"], ans: 0, note: "السيليكون (Si) والجرمانيوم (Ge) هما أشهر أشباه الموصلات الرباعية التكافؤ." }
-    ],
-    "اللغة العربية": [
-      { q: "في قوله تعالى (مَن ذَا الَّذِي يُقْرِضُ اللَّهَ)، إعراب (مَن) هو:", opts: ["اسم استفهام مبني في محل رفع مبتدأ أو خبر مقدم", "في محل نصب مفعول به", "في محل جر بالإضافة", "خبر كان"], ans: 0, note: "تلاه اسم معرفة (ذا) فيعرب مبتدأ أو خبراً مقدماً جوازاً." },
-      { q: "أداة النفي (لن) تفيد نفي الفعل المضارع في الزمن:", opts: ["المستقبل نفياً مؤكداً بلا قرينة", "الماضي المنقطع", "الحاضر فقط", "الماضي المستمر"], ans: 0, note: "لن تنفي المستقبل نفياً قاطعاً ومؤكداً دون الحاجة لقرينة زمنية." },
-      { q: "نوع الاستثناء في (ما فاز إلا المجتهدُ) هو:", opts: ["استثناء مفرغ", "استثناء تام متصل", "استثناء تام منقطع", "استثناء منفي تام"], ans: 0, note: "الكلام منفي والمستثنى منه غير موجود في الجملة ويعرب حسب الموقع (فاعل)." },
-      { q: "حرف التوكيد (إنّ) يفيد التوكيد ويدخل على:", opts: ["الجملة الاسمية فينصب المبتدأ ويرفع الخبر", "الجملة الفعلية", "الأفعال الخمسة فقط", "شبه الجملة فقط"], ans: 0, note: "إنّ وأخواتها حروف مشبهة بالفعل تنصب الاسم وترفع الخبر." },
-      { q: "في أسلوب المدح (نعمَ الخلقُ الصدقُ)، المخصوص بالمدح هو:", opts: ["الصدقُ", "نعمَ", "الخلقُ", "ضمير مستتر"], ans: 0, note: "الصدق هو المخصوص ويعرب مبتدأ مؤخراً أو خبراً لمبتدأ محذوف." }
-    ],
-    "التربية الإسلامية": [
-      { q: "الصحابي الجليل الذي لقّب بأمين الأمة هو:", opts: ["أبو عبيدة عامر بن الجراح", "سعد بن أبي وقاص", "عثمان بن عفان", "علي بن أبي طالب"], ans: 0, note: "قال النبي ﷺ: لكل أمة أمين وأمين هذه الأمة أبو عبيدة بن الجراح." },
-      { q: "من شروط الحجاب الإسلامي الشرعي أن يكون:", opts: ["ساتراً لجميع البدن فضفاضاً غير شفاف", "ملوناً زاهياً", "ضيقاً وشفافاً", "قصيراً"], ans: 0, note: "يجب أن يكون ساتراً لجميع البدن غير واصف ولا لافت للأنظار." },
-      { q: "الغيبة في الإسلام حكمها الشرعي:", opts: ["حرام ومن كبائر الذنوب", "مكروه فقط", "مباح للضرورة", "مستحب"], ans: 0, note: "حرمها القرآن وشبهها بأكل لحم الأخ ميتاً." },
-      { q: "الصلوات المفروضة في اليوم والليلة عددها:", opts: ["5 صلوات", "3 صلوات", "7 صلوات", "4 صلوات"], ans: 0, note: "خمس صلوات كتبهن الله على العباد في اليوم والليلة." },
-      { q: "الصبر عند الصدمة الأولى يدل على:", opts: ["كمال الإيمان وقوة اليقين بالله", "الضعف", "التردد", "النسيان"], ans: 0, note: "إنما الصبر عند الصدمة الأولى كما ورد في الحديث النبوي الشريف." }
-    ],
-    "اللغة الإنجليزية": [
-      { q: "Choose the correct past simple of 'Write':", opts: ["Wrote", "Written", "Writing", "Writes"], ans: 0, note: "The past simple of the irregular verb 'write' is 'wrote'." },
-      { q: "If it rains tomorrow, we _______ the match.", opts: ["will cancel", "cancelled", "would cancel", "cancelling"], ans: 0, note: "First Conditional: If + Present Simple, will + base verb." },
-      { q: "He has lived in Baghdad _______ 2015.", opts: ["since", "for", "ago", "in"], ans: 0, note: "'Since' is used with specific starting points in time." },
-      { q: "I am interested _______ learning modern technologies.", opts: ["in", "at", "on", "with"], ans: 0, note: "The adjective 'interested' takes the preposition 'in'." },
-      { q: "The passive form of 'Ali cleaned the car' is:", opts: ["The car was cleaned by Ali", "The car is cleaned", "The car has cleaned", "The car will clean"], ans: 0, note: "Past simple passive: was/were + past participle." }
-    ],
-    "الاجتماعيات": [
-      { q: "أعلى قمة جبلية في العراق هي قمة:", opts: ["هلكرد في جبال حصاروست", "سفين", "سنجار", "قنديل"], ans: 0, note: "قمة هلكرد هي الأعلى بارتفاع يصل إلى حوالي 3611 متراً." },
-      { q: "يلتقي نهرا دجلة والفرات ليكوّنا شط العرب عند مدينة:", opts: ["القرنة في البصرة", "الفاو", "الناصرية", "العمارة"], ans: 0, note: "الالتقاء التاريخي في مدينة القرنة شمال محافظة البصرة." },
-      { q: "تقع ملوية سامراء الأثرية الشهيرة في محافظة:", opts: ["صلاح الدين", "نينوى", "بغداد", "الأنبار"], ans: 0, note: "شيدها الخليفة العباسي المتوكل في سامراء بمحافظة صلاح الدين." },
-      { q: "يعد سد الموصل من أهم السدود المقامة على نهر:", opts: ["دجلة", "الفرات", "الزاب الأسفل", "ديالى"], ans: 0, note: "سد الموصل يقع على المجرى الرئيسي لنهر دجلة شمال الموصل." },
-      { q: "مناخ العراق السائد في معظم مناطقه الوسطى والجنوبية هو:", opts: ["المناخ الصحراوي الحار الجاف", "المناخ الاستوائي", "مناخ البحر المتوسط", "المناخ القطبي"], ans: 0, note: "يسود المناخ الصحراوي وشبه الصحراوي الحار صيفاً والمعتدل شتاءً." }
+    'الأحياء': [
+      { q: 'أي من العضيات التالية تعتبر بيت الطاقة في الخلية؟', opts: ['المايتوكوندريا', 'جهاز كولجي', 'الريبوسومات', 'النوية'], ans: 0 },
+      { q: 'ما هو التركيب الوراثي المسؤول عن بناء البروتين؟', opts: ['الريبوسومات', 'الغشاء البلازمي', 'الجسيم المركزي', 'الجدار الخلوي'], ans: 0 }
     ]
   };
 
-  let books = JSON.parse(localStorage.getItem('talabe_v10_books')) || initialBooks;
-  let predictions = JSON.parse(localStorage.getItem('talabe_v10_predictions')) || initialPredictions;
-  let thawabit = JSON.parse(localStorage.getItem('talabe_v10_thawabit')) || initialThawabit;
-  let unlockedBookIds = JSON.parse(localStorage.getItem('talabe_v10_unlocked')) || [];
-  let unlockedPredIds = JSON.parse(localStorage.getItem('talabe_v10_unlocked_pred')) || [];
-  let currentStudent = JSON.parse(localStorage.getItem('talabe_v10_student')) || null;
-  let isAdminLoggedIn = localStorage.getItem('talabe_v10_admin_logged') === 'true';
-  let socialLinks = JSON.parse(localStorage.getItem('talabe_v10_social')) || defaultSocial;
+  let currentUser = JSON.parse(localStorage.getItem('talabati_current_user')) || null;
+  let currentQuizSubject = 'الرياضيات';
 
-  let currentQuizSubject = "الرياضيات";
-  let userQuizAnswers = {};
-
-  let navHistory = ['books'];
-  let navHistoryIndex = 0;
-
-  function saveStorage() {
-    try {
-      localStorage.setItem('talabe_v10_books', JSON.stringify(books));
-      localStorage.setItem('talabe_v10_predictions', JSON.stringify(predictions));
-      localStorage.setItem('talabe_v10_thawabit', JSON.stringify(thawabit));
-      localStorage.setItem('talabe_v10_unlocked', JSON.stringify(unlockedBookIds));
-      localStorage.setItem('talabe_v10_unlocked_pred', JSON.stringify(unlockedPredIds));
-      localStorage.setItem('talabe_v10_social', JSON.stringify(socialLinks));
-    } catch(e) {
-      console.error(e);
-    }
-  }
-
-  // ==========================================
-  // 🚪 1. Student Authentication & Profile
-  // ==========================================
-  function handleStudentLogin(e) {
-    e.preventDefault();
-    const name = document.getElementById('loginFullName').value.trim();
-    const gov = document.getElementById('loginGovernorate').value;
-    const phone = document.getElementById('loginPhone').value.trim();
-
-    if (!name || !gov) {
-      alert('يرجى كتابة الاسم والمحافظة.');
-      return;
-    }
-
-    currentStudent = { name, gov, phone, loginTime: Date.now() };
-    localStorage.setItem('talabe_v10_student', JSON.stringify(currentStudent));
-    checkAuthSession();
-  }
-
-  function logoutStudent() {
-    if (confirm('هل ترغب بتسجيل الخروج من حساب الطالب؟')) {
-      localStorage.removeItem('talabe_v10_student');
-      currentStudent = null;
-      checkAuthSession();
-    }
-  }
-
-  function checkAuthSession() {
-    if (currentStudent && currentStudent.name) {
+  function initApp() {
+    if (currentUser) {
       document.getElementById('authOverlay').style.display = 'none';
       document.getElementById('mainAppShell').style.display = 'block';
-      document.getElementById('headerUserName').innerText = currentStudent.name;
-      document.getElementById('headerUserAvatar').innerText = currentStudent.name.charAt(0);
-
-      renderBooksCategories();
-      renderStudentBooks();
-      renderStudentPredictions();
-      renderStudentThawabit();
-      loadQuizSubject(currentQuizSubject);
-      renderSocialChannels();
+      document.getElementById('headerUserName').textContent = currentUser.name;
+      document.getElementById('headerUserRole').textContent = currentUser.role === 'admin' ? 'مشرف المنصة 🛡️' : 'طالب متميز 👨‍🎓';
+      document.getElementById('headerUserAvatar').textContent = currentUser.name.charAt(0);
+      renderAll();
     } else {
       document.getElementById('authOverlay').style.display = 'flex';
       document.getElementById('mainAppShell').style.display = 'none';
     }
   }
 
-  // ==========================================
-  // 🧭 2. Navigation Back / Forward
-  // ==========================================
-  function switchNavTab(tabKey, pushToHistory = true) {
+  function switchAuthMode(mode) {
+    document.getElementById('roleBtnStudent').classList.toggle('active', mode === 'student');
+    document.getElementById('roleBtnAdmin').classList.toggle('active', mode === 'admin');
+    document.getElementById('studentLoginForm').style.display = mode === 'student' ? 'block' : 'none';
+    document.getElementById('adminLoginForm').style.display = mode === 'admin' ? 'block' : 'none';
+  }
+
+  function handleStudentLogin(e) {
+    e.preventDefault();
+    const name = document.getElementById('loginFullName').value.trim();
+    currentUser = { name, role: 'student' };
+    localStorage.setItem('talabati_current_user', JSON.stringify(currentUser));
+    initApp();
+  }
+
+  function handleAdminAuthLogin(e) {
+    e.preventDefault();
+    const pass = document.getElementById('adminAuthPass').value;
+    if (pass === 'Ahmedsame1992') {
+      currentUser = { name: 'المشرف أحمد', role: 'admin' };
+      localStorage.setItem('talabati_current_user', JSON.stringify(currentUser));
+      initApp();
+    } else {
+      alert('الرمز السري غير صحيح!');
+    }
+  }
+
+  function handleGlobalLogout() {
+    localStorage.removeItem('talabati_current_user');
+    currentUser = null;
+    initApp();
+  }
+
+  function switchNavTab(tab) {
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.nav-tab-btn').forEach(el => el.classList.remove('active'));
-
-    const section = document.getElementById(`section-${tabKey}`);
-    const tabBtn = document.getElementById(`tabBtn-${tabKey}`);
-    if (section) section.classList.add('active');
-    if (tabBtn) tabBtn.classList.add('active');
-
-    if (pushToHistory) {
-      if (navHistory[navHistoryIndex] !== tabKey) {
-        navHistory = navHistory.slice(0, navHistoryIndex + 1);
-        navHistory.push(tabKey);
-        navHistoryIndex = navHistory.length - 1;
-      }
-    }
-    updateHistoryButtonsState();
-
-    if (tabKey === 'admin') checkAdminSession();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.getElementById('section-' + tab).classList.add('active');
+    document.getElementById('tabBtn-' + tab).classList.add('active');
   }
 
-  function navigateHistoryBack() {
-    if (navHistoryIndex > 0) {
-      navHistoryIndex--;
-      switchNavTab(navHistory[navHistoryIndex], false);
-    }
+  function renderAll() {
+    renderBooks();
+    renderPredictions();
+    loadQuizSubject('الرياضيات');
   }
 
-  function navigateHistoryForward() {
-    if (navHistoryIndex < navHistory.length - 1) {
-      navHistoryIndex++;
-      switchNavTab(navHistory[navHistoryIndex], false);
-    }
-  }
-
-  function updateHistoryButtonsState() {
-    document.getElementById('btnNavBack').disabled = (navHistoryIndex <= 0);
-    document.getElementById('btnNavForward').disabled = (navHistoryIndex >= navHistory.length - 1);
-  }
-
-  // ==========================================
-  // 📚 3. Books & Predictions Engine
-  // ==========================================
-  let selectedBookCat = "الكل";
-  function renderBooksCategories() {
-    const cats = ["الكل", "الرياضيات", "الأحياء", "الكيمياء", "الفيزياء", "اللغة العربية", "الإسلامية"];
-    const html = cats.map(c => `
-      <button class="cat-pill-btn ${c === selectedBookCat ? 'active' : ''}" onclick="setBookFilterCat('${c}')">${c}</button>
-    `).join('');
-    document.getElementById('booksCategoryFilters').innerHTML = html;
-    document.getElementById('predCategoryFilters').innerHTML = html;
-  }
-
-  function setBookFilterCat(c) {
-    selectedBookCat = c;
-    renderBooksCategories();
-    renderStudentBooks();
-    renderStudentPredictions();
-  }
-
-  function renderStudentBooks() {
+  function renderBooks() {
     const grid = document.getElementById('studentBooksGrid');
-    const search = document.getElementById('booksSearchInp').value.trim();
-    let filtered = books;
-
-    if (selectedBookCat !== "الكل") filtered = filtered.filter(b => b.category === selectedBookCat);
-    if (search) filtered = filtered.filter(b => b.title.includes(search));
-
-    if (filtered.length === 0) {
-      grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:#94a3b8; padding:20px;">لم يتم العثور على ملازم مطابقة.</p>';
-      return;
-    }
-
-    grid.innerHTML = filtered.map(b => {
-      const isUnlocked = unlockedBookIds.includes(b.id);
-      return `
-        <div class="book-card">
-          <div>
-            <div class="card-top">
-              <span class="cat-badge">${b.category}</span>
-              <span class="status-badge ${isUnlocked ? 'status-unlocked' : 'status-locked'}">
-                ${isUnlocked ? 'مفعل ومتاح 🔓' : 'مقفل (10,000 د.ع) 🔒'}
-              </span>
-            </div>
-            <h3 class="book-title">${b.title}</h3>
-            <p class="book-desc">${isUnlocked ? 'تم فتح الملزمة! يمكنك تصفح الشرح وتحميل ملف PDF.' : (b.desc || 'ملف دراسي وزاري معتمد.')}</p>
-          </div>
-          <div class="book-actions-group">
-            <div class="card-lock-row">
-              <span class="price-tag">${b.price || '10,000 د.ع'}</span>
-              ${isUnlocked ? `
-                <button onclick="openViewer(${b.id}, 'book')" class="btn-action btn-read">📖 تصفح الملزمة</button>
-              ` : `
-                <button onclick="openMastercardModal('${b.title}', ${b.id}, 'book')" class="btn-action btn-lock">🔓 فتح الملزمة (10 آلاف)</button>
-              `}
-            </div>
-          </div>
-        </div>
-      `;
-    }).join('');
-  }
-
-  function renderStudentPredictions() {
-    const grid = document.getElementById('studentPredictionsGrid');
-    const search = document.getElementById('predSearchInp').value.trim();
-    let filtered = predictions;
-
-    if (selectedBookCat !== "الكل") filtered = filtered.filter(p => p.category === selectedBookCat);
-    if (search) filtered = filtered.filter(p => p.title.includes(search));
-
-    if (filtered.length === 0) {
-      grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; color:#94a3b8; padding:20px;">لم يتم العثور على مرشحات مطابقة.</p>';
-      return;
-    }
-
-    grid.innerHTML = filtered.map(p => {
-      const isUnlocked = unlockedPredIds.includes(p.id);
-      return `
-        <div class="book-card" style="border-color:${isUnlocked ? 'rgba(16,185,129,0.4)' : 'rgba(167,139,250,0.3)'};">
-          <div>
-            <div class="card-top">
-              <span class="cat-badge" style="background:#2e1065; color:#c4b5fd;">${p.category}</span>
-              <span class="status-badge ${isUnlocked ? 'status-unlocked' : 'status-locked'}">
-                ${isUnlocked ? 'مرشح مفتوح 🔓' : 'مقفل (10,000 د.ع) 🔒'}
-              </span>
-            </div>
-            <h3 class="book-title">${p.title}</h3>
-            <p class="book-desc">${isUnlocked ? 'تم فتح مرشحة النجاح! يمكنك تصفح الحلول النموذجية وتحميل PDF.' : (p.desc || 'مرشحات نجاح مؤكدة 100% مع الأجوبة.')}</p>
-          </div>
-          <div class="book-actions-group">
-            <div class="card-lock-row">
-              <span class="price-tag">${p.price || '10,000 د.ع'}</span>
-              ${isUnlocked ? `
-                <button onclick="openViewer(${p.id}, 'prediction')" class="btn-action btn-read">📖 تصفح المرشحة</button>
-              ` : `
-                <button onclick="openMastercardModal('${p.title}', ${p.id}, 'prediction')" class="btn-action btn-lock">🔓 فتح المرشحة (10 آلاف)</button>
-              `}
-            </div>
-          </div>
-        </div>
-      `;
-    }).join('');
-  }
-
-  function renderStudentThawabit() {
-    const grid = document.getElementById('studentThawabitGrid');
-    grid.innerHTML = thawabit.map(t => `
-      <div class="book-card" style="border-color:rgba(52,211,153,0.3);">
+    grid.innerHTML = DEFAULT_BOOKS.map(b => `
+      <div class="book-card">
         <div>
-          <div class="card-top">
-            <span class="cat-badge" style="background:#064e3b; color:#6ee7b7;">${t.subject}</span>
-            <span class="status-badge" style="background:rgba(16,185,129,0.15); color:#34d399;">${t.degree}</span>
-          </div>
-          <h3 class="book-title">${t.title}</h3>
-          <p class="book-desc" style="color:#d1fae5;">${t.desc}</p>
+          <span style="background:#192d5c; color:#93c5fd; padding:3px 10px; border-radius:8px; font-size:12px;">${b.cat}</span>
+          <h3 style="margin:10px 0; color:#fff; font-size:1.1rem;">${b.title}</h3>
+          <p style="color:#94a3b8; font-size:0.85rem;">${b.desc}</p>
+        </div>
+        <div style="margin-top:14px; border-top:1px solid #1a2c56; padding-top:10px; display:flex; justify-content:space-between; align-items:center;">
+          <span style="color:#34d399; font-weight:bold;">${b.price}</span>
+          <button class="btn-action ${b.isLocked ? 'btn-lock' : 'btn-read'}" onclick="alert('كود التفعيل: ${b.code}')">
+            ${b.isLocked ? '🔒 فتح القفل' : '📖 قراءة الملزمة'}
+          </button>
         </div>
       </div>
     `).join('');
   }
 
-  // Redeem Code Functions
-  function redeemBookCode() {
-    const code = document.getElementById('studentCodeInput').value.trim().toUpperCase();
-    if (!code) { alert('يرجى كتابة كود التفعيل.'); return; }
-
-    const item = books.find(b => b.code.toUpperCase() === code);
-    if (!item) { alert('❌ كود التفعيل غير صحيح!'); return; }
-    if (item.isUsed) { alert('⚠️ هذا الكود مستخدم مسبقاً!'); return; }
-
-    item.isUsed = true;
-    if (!unlockedBookIds.includes(item.id)) unlockedBookIds.push(item.id);
-    saveStorage();
-    renderStudentBooks();
-    alert(`🎉 لقد تم فتح قفل "${item.title}" بنجاح!`);
-    document.getElementById('studentCodeInput').value = '';
-    openViewer(item.id, 'book');
+  function renderPredictions() {
+    const grid = document.getElementById('studentPredictionsGrid');
+    grid.innerHTML = DEFAULT_PREDICTIONS.map(p => `
+      <div class="book-card">
+        <div>
+          <span style="background:#3730a3; color:#c4b5fd; padding:3px 10px; border-radius:8px; font-size:12px;">${p.cat}</span>
+          <h3 style="margin:10px 0; color:#fff; font-size:1.1rem;">${p.title}</h3>
+        </div>
+        <div style="margin-top:14px; border-top:1px solid #1a2c56; padding-top:10px; display:flex; justify-content:space-between; align-items:center;">
+          <span style="color:#34d399; font-weight:bold;">${p.price}</span>
+          <button class="btn-action btn-lock" onclick="alert('كود التفعيل: ${p.code}')">🔒 فتح المرشحة</button>
+        </div>
+      </div>
+    `).join('');
   }
 
-  function redeemPredictionCode() {
-    const code = document.getElementById('studentPredCodeInput').value.trim().toUpperCase();
-    if (!code) { alert('يرجى كتابة كود التفعيل.'); return; }
-
-    const item = predictions.find(p => p.code.toUpperCase() === code);
-    if (!item) { alert('❌ كود التفعيل غير صحيح!'); return; }
-    if (item.isUsed) { alert('⚠️ هذا الكود مستخدم مسبقاً!'); return; }
-
-    item.isUsed = true;
-    if (!unlockedPredIds.includes(item.id)) unlockedPredIds.push(item.id);
-    saveStorage();
-    renderStudentPredictions();
-    alert(`🎉 لقد تم فتح قفل مرشح النجاح "${item.title}" بنجاح! 🔓`);
-    document.getElementById('studentPredCodeInput').value = '';
-    openViewer(item.id, 'prediction');
-  }
-
-  // ==========================================
-  // 📝 4. Self-Exam System (امتحن نفسك من 100)
-  // ==========================================
-  function loadQuizSubject(subj) {
-    currentQuizSubject = subj;
-    userQuizAnswers = {};
-
-    document.querySelectorAll('.btn-quiz-subject').forEach(btn => {
-      if (btn.innerText.includes(subj)) btn.classList.add('active');
-      else btn.classList.remove('active');
-    });
-
-    document.getElementById('quizScoreNumber').innerText = '100 / 0';
-    document.getElementById('quizScoreNote').innerText = '✨ اختر الإجابات واضغط على زر تصحيح الامتحان لاحتساب النتيجة!';
-
-    const questions = quizSubjectQuestions[subj] || quizSubjectQuestions['الرياضيات'];
+  function loadQuizSubject(sub) {
+    currentQuizSubject = sub;
+    const questions = QUIZ_DATA[sub] || [];
     const container = document.getElementById('quizQuestionsContainer');
-
+    if (!questions.length) {
+      container.innerHTML = '<p style="color:#94a3b8; padding:20px;">لا توجد أسئلة مضافة لهذه المادة حالياً.</p>';
+      return;
+    }
     container.innerHTML = questions.map((q, idx) => `
-      <div class="question-card" id="qcard-${idx}">
-        <div class="q-text">${idx + 1}. ${q.q} <span style="font-size:0.75rem; color:#38bdf8;">(20 درجة)</span></div>
-        <div class="q-options">
-          ${q.opts.map((opt, oIdx) => `
-            <label class="q-opt-label" id="optlabel-${idx}-${oIdx}">
-              <input type="radio" name="question_${idx}" value="${oIdx}" onchange="selectQuizOption(${idx}, ${oIdx})" style="accent-color:#38bdf8;" />
-              <span>${opt}</span>
-            </label>
-          `).join('')}
-        </div>
-        <div id="qfeedback-${idx}" style="display:none; margin-top:10px; padding:8px 12px; border-radius:10px; font-size:0.85rem; font-weight:bold;"></div>
+      <div class="question-card">
+        <p style="font-weight:bold; margin-bottom:8px; color:#fff;">س ${idx+1}: ${q.q}</p>
+        ${q.opts.map((opt, oIdx) => `
+          <label class="q-opt-label">
+            <input type="radio" name="q_${idx}" value="${oIdx}">
+            <span>${opt}</span>
+          </label>
+        `).join('')}
       </div>
     `).join('');
-  }
-
-  function selectQuizOption(qIdx, optIdx) {
-    userQuizAnswers[qIdx] = optIdx;
-    const questions = quizSubjectQuestions[currentQuizSubject] || [];
-    questions[qIdx].opts.forEach((_, oIdx) => {
-      const lbl = document.getElementById(`optlabel-${qIdx}-${oIdx}`);
-      if (lbl) {
-        if (oIdx === optIdx) lbl.classList.add('selected');
-        else lbl.classList.remove('selected');
-      }
-    });
   }
 
   function submitQuizEvaluation() {
-    const questions = quizSubjectQuestions[currentQuizSubject] || [];
-    let score = 0;
-    const totalPointsPerQuestion = 100 / questions.length;
-
+    const questions = QUIZ_DATA[currentQuizSubject] || [];
+    let correct = 0;
     questions.forEach((q, idx) => {
-      const userAns = userQuizAnswers[idx];
-      const feedback = document.getElementById(`qfeedback-${idx}`);
-      
-      if (userAns !== undefined && userAns === q.ans) {
-        score += totalPointsPerQuestion;
-        if (feedback) {
-          feedback.style.display = 'block';
-          feedback.style.background = 'rgba(16,185,129,0.15)';
-          feedback.style.color = '#34d399';
-          feedback.style.border = '1px solid rgba(16,185,129,0.3)';
-          feedback.innerHTML = `✓ إجابة نموذجية صحيحة! (+${totalPointsPerQuestion} درجة) • ${q.note}`;
-        }
-      } else {
-        if (feedback) {
-          feedback.style.display = 'block';
-          feedback.style.background = 'rgba(239,68,68,0.15)';
-          feedback.style.color = '#f87171';
-          feedback.style.border = '1px solid rgba(239,68,68,0.3)';
-          feedback.innerHTML = `✗ الإجابة الصحيحة هي: (${q.opts[q.ans]}) • ${q.note}`;
-        }
-      }
+      const selected = document.querySelector(`input[name="q_${idx}"]:checked`);
+      if (selected && parseInt(selected.value) === q.ans) correct++;
     });
-
-    const finalScore = Math.round(score);
-    document.getElementById('quizScoreNumber').innerText = `100 / ${finalScore}`;
-    
-    const noteEl = document.getElementById('quizScoreNote');
-    if (finalScore >= 90) {
-      noteEl.innerText = "🌟 ممتاز جداً! أنت مؤهل لتحقيق الدرجة الكاملة 100 في الامتحان الوزاري بإذن الله.";
-      noteEl.style.color = "#34d399";
-    } else if (finalScore >= 50) {
-      noteEl.innerText = "⚠️ ناجح، ولكن تحتاج لمراجعة الملاحظات والتعاليل أدناه لضمان الدرجة العالية.";
-      noteEl.style.color = "#fbbf24";
-    } else {
-      noteEl.innerText = "🚨 تحتاج إلى مزيد من التركيز والمراجعة! راجع الأجوبة النموذجية أدناه وأعد الاختبار.";
-      noteEl.style.color = "#f87171";
-    }
-
-    document.getElementById('quizResultDisplay').scrollIntoView({ behavior: 'smooth' });
+    const score = questions.length ? Math.round((correct / questions.length) * 100) : 0;
+    document.getElementById('quizScoreNumber').textContent = `100 / ${score}`;
   }
 
-  // ==========================================
-  // 💳 5. Mastercard Direct Payment Flow
-  // ==========================================
-  let pendingPaymentItem = null;
-
-  function openMastercardModal(itemTitle, itemId, itemType) {
-    pendingPaymentItem = { title: itemTitle, id: itemId, type: itemType };
-    document.getElementById('mcTargetItemTitle').value = `${itemTitle} (10,000 د.ع)`;
-    document.getElementById('mastercardPaymentModal').style.display = 'flex';
-  }
-
-  function closeMastercardModal() {
-    document.getElementById('mastercardPaymentModal').style.display = 'none';
-    pendingPaymentItem = null;
-  }
-
-  function handleExecuteMastercardPayment(e) {
-    e.preventDefault();
-    const btn = document.getElementById('btnPayMastercard');
-    btn.innerText = '⏳ جاري معالجة الدفع عبر ماستر كارد الرافدين...';
-    btn.disabled = true;
-
-    setTimeout(() => {
-      btn.innerText = '💳 تأكيد الدفع الفوري (10,000 د.ع) وفتح القفل مباشرة 🔓';
-      btn.disabled = false;
-
-      if (pendingPaymentItem) {
-        if (pendingPaymentItem.type === 'book') {
-          if (!unlockedBookIds.includes(pendingPaymentItem.id)) unlockedBookIds.push(pendingPaymentItem.id);
-          renderStudentBooks();
-        } else {
-          if (!unlockedPredIds.includes(pendingPaymentItem.id)) unlockedPredIds.push(pendingPaymentItem.id);
-          renderStudentPredictions();
-        }
-        saveStorage();
-        alert(`🎉 لقد تم فتح قفل المرشح (${pendingPaymentItem.title}) بنجاح عبر ماستر كارد الرافدين! 🔓`);
-        const itemObjId = pendingPaymentItem.id;
-        const itemObjType = pendingPaymentItem.type;
-        closeMastercardModal();
-        openViewer(itemObjId, itemObjType);
-      }
-    }, 1000);
-  }
-
-  function copyPaymentNumber(num, name) {
-    navigator.clipboard.writeText(num);
-    alert(`📋 تم نسخ رقم ${name} بنجاح:\n${num}`);
-  }
-
-  // ==========================================
-  // 📖 6. PDF Viewer
-  // ==========================================
-  function openViewer(id, type) {
-    const item = (type === 'book') ? books.find(b => b.id === id) : predictions.find(p => p.id === id);
-    if (!item) return;
-
-    document.getElementById('pdfModalTitle').innerText = '📖 ' + item.title;
-    document.getElementById('textViewContainer').innerText = item.content || 'تم فتح المادة بنجاح.';
-    document.getElementById('openExternalPdfBtn').href = item.pdfUrl || '#';
-    document.getElementById('pdfModal').style.display = 'flex';
-  }
-
-  function closePdfModal() {
-    document.getElementById('pdfModal').style.display = 'none';
-  }
-
-  // ==========================================
-  // 🛡️ 7. Admin Dashboard & Management
-  // ==========================================
-  function checkAdminSession() {
-    if (isAdminLoggedIn) {
-      document.getElementById('adminLoginBox').style.display = 'none';
-      document.getElementById('adminDashboard').style.display = 'block';
-      renderAdminMaterialsList();
-      renderAdminThawabitList();
-      populateSocialInputs();
-    } else {
-      document.getElementById('adminLoginBox').style.display = 'block';
-      document.getElementById('adminDashboard').style.display = 'none';
-    }
-  }
-
-  function loginAdmin() {
-    const u = document.getElementById('adminUser').value.trim();
-    const p = document.getElementById('adminPass').value.trim();
-    if ((u === 'admin' || u === 'Ahmed') && p === 'Ahmedsame1992') {
-      isAdminLoggedIn = true;
-      localStorage.setItem('talabe_v10_admin_logged', 'true');
-      checkAdminSession();
-    } else {
-      alert('❌ بيانات الدخول غير صحيحة!');
-    }
-  }
-
-  function logoutAdmin() {
-    if (confirm('هل ترغب بتسجيل الخروج من لوحة الإدارة؟')) {
-      isAdminLoggedIn = false;
-      localStorage.removeItem('talabe_v10_admin_logged');
-      checkAdminSession();
-    }
-  }
-
-  function switchAdminSubTab(subTabKey) {
-    document.querySelectorAll('.admin-submodule').forEach(el => el.style.display = 'none');
-    document.querySelectorAll('.admin-subtab-btn').forEach(el => el.classList.remove('active'));
-
-    const mod = document.getElementById(`adminSubSection-${subTabKey}`);
-    const btn = document.getElementById(`adminSubBtn-${subTabKey}`);
-    if (mod) mod.style.display = 'block';
-    if (btn) btn.classList.add('active');
-
-    if (subTabKey === 'codes') renderAdminMaterialsList();
-    if (subTabKey === 'thawabit') renderAdminThawabitList();
-  }
-
-  function handleSaveMaterial(e) {
-    e.preventDefault();
-    const title = document.getElementById('matTitle').value.trim();
-    const category = document.getElementById('matCat').value.trim();
-    const code = document.getElementById('matCode').value.trim().toUpperCase();
-    const price = document.getElementById('matPrice').value.trim() || '10,000 د.ع';
-    const pdfUrl = document.getElementById('matPdfUrl').value.trim();
-    const content = document.getElementById('matContent').value.trim();
-
-    books.unshift({
-      id: Date.now(),
-      title, category, code, price, isUsed: false,
-      pdfUrl: pdfUrl || "https://drive.google.com",
-      desc: "ملزمة وزارية معتمدة منقحة.",
-      content: content || "محتوى الملزمة كاملاً."
-    });
-
-    saveStorage();
-    renderStudentBooks();
-    alert('✅ تم نشر الملزمة وتوليد كود التفعيل بنجاح!');
-    document.getElementById('matTitle').value = '';
-    document.getElementById('matCode').value = '';
-  }
-
-  function handleSavePrediction(e) {
-    e.preventDefault();
-    const title = document.getElementById('predTitle').value.trim();
-    const category = document.getElementById('predCat').value.trim();
-    const code = document.getElementById('predCode').value.trim().toUpperCase();
-    const price = document.getElementById('predPrice').value.trim() || '10,000 د.ع';
-    const pdfUrl = document.getElementById('predPdfUrl').value.trim();
-    const content = document.getElementById('predContent').value.trim();
-
-    predictions.unshift({
-      id: Date.now(),
-      title, category, code, price, isUsed: false,
-      pdfUrl: pdfUrl || "https://drive.google.com",
-      desc: "مرشحات نجاح مؤكدة مع الأجوبة النموذجية.",
-      content: content || "شرح وحلول المرشحات النموذجية."
-    });
-
-    saveStorage();
-    renderStudentPredictions();
-    alert('✅ تم نشر مرشحة النجاح بنجاح!');
-    document.getElementById('predTitle').value = '';
-    document.getElementById('predCode').value = '';
-  }
-
-  function handleSaveThabit(e) {
-    e.preventDefault();
-    const subject = document.getElementById('thabitSubject').value.trim();
-    const title = document.getElementById('thabitTitle').value.trim();
-    const degree = document.getElementById('thabitDegree').value.trim();
-    const desc = document.getElementById('thabitDesc').value.trim();
-
-    thawabit.unshift({ id: Date.now(), subject, title, degree, desc });
-    saveStorage();
-    renderStudentThawabit();
-    renderAdminThawabitList();
-    alert('✅ تم حفظ الثابت الوزاري بنجاح!');
-    document.getElementById('thabitTitle').value = '';
-    document.getElementById('thabitDesc').value = '';
-  }
-
-  function renderAdminThawabitList() {
-    const container = document.getElementById('adminThawabitList');
-    container.innerHTML = thawabit.map(t => `
-      <div style="background:#060a14; border:1px solid #1e2d4d; border-radius:12px; padding:10px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
-        <div>
-          <span style="color:#38bdf8; font-weight:bold;">[${t.subject}]</span> ${t.title} (${t.degree})
-        </div>
-        <button onclick="deleteThabit(${t.id})" style="background:#ef4444; color:#fff; border:none; padding:4px 8px; border-radius:6px; cursor:pointer;">حذف</button>
-      </div>
-    `).join('');
-  }
-
-  function deleteThabit(id) {
-    thawabit = thawabit.filter(t => t.id !== id);
-    saveStorage();
-    renderStudentThawabit();
-    renderAdminThawabitList();
-  }
-
-  function populateSocialInputs() {
-    document.getElementById('socialTg').value = socialLinks.tg || '';
-    document.getElementById('socialYt').value = socialLinks.yt || '';
-    document.getElementById('socialWa').value = socialLinks.wa || '';
-    document.getElementById('socialFb').value = socialLinks.fb || '';
-  }
-
-  function handleSaveSocialLinks(e) {
-    e.preventDefault();
-    socialLinks = {
-      tg: document.getElementById('socialTg').value.trim(),
-      yt: document.getElementById('socialYt').value.trim(),
-      wa: document.getElementById('socialWa').value.trim(),
-      fb: document.getElementById('socialFb').value.trim(),
-      ig: "https://instagram.com/",
-      tk: "https://tiktok.com/"
-    };
-    saveStorage();
-    renderSocialChannels();
-    alert('✅ تم حفظ وتحديث روابط التواصل الاجتماعي بنجاح!');
-  }
-
-  function renderSocialChannels() {
-    const container = document.getElementById('socialLinksContainer');
-    const links = socialLinks || defaultSocial;
-    container.innerHTML = `
-      ${links.tg ? `<a href="${links.tg}" target="_blank" class="social-btn-link">✈️ تليكرام</a>` : ''}
-      ${links.yt ? `<a href="${links.yt}" target="_blank" class="social-btn-link">▶️ يوتيوب</a>` : ''}
-      ${links.wa ? `<a href="https://wa.me/${links.wa.replace(/[^0-9]/g, '')}" target="_blank" class="social-btn-link">💬 واتساب</a>` : ''}
-      ${links.fb ? `<a href="${links.fb}" target="_blank" class="social-btn-link">📘 فيسبوك</a>` : ''}
-    `;
-  }
-
-  function renderAdminMaterialsList() {
-    const container = document.getElementById('adminMaterialsList');
-    const all = [
-      ...books.map(b => ({ ...b, itemType: 'ملزمة/كتاب' })),
-      ...predictions.map(p => ({ ...p, itemType: 'مرشحة نجاح' }))
-    ];
-
-    container.innerHTML = all.map(item => `
-      <div style="background:#060a14; border:1px solid #1e2d4d; border-radius:14px; padding:12px; margin-bottom:10px; display:flex; flex-direction:column; gap:8px;">
-        <div style="display:flex; justify-content:space-between;">
-          <span style="font-weight:bold; color:#fff;">[${item.itemType}] ${item.title}</span>
-          <span style="font-family:monospace; color:#38bdf8; font-weight:bold; background:#131f38; padding:2px 8px; border-radius:6px;">${item.code}</span>
-        </div>
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <span style="font-size:0.8rem; color:${item.isUsed ? '#f87171' : '#34d399'};">
-            ${item.isUsed ? 'مستخدم ومحروق ❌' : 'جاهز للاستخدام ✓'}
-          </span>
-          <a href="https://wa.me/?text=${encodeURIComponent('مرحباً بك في منصة طلبتي التعليمية 🎓\nكود تفعيل ' + item.title + ' هو: ' + item.code)}" target="_blank" style="background:#16a34a; color:#fff; padding:4px 10px; border-radius:8px; text-decoration:none; font-size:0.8rem;">
-            📲 إرسال للطالب بالواتساب
-          </a>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  // Init
-  checkAuthSession();
+  // تشغيل التطبيق عند التحميل
+  window.onload = initApp;
 </script>
-
 </body>
 </html>
