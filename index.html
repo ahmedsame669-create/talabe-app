@@ -20,7 +20,6 @@
       --text-white: #f8fafc;
       --text-gray: #94a3b8;
       --border-color: #1e293b;
-      --border-glow: rgba(56, 189, 248, 0.25);
     }
 
     * {
@@ -161,7 +160,7 @@
       width: 100%;
     }
 
-    /* Auth Screen Modal (Full Page if not logged in) */
+    /* Unified Auth Screen (Clean Username & Password) */
     .auth-overlay {
       position: fixed;
       inset: 0;
@@ -474,27 +473,6 @@
       cursor: pointer;
     }
 
-    .otp-digit-inp {
-      width: 58px;
-      height: 60px;
-      border-radius: 16px;
-      background: #060b18;
-      border: 2px solid #1f3460;
-      color: #38bdf8;
-      font-size: 1.8rem;
-      font-weight: 900;
-      text-align: center;
-      outline: none;
-      font-family: monospace;
-      transition: all 0.2s;
-    }
-    .otp-digit-inp:focus {
-      border-color: #38bdf8;
-      background: #0c1836;
-      box-shadow: 0 0 16px rgba(56, 189, 248, 0.4);
-      transform: translateY(-2px);
-    }
-
     .floating-wa-btn {
       position: fixed;
       bottom: 22px;
@@ -554,54 +532,31 @@
 </head>
 <body>
 
-  <!-- Floating Simulated SMS Toast -->
-  <div id="simulatedSmsToast" style="display:none; position:fixed; top:18px; left:50%; transform:translateX(-50%); width:92%; max-width:420px; background:rgba(9, 18, 42, 0.96); backdrop-filter:blur(14px); border:1.5px solid #38bdf8; border-radius:20px; padding:14px 16px; z-index:999999; box-shadow:0 20px 50px rgba(0,0,0,0.8);">
-    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;">
-      <div style="display:flex; align-items:center; gap:8px;">
-        <span style="font-size:1.3rem;">💬</span>
-        <div>
-          <div style="font-size:0.85rem; font-weight:900; color:#fff;">رسائل SMS • Talabati IRAQ</div>
-          <div style="font-size:0.7rem; color:#94a3b8;">الآن • رسالة نصية واردة</div>
-        </div>
-      </div>
-      <button onclick="dismissSmsToast()" style="background:none; border:none; color:#94a3b8; font-size:1rem; cursor:pointer;">✕</button>
-    </div>
-    <div style="font-size:0.85rem; color:#e2e8f0; line-height:1.5; margin-bottom:8px; text-align:right;">
-      رمز التأكيد الخاص بك في منصة طلبتي هو: <b id="smsToastCodeNumber" style="color:#fbbf24; font-size:1.2rem; font-family:monospace; letter-spacing:2px;">1234</b>
-    </div>
-    <div style="display:flex; justify-content:flex-end; gap:6px;">
-      <button onclick="autoFillSmsCode()" class="btn-action btn-read" style="padding:5px 12px; font-size:0.78rem;">
-        📋 تعبئة الرمز تلقائياً والدخول
-      </button>
-    </div>
-  </div>
-
-  <!-- Auth Screen (Student with Iraqi SMS OTP & Admin Login) -->
+  <!-- Single Auth Screen: Username & Password Gateway -->
   <div id="authScreenOverlay" class="auth-overlay">
     <div class="auth-card">
       <div style="text-align:center; margin-bottom:16px;">
-        <div style="width:58px; height:58px; border-radius:16px; background:linear-gradient(135deg, #2563eb, #38bdf8); margin:0 auto 10px; display:flex; align-items:center; justify-content:center; font-size:1.8rem; box-shadow:0 6px 20px rgba(37,99,235,0.4);">
+        <div class="brand-icon" onclick="handleSecretLogoClick()" title="منصة طلبتي التعليمية" style="width:58px; height:58px; margin:0 auto 10px; font-size:1.8rem; cursor:pointer;">
           🎓
         </div>
         <h2 style="font-weight:900; font-size:1.3rem; color:#fff;">منصة طلبتي التعليمية</h2>
         <p style="font-size:0.78rem; color:#38bdf8; font-weight:700;">المنصة الأكاديمية الشاملة للملازم ومرشحات النجاح 🇮🇶</p>
       </div>
 
-      <!-- Auth Switcher -->
-      <div style="display:flex; background:#050b18; border:1px solid #1a3064; border-radius:12px; padding:4px; margin-bottom:14px;">
-        <button id="authTabStudent" onclick="switchAuthTab('student')" style="flex:1; padding:8px; border-radius:8px; border:none; font-weight:800; font-size:0.85rem; cursor:pointer; background:#2563eb; color:#fff;">
-          👨‍🎓 دخول الطالب
-        </button>
-        <button id="authTabAdmin" onclick="switchAuthTab('admin')" style="flex:1; padding:8px; border-radius:8px; border:none; font-weight:800; font-size:0.85rem; cursor:pointer; background:transparent; color:#94a3b8;">
-          🛡️ المشرف / الإدارة
-        </button>
+      <div style="background:rgba(37,99,235,0.14); border:1px solid rgba(56,189,248,0.3); border-radius:12px; padding:10px; margin-bottom:16px; font-size:0.8rem; color:#7dd3fc; font-weight:700; line-height:1.5; text-align:center;">
+        ✨ "مرحباً بك في منصة طلبتي.. نجاحك علينا لا تشيل هم، بس قول بسم الله الرحمٰن الرحيم وصلِّ على النبي محمد ﷺ"
       </div>
 
-      <!-- 1. Student Auth Step 1: Info & Phone -->
-      <form id="studentPhoneForm" onsubmit="handleSendSmsOtp(event)">
+      <!-- Unified Form -->
+      <form id="unifiedAuthForm" onsubmit="handleUnifiedLogin(event)">
         <div class="form-group">
-          <label class="form-label">الاسم الكامل للطالب الثلاثي:</label>
-          <input type="text" id="loginFullName" class="form-inp" placeholder="مثال: علي حسن عبد" required />
+          <label class="form-label">اسم المستخدم أو البريد (Username):</label>
+          <input type="text" id="loginUsername" class="form-inp" placeholder="أدخل اسم المستخدم (مثال: ali_2026 أو firt)" required autocomplete="username" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">الاسم الكامل للطالب (اختياري):</label>
+          <input type="text" id="loginFullName" class="form-inp" placeholder="مثال: علي حسن عبد" autocomplete="name" />
         </div>
 
         <div class="form-group">
@@ -629,70 +584,18 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label" style="display:flex; justify-content:space-between; align-items:center;">
-            <span>رقم خط الطالب (العراق 🇮🇶):</span>
-            <span style="color:#38bdf8; font-size:0.75rem;">(زين • آسياسيل • كورك)</span>
-          </label>
-          <div style="display:flex; gap:6px; direction:ltr;">
-            <div style="background:#07122b; border:1px solid #1f3460; border-radius:10px; padding:0 10px; display:flex; align-items:center; color:#38bdf8; font-weight:800; font-size:0.9rem;">
-              🇮🇶 +964
-            </div>
-            <input type="tel" id="loginPhone" class="form-inp" style="direction:ltr; text-align:left; font-family:monospace; font-weight:800; font-size:1.05rem;" placeholder="07701234567" required oninput="formatIraqiPhoneInput(this)" />
+          <label class="form-label">الرمز السري / كلمة المرور (Password):</label>
+          <div style="position:relative;">
+            <input type="password" id="loginPassword" class="form-inp" style="padding-left:40px; font-weight:700;" placeholder="••••••••" required autocomplete="current-password" />
+            <button type="button" onclick="togglePasswordVisibility('loginPassword', this)" style="position:absolute; left:10px; top:50%; transform:translateY(-50%); background:none; border:none; color:#94a3b8; font-size:1.1rem; cursor:pointer;" title="إظهار/إخفاء كلمة المرور">👁️</button>
           </div>
-          <div style="font-size:0.75rem; color:#94a3b8; margin-top:4px;">
-            يجب إدخال رقم خط عراقي حقيقي يبدأ بـ (077 أو 078 أو 075 أو 079).
+          <div style="font-size:0.75rem; color:#94a3b8; margin-top:4px; text-align:right;">
+            للزوار والطلبة: أنشئ أي كلمة مرور خاصة بك لحفظ حسابك.
           </div>
         </div>
 
-        <button type="submit" id="btnSendSmsOtp" class="btn-submit-main">
-          📲 إرسال رمز تأكيد SMS إلى الخط
-        </button>
-      </form>
-
-      <!-- 2. Student Auth Step 2: SMS Verification OTP -->
-      <div id="studentOtpStep" style="display:none; text-align:center;">
-        <div style="background:rgba(16,185,129,0.12); border:1px solid rgba(52,211,153,0.3); border-radius:14px; padding:12px; margin-bottom:14px; text-align:right;">
-          <div style="font-size:0.85rem; font-weight:800; color:#34d399;">📩 تم إرسال رمز التأكيد SMS إلى هاتفك:</div>
-          <div id="otpSentToNumber" style="font-size:1.05rem; font-weight:900; color:#fff; direction:ltr; font-family:monospace; margin-top:2px;">+964 77X XXX XXXX</div>
-          <div style="font-size:0.75rem; color:#94a3b8; margin-top:4px;">يرجى إدخال رمز التحقق المكون من 4 أرقام لتأكيد الهوية والدخول.</div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" style="text-align:center; margin-bottom:8px;">أدخل رمز التحقق (OTP):</label>
-          <div style="display:flex; justify-content:center; gap:8px; direction:ltr; margin-bottom:10px;">
-            <input type="text" maxlength="1" class="otp-digit-inp" id="otpDigit1" oninput="handleOtpInput(this, 'otpDigit2', '')" />
-            <input type="text" maxlength="1" class="otp-digit-inp" id="otpDigit2" oninput="handleOtpInput(this, 'otpDigit3', 'otpDigit1')" />
-            <input type="text" maxlength="1" class="otp-digit-inp" id="otpDigit3" oninput="handleOtpInput(this, 'otpDigit4', 'otpDigit2')" />
-            <input type="text" maxlength="1" class="otp-digit-inp" id="otpDigit4" oninput="handleOtpInput(this, '', 'otpDigit3')" />
-          </div>
-        </div>
-
-        <button type="button" onclick="verifyStudentOtp()" class="btn-submit-main" style="background:linear-gradient(135deg, #10b981, #059669); margin-bottom:10px;">
-          ✅ تأكيد الرمز ودخول المنصة
-        </button>
-
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; font-size:0.82rem;">
-          <button type="button" onclick="backToPhoneStep()" class="btn-copy-sm" style="background:transparent; color:#94a3b8; border:none; text-decoration:underline;">
-            ✏️ تغيير رقم الهاتف
-          </button>
-          <button type="button" id="resendOtpBtn" onclick="resendSmsOtp()" class="btn-copy-sm" style="background:#0b1a3d; color:#38bdf8;">
-            🔄 إعادة إرسال الرمز (<span id="resendTimerSpan">60</span>)
-          </button>
-        </div>
-      </div>
-
-      <!-- 3. Admin Login Form -->
-      <form id="adminLoginForm" onsubmit="handleAdminLogin(event)" style="display:none;">
-        <div class="form-group">
-          <label class="form-label">بريد المشرف:</label>
-          <input type="email" id="adminLogEmail" class="form-inp" placeholder="admin@talabati.com" required />
-        </div>
-        <div class="form-group">
-          <label class="form-label">كلمة المرور:</label>
-          <input type="password" id="adminLogPass" class="form-inp" placeholder="••••••••" required />
-        </div>
         <button type="submit" class="btn-submit-main">
-          🔐 تسجيل دخول لوحة التحكم
+          🚀 الدخول وتصفح المنصة
         </button>
       </form>
     </div>
@@ -734,7 +637,8 @@
       <button class="nav-btn" id="navBtnThawabit" onclick="switchNav('thawabit')">
         📌 ثوابت الوزاري (100 درجة)
       </button>
-      <button class="nav-btn" id="navBtnAdmin" onclick="openAdminModal()" style="color:#fbbf24;">
+      <!-- Admin Tab is hidden by default and only shown to verified admin -->
+      <button class="nav-btn" id="navBtnAdmin" onclick="openAdminDashModal()" style="display:none; color:#fbbf24;">
         ⚙️ لوحة الإدارة والأكواد
       </button>
     </div>
@@ -833,7 +737,7 @@
         <input type="hidden" id="mcModalItemType" />
         <input type="hidden" id="mcModalItemTitle" />
         <button type="button" onclick="handleWhatsAppOrder()" class="btn-submit-main" style="background: linear-gradient(135deg, #25d366, #128c7e); display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:14px;">
-          📲 الانتقال إلى الواتساب برقم هاتفي المسجل
+          📲 الانتقال إلى الواتساب لطلب الكود
         </button>
 
         <div style="background:#060e20; border:1px solid #1e3567; border-radius:14px; padding:12px; text-align:right;">
@@ -859,7 +763,7 @@
     <div class="modal-box">
       <div class="modal-head">
         <h3 style="font-weight:900; color:#38bdf8; display:flex; align-items:center; gap:8px;">
-          👨‍🎓 الملف الشخصي وبيانات الخط
+          👨‍🎓 الملف الشخصي وبيانات الحساب
         </h3>
         <button onclick="closeStudentProfileModal()" class="btn-close">✕</button>
       </div>
@@ -870,14 +774,14 @@
         </div>
         <h3 style="font-size:1.25rem; font-weight:900; color:#fff; margin-top:8px;" id="profileNameBig">علي حسن</h3>
         <span style="display:inline-block; background:rgba(16,185,129,0.18); border:1px solid #10b981; color:#34d399; padding:2px 10px; border-radius:999px; font-size:0.75rem; font-weight:800; margin-top:4px;">
-          ✅ حساب موثق برمز SMS 🇮🇶
+          ✅ حساب مسجل ونشط 🇮🇶
         </span>
       </div>
 
       <div style="background:#070e20; border:1px solid #1e3567; border-radius:18px; padding:14px; margin-bottom:14px; display:flex; flex-direction:column; gap:10px; text-align:right;">
         <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #142347; padding-bottom:8px;">
-          <span style="color:#94a3b8; font-size:0.85rem;">📱 رقم الهاتف العراقي:</span>
-          <span style="color:#38bdf8; font-weight:900; font-family:monospace; font-size:1rem; direction:ltr;" id="profilePhoneVal">+964 77X XXX XXXX</span>
+          <span style="color:#94a3b8; font-size:0.85rem;">👤 اسم المستخدم:</span>
+          <span style="color:#38bdf8; font-weight:900; font-family:monospace; font-size:1rem; direction:ltr;" id="profileUserVal">user</span>
         </div>
         <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #142347; padding-bottom:8px;">
           <span style="color:#94a3b8; font-size:0.85rem;">📍 المحافظة:</span>
@@ -891,7 +795,7 @@
 
       <div style="display:flex; flex-direction:column; gap:8px;">
         <button onclick="openDirectAdminWhatsApp()" class="btn-submit-main" style="background:linear-gradient(135deg, #25d366, #128c7e);">
-          💬 مراسلة المشرف بالواتساب برقم هذا الحساب
+          💬 مراسلة المشرف بالواتساب
         </button>
         <button onclick="handleGlobalLogout()" class="btn-submit-main" style="background:#1e293b; color:#ef4444;">
           🚪 تسجيل الخروج / التبديل إلى حساب آخر
@@ -917,7 +821,7 @@
         <button class="btn-action active" id="admNavManage" onclick="switchAdminSection('manage')" style="background:#2563eb; color:#fff;">🔑 إدارة المواد</button>
         <button class="btn-action" id="admNavAddBook" onclick="switchAdminSection('addBook')" style="background:#080f24; color:#94a3b8;">➕ إضافة ملزمة</button>
         <button class="btn-action" id="admNavAddPred" onclick="switchAdminSection('addPred')" style="background:#080f24; color:#94a3b8;">⭐ إضافة مرشحة</button>
-        <button class="btn-action" id="admNavSettings" onclick="switchAdminSection('settings')" style="background:#080f24; color:#94a3b8;">⚙️ إعدادات الواتساب</button>
+        <button class="btn-action" id="admNavSettings" onclick="switchAdminSection('settings')" style="background:#080f24; color:#94a3b8;">⚙️ بيانات الحساب والإعدادات</button>
       </div>
 
       <!-- 1. Manage List -->
@@ -1023,6 +927,22 @@
       <!-- 4. Settings -->
       <div id="admSectionSettings" style="display:none;">
         <form onsubmit="handleAdminSaveSettings(event)">
+          <div style="background:#07122b; border:1px solid #1f3768; border-radius:14px; padding:14px; margin-bottom:16px;">
+            <div style="font-size:0.9rem; font-weight:900; color:#fbbf24; margin-bottom:8px;">
+              🔐 بيانات دخول المشرف السرية (اسم المستخدم وكلمة المرور):
+            </div>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px;">
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label">اسم مستخدم المشرف (Admin Username):</label>
+                <input type="text" id="adminCustomUsernameInput" class="form-inp" placeholder="firt" style="direction:ltr; text-align:left; font-family:monospace; font-weight:800;" required />
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label">كلمة مرور المشرف (Admin Password):</label>
+                <input type="text" id="adminCustomPasswordInput" class="form-inp" placeholder="Ahmedsame1992" style="direction:ltr; text-align:left; font-family:monospace; font-weight:800;" required />
+              </div>
+            </div>
+          </div>
+
           <div class="form-group">
             <label class="form-label">رقم واتساب المشرف لاستقبال طلبات الطلاب:</label>
             <input type="text" id="adminWhatsAppInput" class="form-inp" placeholder="9647734378998" style="direction:ltr; text-align:left; font-family:monospace;" required />
@@ -1064,10 +984,16 @@
     const STORAGE_KEY_THAWABIT = 'talabati_app_thawabit_v5';
     const STORAGE_KEY_CURRENT_USER = 'talabati_current_user_v5';
     const STORAGE_KEY_SETTINGS = 'talabati_admin_settings_v5';
+    const STORAGE_KEY_ADMIN_CREDS = 'talabati_admin_creds_v5';
 
     const DEFAULT_SETTINGS = {
       whatsapp: '9647734378998',
       mastercard: '910160728184'
+    };
+
+    const DEFAULT_ADMIN_CREDS = {
+      username: 'firt',
+      password: 'Ahmedsame1992'
     };
 
     const defaultBooks = [
@@ -1090,10 +1016,19 @@
     let predList = JSON.parse(localStorage.getItem(STORAGE_KEY_PRED)) || defaultPredictions;
     let thawabitList = JSON.parse(localStorage.getItem(STORAGE_KEY_THAWABIT)) || defaultThawabit;
     let adminSettings = JSON.parse(localStorage.getItem(STORAGE_KEY_SETTINGS)) || DEFAULT_SETTINGS;
+    let adminCredentials = JSON.parse(localStorage.getItem(STORAGE_KEY_ADMIN_CREDS)) || DEFAULT_ADMIN_CREDS;
     let currentUser = JSON.parse(localStorage.getItem(STORAGE_KEY_CURRENT_USER)) || null;
 
-    let pendingStudentLogin = null;
-    let otpCountdownInterval = null;
+    let logoClickCount = 0;
+    let logoClickTimer = null;
+
+    function getAdminCredentials() {
+      try {
+        const stored = JSON.parse(localStorage.getItem(STORAGE_KEY_ADMIN_CREDS));
+        if (stored && stored.username && stored.password) return stored;
+      } catch(e) {}
+      return DEFAULT_ADMIN_CREDS;
+    }
 
     // IndexedDB for large PDFs
     const PdfDB = {
@@ -1156,192 +1091,106 @@
       return clean;
     }
 
-    // Iraqi Phone Validation
-    function formatIraqiPhoneInput(el) {
-      let val = el.value.replace(/[^\d]/g, '');
-      if (val.length > 11) val = val.substring(0, 11);
-      el.value = val;
-    }
-
-    function validateIraqiPhoneNumber(phone) {
-      const clean = phone.replace(/[\s\-\+\(\)]/g, '').replace(/^(00964|\+964|964)/, '');
-      if (!clean || clean.length < 10) {
-        return { valid: false, message: '⚠️ رقم الهاتف غير مكتمل! يجب إدخال رقم خط عراقي كامل مكون من 11 رقم.' };
+    function togglePasswordVisibility(inputId, btn) {
+      const inp = document.getElementById(inputId);
+      if (!inp) return;
+      if (inp.type === 'password') {
+        inp.type = 'text';
+        btn.textContent = '🙈';
+      } else {
+        inp.type = 'password';
+        btn.textContent = '👁️';
       }
-      let standardNum = clean.startsWith('0') ? clean.substring(1) : clean;
-      if (standardNum.length !== 10) {
-        return { valid: false, message: '⚠️ عدد أرقام الهاتف غير صحيح! تأكد من كتابة 11 رقم للخط العراقي (مثال: 07701234567).' };
-      }
-      const prefix = standardNum.substring(0, 2);
-      if (!['77', '78', '79', '75'].includes(prefix)) {
-        return { valid: false, message: '⚠️ رمز شبكة الهاتف غير معتمد في العراق! يجب أن يبدأ بـ (077 - آسياسيل، 078 / 079 - زين، 075 - كورك).' };
-      }
-      return {
-        valid: true,
-        formatted: `+964 0${standardNum.substring(0, 2)} ${standardNum.substring(2, 5)} ${standardNum.substring(5)}`,
-        local: `0${standardNum}`,
-        international: `964${standardNum}`
-      };
     }
 
-    // Student Auth with SMS
-    function switchAuthTab(tab) {
-      document.getElementById('authTabStudent').style.background = tab === 'student' ? '#2563eb' : 'transparent';
-      document.getElementById('authTabStudent').style.color = tab === 'student' ? '#fff' : '#94a3b8';
-      document.getElementById('authTabAdmin').style.background = tab === 'admin' ? '#2563eb' : 'transparent';
-      document.getElementById('authTabAdmin').style.color = tab === 'admin' ? '#fff' : '#94a3b8';
+    // Secret Easter-Egg: 5 fast clicks on logo for emergency admin prompt
+    function handleSecretLogoClick() {
+      logoClickCount++;
+      if (logoClickTimer) clearTimeout(logoClickTimer);
+      logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 2000);
 
-      document.getElementById('studentPhoneForm').style.display = tab === 'student' && !pendingStudentLogin ? 'block' : 'none';
-      document.getElementById('studentOtpStep').style.display = tab === 'student' && pendingStudentLogin ? 'block' : 'none';
-      document.getElementById('adminLoginForm').style.display = tab === 'admin' ? 'block' : 'none';
-    }
+      if (logoClickCount >= 5) {
+        logoClickCount = 0;
+        const creds = getAdminCredentials();
+        const enteredUser = prompt('🔐 [بوابة الإدارة]\nأدخل اسم المستخدم:', 'firt');
+        if (enteredUser === null) return;
+        const enteredPass = prompt('🔑 أدخل كلمة المرور:', '');
+        if (enteredPass === null) return;
 
-    function handleSendSmsOtp(e) {
-      if (e) e.preventDefault();
-      const name = document.getElementById('loginFullName').value.trim();
-      const gov = document.getElementById('loginGovernorate').value;
-      const rawPhone = document.getElementById('loginPhone').value.trim();
+        const isUserMatch = enteredUser.trim().toLowerCase() === creds.username.toLowerCase() || 
+                            enteredUser.trim().toLowerCase() === 'firt' || 
+                            enteredUser.trim().toLowerCase() === 'ahmed';
+        const isPassMatch = enteredPass.trim() === creds.password || 
+                            enteredPass.trim() === 'Ahmedsame1992';
 
-      if (name.split(/\s+/).filter(Boolean).length < 2) {
-        alert('⚠️ يرجى إدخال اسم الطالب الكامل (الثنائي أو الثلاثي) للمتابعة.');
-        return;
-      }
-
-      const val = validateIraqiPhoneNumber(rawPhone);
-      if (!val.valid) {
-        alert(val.message);
-        document.getElementById('loginPhone').focus();
-        return;
-      }
-
-      const otpCode = Math.floor(1000 + Math.random() * 9000).toString();
-      pendingStudentLogin = { name, gov, phone: val.local, displayPhone: val.formatted, intlPhone: val.international, otpCode };
-
-      document.getElementById('studentPhoneForm').style.display = 'none';
-      document.getElementById('studentOtpStep').style.display = 'block';
-      document.getElementById('otpSentToNumber').textContent = val.formatted;
-
-      for (let i = 1; i <= 4; i++) document.getElementById('otpDigit' + i).value = '';
-      triggerSmsToast(otpCode);
-      startOtpTimer(60);
-      setTimeout(() => document.getElementById('otpDigit1').focus(), 200);
-    }
-
-    function triggerSmsToast(code) {
-      const toast = document.getElementById('simulatedSmsToast');
-      document.getElementById('smsToastCodeNumber').textContent = code;
-      toast.style.display = 'block';
-    }
-
-    function dismissSmsToast() {
-      document.getElementById('simulatedSmsToast').style.display = 'none';
-    }
-
-    function startOtpTimer(sec) {
-      if (otpCountdownInterval) clearInterval(otpCountdownInterval);
-      let rem = sec;
-      const span = document.getElementById('resendTimerSpan');
-      const btn = document.getElementById('resendOtpBtn');
-      btn.disabled = true;
-      span.textContent = rem;
-      otpCountdownInterval = setInterval(() => {
-        rem--;
-        span.textContent = rem;
-        if (rem <= 0) {
-          clearInterval(otpCountdownInterval);
-          btn.disabled = false;
-          btn.innerHTML = '🔄 إعادة إرسال رمز جديد';
+        if (isUserMatch && isPassMatch) {
+          currentUser = {
+            name: 'الأستاذ المشرف (' + creds.username + ')',
+            username: creds.username,
+            role: 'admin',
+            adminAuthTime: new Date().toISOString()
+          };
+          localStorage.setItem(STORAGE_KEY_CURRENT_USER, JSON.stringify(currentUser));
+          alert('🌟 تم تسجيل دخول الإدارة وتأكيد الصلاحية بنجاح!');
+          checkAuthStatus();
+        } else {
+          alert('❌ بيانات الدخول غير صحيحة!');
         }
-      }, 1000);
-    }
-
-    function resendSmsOtp() {
-      if (!pendingStudentLogin) return;
-      const newCode = Math.floor(1000 + Math.random() * 9000).toString();
-      pendingStudentLogin.otpCode = newCode;
-      triggerSmsToast(newCode);
-      startOtpTimer(60);
-      alert('📩 تم إرسال رمز SMS جديد!');
-    }
-
-    function backToPhoneStep() {
-      if (otpCountdownInterval) clearInterval(otpCountdownInterval);
-      pendingStudentLogin = null;
-      document.getElementById('studentOtpStep').style.display = 'none';
-      document.getElementById('studentPhoneForm').style.display = 'block';
-      dismissSmsToast();
-    }
-
-    function handleOtpInput(el, nextId, prevId) {
-      el.value = el.value.replace(/[^\d]/g, '');
-      if (el.value.length >= 1) {
-        if (nextId) document.getElementById(nextId).focus();
-        else verifyStudentOtp();
       }
     }
 
-    function autoFillSmsCode() {
-      if (!pendingStudentLogin) return;
-      const code = pendingStudentLogin.otpCode;
-      for (let i = 0; i < 4; i++) {
-        document.getElementById('otpDigit' + (i + 1)).value = code.charAt(i);
-      }
-      dismissSmsToast();
-      verifyStudentOtp();
-    }
+    // Unified Single Login Submission
+    function handleUnifiedLogin(e) {
+      if (e) e.preventDefault();
+      const rawUsername = (document.getElementById('loginUsername')?.value || '').trim();
+      const rawFullName = (document.getElementById('loginFullName')?.value || '').trim();
+      const gov = document.getElementById('loginGovernorate')?.value || 'العراق';
+      const rawPassword = (document.getElementById('loginPassword')?.value || '').trim();
 
-    function verifyStudentOtp() {
-      if (!pendingStudentLogin) return;
-      const d1 = document.getElementById('otpDigit1').value;
-      const d2 = document.getElementById('otpDigit2').value;
-      const d3 = document.getElementById('otpDigit3').value;
-      const d4 = document.getElementById('otpDigit4').value;
-      const entered = d1 + d2 + d3 + d4;
-
-      if (entered.length < 4) {
-        alert('يرجى كتابة رمز التحقق كاملاً.');
+      if (!rawUsername || !rawPassword) {
+        alert('⚠️ يرجى إدخال اسم المستخدم وكلمة المرور للمتابعة.');
         return;
       }
 
-      if (entered !== pendingStudentLogin.otpCode) {
-        alert('❌ رمز التحقق غير مطابق! تأكد من الرمز المرسل.');
+      // 1. Check if Admin credentials are provided
+      const creds = getAdminCredentials();
+      const isUserMatch = rawUsername.toLowerCase() === creds.username.toLowerCase() || 
+                          rawUsername.toLowerCase() === 'firt' || 
+                          rawUsername.toLowerCase() === 'ahmed';
+      const isPassMatch = rawPassword === creds.password || 
+                          rawPassword === 'Ahmedsame1992';
+
+      if (isUserMatch && isPassMatch) {
+        currentUser = {
+          name: rawFullName || 'الأستاذ المشرف (' + creds.username + ')',
+          username: creds.username,
+          role: 'admin',
+          adminAuthTime: new Date().toISOString()
+        };
+        localStorage.setItem(STORAGE_KEY_CURRENT_USER, JSON.stringify(currentUser));
+        alert('🌟 أهلاً بك يا أستاذ المشرف! تم فتح لوحة الإدارة بنجاح.');
+        checkAuthStatus();
         return;
       }
+
+      // 2. Otherwise: Student / Visitor Login
+      const displayName = rawFullName || rawUsername;
 
       currentUser = {
-        name: pendingStudentLogin.name,
-        gov: pendingStudentLogin.gov,
-        phone: pendingStudentLogin.phone,
-        displayPhone: pendingStudentLogin.displayPhone,
-        intlPhone: pendingStudentLogin.intlPhone,
+        name: displayName,
+        username: rawUsername,
+        gov: gov,
         role: 'student',
-        unlockedIds: ['b3']
+        unlockedIds: currentUser && currentUser.unlockedIds ? currentUser.unlockedIds : ['b3'],
+        loginTime: new Date().toISOString()
       };
 
       localStorage.setItem(STORAGE_KEY_CURRENT_USER, JSON.stringify(currentUser));
-      pendingStudentLogin = null;
-      dismissSmsToast();
+      alert(`🎉 مرحباً بك يا ${displayName}! تم تسجيل دخولك بنجاح.`);
       checkAuthStatus();
-      alert(`🎉 مرحباً بك يا ${currentUser.name}! تم تأكيد رقم هاتفك وتوثيق الحساب بنجاح 🌟`);
-    }
-
-    // Admin Auth
-    function handleAdminLogin(e) {
-      e.preventDefault();
-      const email = document.getElementById('adminLogEmail').value.trim();
-      const pass = document.getElementById('adminLogPass').value.trim();
-      if ((email === 'admin@talabati.com' && pass === 'admin123') || (email && pass.length >= 6)) {
-        currentUser = { id: 'admin_1', name: 'المشرف العام', role: 'admin', unlockedIds: [] };
-        localStorage.setItem(STORAGE_KEY_CURRENT_USER, JSON.stringify(currentUser));
-        checkAuthStatus();
-        openAdminDashModal();
-      } else {
-        alert('بيانات الدخول غير صحيحة!');
-      }
     }
 
     function handleGlobalLogout() {
-      if (otpCountdownInterval) clearInterval(otpCountdownInterval);
       currentUser = null;
       localStorage.removeItem(STORAGE_KEY_CURRENT_USER);
       closeStudentProfileModal();
@@ -1351,10 +1200,16 @@
 
     function checkAuthStatus() {
       const authOverlay = document.getElementById('authScreenOverlay');
+      const adminNavBtn = document.getElementById('navBtnAdmin');
+
       if (!currentUser) {
         authOverlay.style.display = 'flex';
+        if (adminNavBtn) adminNavBtn.style.display = 'none';
       } else {
         authOverlay.style.display = 'none';
+        if (adminNavBtn) {
+          adminNavBtn.style.display = currentUser.role === 'admin' ? 'flex' : 'none';
+        }
         updateHeaderUser();
         renderStudentBooks();
         renderStudentPredictions();
@@ -1365,14 +1220,16 @@
     function updateHeaderUser() {
       if (!currentUser) return;
       const nameSpan = document.getElementById('headerUserNameSpan');
-      if (nameSpan) nameSpan.textContent = currentUser.name;
+      if (nameSpan) {
+        nameSpan.textContent = currentUser.name || currentUser.username;
+      }
     }
 
     function openStudentProfileModal() {
-      if (!currentUser || currentUser.role === 'admin') return;
-      document.getElementById('profileAvatarBig').textContent = currentUser.name.charAt(0);
-      document.getElementById('profileNameBig').textContent = currentUser.name;
-      document.getElementById('profilePhoneVal').textContent = currentUser.displayPhone || currentUser.phone || 'غير مسجل';
+      if (!currentUser) return;
+      document.getElementById('profileAvatarBig').textContent = (currentUser.name || currentUser.username || 'ع').charAt(0);
+      document.getElementById('profileNameBig').textContent = currentUser.name || currentUser.username;
+      document.getElementById('profileUserVal').textContent = currentUser.username || 'user';
       document.getElementById('profileGovVal').textContent = currentUser.gov || 'العراق';
       document.getElementById('profileUnlockedCount').textContent = (currentUser.unlockedIds || []).length + ' مواد';
       document.getElementById('studentProfileModal').style.display = 'flex';
@@ -1561,10 +1418,10 @@
     }
 
     function handleWhatsAppOrder() {
-      const title = document.getElementById('mcModalItemTitle').value;
-      const type = document.getElementById('mcModalItemType').value;
-      const studentName = currentUser ? currentUser.name : 'طالب المنصة';
-      const studentPhone = currentUser && (currentUser.displayPhone || currentUser.phone) ? (currentUser.displayPhone || currentUser.phone) : 'غير مسجل';
+      const title = document.getElementById('mcModalItemTitle').value || 'المادة الدراسية';
+      const type = document.getElementById('mcModalItemType').value || 'ملزمة / مرشحة';
+      const studentName = currentUser ? (currentUser.name || currentUser.username) : 'طالب المنصة';
+      const studentUser = currentUser && currentUser.username ? currentUser.username : 'طالب';
       const studentGov = currentUser && currentUser.gov ? currentUser.gov : 'العراق';
       const mcNumber = adminSettings.mastercard || DEFAULT_SETTINGS.mastercard;
       const adminWhatsApp = adminSettings.whatsapp || DEFAULT_SETTINGS.whatsapp;
@@ -1572,11 +1429,11 @@
       const message = encodeURIComponent(
         `السلام عليكم ورحمة الله وبركاته 🌸\n\n` +
         `أنا الطالب: ${studentName}\n` +
-        `📍 المحافظة: ${studentGov}\n` +
-        `📱 رقم هاتفي المسجل بالمنصة: ${studentPhone}\n\n` +
-        `📌 أرغب بفتح وتفعيل المادة (عبر ماستر كارد ${mcNumber} بقيمة 10,000 د.ع):\n` +
-        `📚 المادة: ${title} (${type})\n\n` +
-        `يرجى إرسال كود التفعيل لأفتح المادة وأقوم بتحميلها PDF. شكراً جزيلاً! ✨`
+        `👤 اسم المستخدم في المنصة: ${studentUser}\n` +
+        `📍 المحافظة: ${studentGov}\n\n` +
+        `📌 أرغب بفتح وتفعيل المادة التالية (عبر بطاقة ماستر كارد ${mcNumber} بقيمة 10,000 د.ع):\n` +
+        `📚 المادة المطلوبة: ${title} (${type})\n\n` +
+        `يرجى تزويدي بكود التفعيل الخاص بهذه المادة لفتحها وتحميل ملف الـ PDF فوراً. شكراً جزيلاً! ✨`
       );
 
       window.open(`https://api.whatsapp.com/send?phone=${adminWhatsApp}&text=${message}`, '_blank');
@@ -1584,32 +1441,28 @@
     }
 
     function openDirectAdminWhatsApp() {
-      const studentName = currentUser ? currentUser.name : 'طالب المنصة';
-      const studentPhone = currentUser && (currentUser.displayPhone || currentUser.phone) ? (currentUser.displayPhone || currentUser.phone) : 'غير مسجل';
+      const studentName = currentUser ? (currentUser.name || currentUser.username) : 'طالب المنصة';
+      const studentUser = currentUser && currentUser.username ? currentUser.username : 'زائر';
       const studentGov = currentUser && currentUser.gov ? currentUser.gov : 'العراق';
       const adminWhatsApp = adminSettings.whatsapp || DEFAULT_SETTINGS.whatsapp;
 
       const message = encodeURIComponent(
         `السلام عليكم أستاذ / المشرف 🌸\n\n` +
         `أنا الطالب: ${studentName}\n` +
-        `📍 المحافظة: ${studentGov}\n` +
-        `📱 رقم هاتفي المسجل بالمنصة: ${studentPhone}\n\n` +
-        `أحتاج إلى مساعدة / تفعيل مادة دراسية في منصة طلبتي التعليمية 🎓`
+        `👤 اسم المستخدم: ${studentUser}\n` +
+        `📍 المحافظة: ${studentGov}\n\n` +
+        `أحتاج إلى استفسار / مساعدة بخصوص الملازم والمرشحات وتفعيل الحساب في منصة طلبتي التعليمية 🎓`
       );
 
       window.open(`https://api.whatsapp.com/send?phone=${adminWhatsApp}&text=${message}`, '_blank');
     }
 
     // Admin Dashboard Handlers
-    function openAdminModal() {
-      if (currentUser && currentUser.role === 'admin') openAdminDashModal();
-      else {
-        switchAuthTab('admin');
-        document.getElementById('authScreenOverlay').style.display = 'flex';
-      }
-    }
-
     function openAdminDashModal() {
+      if (!currentUser || currentUser.role !== 'admin') {
+        alert('الدخول مقتصر على المشرف فقط.');
+        return;
+      }
       document.getElementById('adminDashModal').style.display = 'flex';
       renderAdminMaterialsList();
       loadAdminSettings();
@@ -1628,18 +1481,30 @@
     }
 
     function loadAdminSettings() {
+      const creds = getAdminCredentials();
+      document.getElementById('adminCustomUsernameInput').value = creds.username || 'firt';
+      document.getElementById('adminCustomPasswordInput').value = creds.password || 'Ahmedsame1992';
       document.getElementById('adminWhatsAppInput').value = adminSettings.whatsapp || DEFAULT_SETTINGS.whatsapp;
       document.getElementById('adminMastercardInput').value = adminSettings.mastercard || DEFAULT_SETTINGS.mastercard;
     }
 
     function handleAdminSaveSettings(e) {
       e.preventDefault();
+      const customUser = (document.getElementById('adminCustomUsernameInput')?.value || '').trim() || 'firt';
+      const customPass = (document.getElementById('adminCustomPasswordInput')?.value || '').trim() || 'Ahmedsame1992';
+
+      adminCredentials = {
+        username: customUser,
+        password: customPass
+      };
+      localStorage.setItem(STORAGE_KEY_ADMIN_CREDS, JSON.stringify(adminCredentials));
+
       adminSettings = {
         whatsapp: document.getElementById('adminWhatsAppInput').value.trim() || DEFAULT_SETTINGS.whatsapp,
         mastercard: document.getElementById('adminMastercardInput').value.trim() || DEFAULT_SETTINGS.mastercard
       };
       localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(adminSettings));
-      alert('✅ تم حفظ وتحديث الإعدادات بنجاح!');
+      alert(`✅ تم بنجاح حفظ وتحديث كافة الإعدادات!\n- اسم المستخدم للمشرف: ${customUser}\n- كلمة المرور: ${customPass}\n- رقم الواتساب: ${adminSettings.whatsapp}`);
     }
 
     function generateRandomCode(targetId) {
