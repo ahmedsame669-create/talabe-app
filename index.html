@@ -278,8 +278,8 @@
       box-shadow: 0 4px 14px rgba(217,119,6,0.4);
     }
 
-    .tab-content { display: none; animation: fadeInSlide 0.25s ease-out; }
-    .tab-content.active { display: block; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeInSlide 0.25s ease-out; }
 
     /* Hero Banner */
     .vip-hero-banner {
@@ -303,7 +303,7 @@
     .vip-hero-title { font-size: 1.35rem; font-weight: 900; color: #fff; margin-bottom: 6px; }
     .vip-hero-desc { color: #dbeafe; font-size: 0.86rem; line-height: 1.5; margin-bottom: 14px; }
 
-    /* Mastercard Box */
+    /* Mastercard Showcase Box */
     .mastercard-showcase {
       background: rgba(6, 11, 24, 0.9);
       border: 1px solid rgba(56, 189, 248, 0.35);
@@ -373,7 +373,7 @@
       font-size: 0.9rem;
     }
 
-    /* Cards */
+    /* Grid Cards */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -539,7 +539,7 @@
       gap: 10px;
     }
 
-    /* PDF Viewer */
+    /* PDF Viewer Modal */
     .pdf-modal-bg {
       display: none;
       position: fixed;
@@ -637,7 +637,7 @@
 
     <div class="auth-role-switcher">
       <button type="button" id="roleBtnStudent" class="role-btn active" onclick="switchAuthMode('student')">👨‍🎓 دخول الطالب</button>
-      <button type="button" id="roleBtnAdmin" class="role-btn admin-mode" onclick="switchAuthMode('admin')">🛡️ دخول الإدارة / المدرس</button>
+      <button type="button" id="roleBtnAdmin" class="role-btn admin-mode" onclick="switchAuthMode('admin')">🛡️ المشرف / الإدارة</button>
     </div>
 
     <div id="studentWelcomeNote" style="background: rgba(37,99,235,0.14); border: 1px solid rgba(56,189,248,0.3); border-radius: 12px; padding: 10px; margin-bottom: 14px; font-size: 0.8rem; color: #7dd3fc; font-weight: 700; line-height: 1.5;">
@@ -705,7 +705,9 @@
   </div>
 </div>
 
-<!-- 📱 2. Main Application Shell -->
+<!-- ========================================== -->
+<!-- 📱 2. Main Application Shell               -->
+<!-- ========================================== -->
 <div class="container" id="mainAppShell" style="display:none;">
   
   <!-- Header Bar -->
@@ -715,6 +717,7 @@
       <div>منصة <span>طلبتي</span> VIP</div>
     </div>
     
+    <!-- User Profile & Logout -->
     <div class="user-chip">
       <div class="user-chip-avatar" id="headerUserAvatar">ع</div>
       <div class="user-chip-info">
@@ -740,10 +743,13 @@
     <button id="tabBtn-predictions" class="nav-tab-btn" onclick="switchNavTab('predictions')">⭐ مرشحات النجاح</button>
     <button id="tabBtn-thawabit" class="nav-tab-btn" onclick="switchNavTab('thawabit')">📌 الثوابت الوزارية</button>
     <button id="tabBtn-quiz" class="nav-tab-btn" onclick="switchNavTab('quiz')">📝 امتحن نفسك (100)</button>
-    <button id="tabBtn-admin" class="nav-tab-btn admin-tab-btn" style="display:none;" onclick="switchNavTab('admin')">🛡️ لوحة الإدارة وإضافة الكتب</button>
+    <!-- Admin Tab ONLY visible if logged in as Admin -->
+    <button id="tabBtn-admin" class="nav-tab-btn admin-tab-btn" style="display:none !important;" onclick="switchNavTab('admin')">🛡️ لوحة الإدارة وإضافة الكتب</button>
   </div>
 
-  <!-- 📚 Tab 1: Books -->
+  <!-- ========================================== -->
+  <!-- 📚 Tab 1: Books & Study Materials (Students)-->
+  <!-- ========================================== -->
   <div id="section-books" class="tab-content active">
     <div class="vip-hero-banner">
       <div class="vip-tag">⭐ المناهج والملازم الشاملة</div>
@@ -772,7 +778,9 @@
     <div class="grid" id="studentBooksGrid"></div>
   </div>
 
-  <!-- ⭐ Tab 2: مرشحات النجاح -->
+  <!-- ========================================== -->
+  <!-- ⭐ Tab 2: مرشحات النجاح                    -->
+  <!-- ========================================== -->
   <div id="section-predictions" class="tab-content">
     <div class="vip-hero-banner" style="background: linear-gradient(135deg, #19163e 0%, #292671 50%, #3730a3 100%);">
       <div class="vip-tag" style="background:rgba(167,139,250,0.2); border-color:#a78bfa; color:#c4b5fd;">⭐ بنك الأسئلة والمرشحات المؤكدة</div>
@@ -800,7 +808,9 @@
     <div class="grid" id="studentPredictionsGrid"></div>
   </div>
 
-  <!-- 📌 Tab 3: الثوابت الوزارية -->
+  <!-- ========================================== -->
+  <!-- 📌 Tab 3: الثوابت الوزارية                -->
+  <!-- ========================================== -->
   <div id="section-thawabit" class="tab-content">
     <div class="vip-hero-banner" style="background: linear-gradient(135deg, #054131 0%, #065f46 50%, #047857 100%);">
       <div class="vip-tag" style="background:rgba(52,211,153,0.2); border-color:#34d399; color:#6ee7b7;">📌 ثوابت الامتحان الوزاري</div>
@@ -811,7 +821,9 @@
     <div class="grid" id="studentThawabitGrid"></div>
   </div>
 
-  <!-- 📝 Tab 4: امتحن نفسك -->
+  <!-- ========================================== -->
+  <!-- 📝 Tab 4: امتحن نفسك (100)                -->
+  <!-- ========================================== -->
   <div id="section-quiz" class="tab-content">
     <div style="background:linear-gradient(135deg, #091328 0%, #142852 100%); border:1px solid rgba(56, 189, 248, 0.4); border-radius:24px; padding:20px 16px; text-align:center; margin-bottom:20px;">
       <h2 style="font-size:1.45rem; font-weight:900; color:#38bdf8; margin-bottom:6px;">📝 نظام الاختبار الوزاري التجريبي (من 100)</h2>
@@ -836,10 +848,13 @@
     </div>
   </div>
 
-  <!-- 🛡️ Tab 5: لوحة الإدارة الكاملة (خاصة بالمشرف فقط) -->
-  <div id="section-admin" class="tab-content">
+  <!-- ========================================================= -->
+  <!-- 🛡️ Tab 5: لوحة الإدارة الكاملة (خاصة بالمشرف فقط)        -->
+  <!-- ========================================================= -->
+  <div id="section-admin" class="tab-content" style="display:none !important;">
     <div class="admin-dashboard-container">
       
+      <!-- Top Title -->
       <div class="admin-title-row">
         <div>
           <h2 style="font-size:1.35rem; font-weight:900; color:#fbbf24; display:flex; align-items:center; gap:8px;">
@@ -855,7 +870,7 @@
         </div>
       </div>
 
-      <!-- Quick Stats -->
+      <!-- Quick Stats Counters -->
       <div class="admin-stats-grid">
         <div class="admin-stat-card">
           <div style="font-size:1.4rem; font-weight:900; color:#38bdf8;" id="adminStatBooksCount">0</div>
@@ -875,7 +890,7 @@
         </div>
       </div>
 
-      <!-- Sub Navigation Buttons -->
+      <!-- Sub Navigation Buttons inside Admin -->
       <div class="admin-subnav-buttons">
         <button id="adminTabBtn-addBook" class="admin-nav-btn active" onclick="switchAdminSection('addBook')">
           📁 إضافة كتاب / ملزمة و PDF
@@ -894,9 +909,9 @@
         </button>
       </div>
 
-      <!-- 1. Add Book Form -->
+      <!-- 1. Form: Add Book / Material & PDF -->
       <div id="adminPanel-addBook" class="admin-panel-card">
-        <h3 style="color:#38bdf8; font-weight:900; font-size:1.15rem; margin-bottom:14px;">
+        <h3 style="color:#38bdf8; font-weight:900; font-size:1.15rem; margin-bottom:14px; display:flex; align-items:center; gap:8px;">
           📁 إضافة كتاب أو ملزمة دراسية جديدة (مع ملف PDF)
         </h3>
 
@@ -970,9 +985,9 @@
         </form>
       </div>
 
-      <!-- 2. Add Prediction Form -->
+      <!-- 2. Form: Add Prediction & PDF -->
       <div id="adminPanel-addPred" class="admin-panel-card" style="display:none;">
-        <h3 style="color:#c084fc; font-weight:900; font-size:1.15rem; margin-bottom:14px;">
+        <h3 style="color:#c084fc; font-weight:900; font-size:1.15rem; margin-bottom:14px; display:flex; align-items:center; gap:8px;">
           ⭐ إضافة مرشحة نجاح مؤكدة (مع ملف PDF)
         </h3>
 
@@ -1222,6 +1237,9 @@
   let globalNotice = JSON.parse(localStorage.getItem(STORAGE_KEY_NOTICE)) || DEFAULT_NOTICE;
   let currentQuizSubject = 'الرياضيات';
 
+  // =========================================================================
+  // 🚀 Init App & Distinct Routing
+  // =========================================================================
   function initApp() {
     applyGlobalNotice();
 
@@ -1232,12 +1250,27 @@
       document.getElementById('headerUserName').textContent = currentUser.name;
       document.getElementById('headerUserAvatar').textContent = currentUser.name.charAt(0);
 
-      const isAdmin = currentUser.role === 'admin';
+      const isAdmin = (currentUser && currentUser.role === 'admin');
       document.getElementById('headerUserRole').textContent = isAdmin ? 'مشرف المنصة 🛡️' : 'طالب متميز 👨‍🎓';
       
+      // Control Visibility of Admin Tab & Section
       const adminNavBtn = document.getElementById('tabBtn-admin');
+      const adminSection = document.getElementById('section-admin');
+      
       if (adminNavBtn) {
-        adminNavBtn.style.display = isAdmin ? 'inline-flex' : 'none';
+        if (isAdmin) {
+          adminNavBtn.style.setProperty('display', 'inline-flex', 'important');
+        } else {
+          adminNavBtn.style.setProperty('display', 'none', 'important');
+        }
+      }
+      if (adminSection) {
+        if (isAdmin) {
+          adminSection.style.removeProperty('display');
+        } else {
+          adminSection.style.setProperty('display', 'none', 'important');
+          adminSection.classList.remove('active');
+        }
       }
 
       renderStudentBooks();
@@ -1249,6 +1282,7 @@
         renderAdminAll();
         switchNavTab('admin');
       } else {
+        // Strict student route: Always start on books tab!
         switchNavTab('books');
       }
     } else {
@@ -1266,6 +1300,9 @@
     if (subInp) subInp.value = globalNotice.sub;
   }
 
+  // =========================================================================
+  // 🔑 Auth Handlers (Student vs Admin)
+  // =========================================================================
   function switchAuthMode(mode) {
     const isStudent = mode === 'student';
     document.getElementById('roleBtnStudent').classList.toggle('active', isStudent);
@@ -1307,23 +1344,40 @@
   }
 
   function switchNavTab(tab) {
+    // Strict protection: If not admin, completely block admin tab
     if (tab === 'admin' && (!currentUser || currentUser.role !== 'admin')) {
       tab = 'books';
     }
 
-    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(el => {
+      el.classList.remove('active');
+      el.style.setProperty('display', 'none', 'important');
+    });
     document.querySelectorAll('.nav-tab-btn').forEach(el => el.classList.remove('active'));
     
     const targetSection = document.getElementById('section-' + tab);
     const targetBtn = document.getElementById('tabBtn-' + tab);
-    if (targetSection) targetSection.classList.add('active');
-    if (targetBtn) targetBtn.classList.add('active');
+    
+    if (targetSection) {
+      targetSection.classList.add('active');
+      targetSection.style.setProperty('display', 'block', 'important');
+    }
+    if (targetBtn) {
+      targetBtn.classList.add('active');
+    }
 
     if (tab === 'admin') {
+      if (!currentUser || currentUser.role !== 'admin') {
+        switchNavTab('books');
+        return;
+      }
       renderAdminAll();
     }
   }
 
+  // =========================================================================
+  // 📚 Student Renders
+  // =========================================================================
   function renderStudentBooks() {
     const q = (document.getElementById('booksSearchInp')?.value || '').toLowerCase().trim();
     const container = document.getElementById('studentBooksGrid');
@@ -1422,6 +1476,9 @@
     `).join('');
   }
 
+  // =========================================================================
+  // 🔑 Code Redemption
+  // =========================================================================
   function redeemBookCode() {
     const code = (document.getElementById('studentCodeInput')?.value || '').trim().toUpperCase();
     if (!code) { alert('يرجى كتابة كود تفعيل الملزمة أولاً!'); return; }
@@ -1460,6 +1517,9 @@
     renderStudentPredictions();
   }
 
+  // =========================================================================
+  // 🛡️ Admin Dashboard Functions
+  // =========================================================================
   function switchAdminSection(sec) {
     ['addBook', 'addPred', 'manage', 'thawabit', 'notice'].forEach(s => {
       const panel = document.getElementById('adminPanel-' + s);
@@ -1668,6 +1728,9 @@
     alert('✅ تم تحديث شريط الإعلان لجميع الطلاب بنجاح!');
   }
 
+  // =========================================================================
+  // 📄 PDF Viewer Engine
+  // =========================================================================
   function openPdfViewer(title, cat, url, base64, desc) {
     document.getElementById('pdfViewerTitle').textContent = '📖 ' + title;
     document.getElementById('pdfViewerCat').textContent = 'القسم: ' + cat;
@@ -1698,6 +1761,9 @@
     return (str || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
   }
 
+  // =========================================================================
+  // 💳 Mastercard Checkout Modal
+  // =========================================================================
   function openMastercardModal(id, title, type) {
     document.getElementById('mcModalItemId').value = id;
     document.getElementById('mcModalItemTitle').value = title;
@@ -1722,6 +1788,9 @@
     alert(`✅ تم نسخ رقم ${name} بنجاح: ${num}`);
   }
 
+  // =========================================================================
+  // 📝 Quiz System
+  // =========================================================================
   function loadQuizSubject(sub) {
     currentQuizSubject = sub;
     const questions = QUIZ_QUESTIONS[sub] || [];
@@ -1760,6 +1829,9 @@
     alert(`📊 نتيجتك النهائية في امتحان ${currentQuizSubject} هي: ${score} من 100!`);
   }
 
+  // =========================================================================
+  // 🏁 App Bootstrap
+  // =========================================================================
   window.onload = initApp;
 </script>
 </body>
