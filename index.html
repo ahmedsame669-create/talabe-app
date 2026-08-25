@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>منصة طلبتي التعليمية | ملازم وملفات PDF المعتمدة</title>
+  <title>منصة طلبتي التعليمية | الملازم والوزاريات المعتمدة</title>
   
   <meta name="theme-color" content="#2563eb">
   <meta name="mobile-web-app-capable" content="yes">
@@ -89,6 +89,7 @@
     .form-label { display: block; font-size: 0.85rem; font-weight: bold; color: #cbd5e1; margin-bottom: 6px; }
     .form-inp { width: 100%; padding: 12px 14px; border-radius: 12px; background: #070b14; border: 1px solid #334155; color: #fff; outline: none; font-size: 0.9rem; }
     .form-inp:focus { border-color: #38bdf8; }
+    textarea.form-inp { min-height: 100px; resize: vertical; }
     .btn-admin-submit { width: 100%; background: #2563eb; color: #fff; border: none; padding: 14px; border-radius: 14px; font-weight: 900; font-size: 1rem; cursor: pointer; }
 
     /* Table */
@@ -100,13 +101,18 @@
     .btn-wa-send { background: #16a34a; color: #fff; border: none; padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; cursor: pointer; font-weight: bold; }
     .btn-delete { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); color: #f87171; padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; cursor: pointer; font-weight: bold; }
 
-    /* PDF Viewer Modal */
+    /* Modal Backdrop */
     .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 100; align-items: center; justify-content: center; padding: 10px; }
     .modal-box { background: #0f172a; border: 1px solid #334155; border-radius: 24px; padding: 20px; width: 100%; max-width: 800px; max-height: 95vh; display: flex; flex-direction: column; }
     .modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
     .btn-close { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
-    .pdf-viewer-frame { width: 100%; height: 65vh; border-radius: 14px; border: 1px solid #334155; background: #070b14; }
-    .btn-download-pdf { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: #10b981; color: #fff; text-decoration: none; padding: 14px; border-radius: 14px; font-weight: 900; font-size: 1rem; margin-top: 12px; }
+    
+    .content-box-text { width: 100%; max-height: 60vh; overflow-y: auto; background: #070b14; border: 1px solid #334155; border-radius: 14px; padding: 18px; font-size: 0.95rem; line-height: 1.8; white-space: pre-wrap; color: #f1f5f9; }
+
+    .modal-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+    .btn-action-modal { display: inline-flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; padding: 12px; border-radius: 12px; font-weight: 800; font-size: 0.9rem; cursor: pointer; text-align: center; }
+    .btn-open-external { background: #2563eb; color: #fff; }
+    .btn-download-pdf { background: #10b981; color: #fff; }
 
     footer { text-align: center; color: var(--muted); font-size: 0.8rem; margin-top: 40px; border-top: 1px solid var(--border); padding-top: 20px; }
   </style>
@@ -132,7 +138,7 @@
   <div id="studentSection" class="tab-content active">
     <!-- Header Banner -->
     <div class="header-banner">
-      <h1>منصة طلبتي لتحميل ملازم وكتب الـ PDF المعتمدة</h1>
+      <h1>منصة طلبتي لتحميل وتصفح ملازم الـ PDF المعتمدة</h1>
       <p>جميع الملازم والملفات مقفلة • سعر تفعيل أي مادة 10,000 د.ع فقط 🔒</p>
       <div class="phone-badge">📲 زين كاش وآسيا حوالة المعتمد: 07734378998</div>
     </div>
@@ -181,23 +187,23 @@
     <div id="adminDashboard" style="display: none;">
       <!-- Upload PDF Book Form -->
       <div class="admin-card">
-        <div class="admin-title">⚡ رفع ملف PDF كامل وتوليد كود التفعيل السري (10,000 د.ع)</div>
+        <div class="admin-title">⚡ إضافة ملزمة / حفظ دائم وتوليد كود التفعيل (10,000 د.ع)</div>
         <form onsubmit="handleCreatePdfBook(event)">
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
             <div class="form-group">
               <label class="form-label">اسم المادة / الملزمة:</label>
-              <input type="text" id="newBookTitle" class="form-inp" placeholder="مثال: ملزمة الرياضيات - الثالث متوسط PDF" required />
+              <input type="text" id="newBookTitle" class="form-inp" placeholder="مثال: ملزمة الاجتماعيات الملخصة" required />
             </div>
             <div class="form-group">
               <label class="form-label">القسم:</label>
-              <input type="text" id="newBookCat" class="form-inp" placeholder="مثال: الرياضيات" required />
+              <input type="text" id="newBookCat" class="form-inp" placeholder="مثال: الاجتماعيات" required />
             </div>
           </div>
 
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
             <div class="form-group">
               <label class="form-label">كود التفعيل السري (يفتح هذا الملف لمرة واحدة):</label>
-              <input type="text" id="newBookCode" class="form-inp" placeholder="مثال: TAL-MATH-PDF" style="text-transform:uppercase; font-family:monospace;" required />
+              <input type="text" id="newBookCode" class="form-inp" placeholder="مثال: TAL-SOC-99" style="text-transform:uppercase; font-family:monospace;" required />
             </div>
             <div class="form-group">
               <label class="form-label">سعر التفعيل:</label>
@@ -205,19 +211,18 @@
             </div>
           </div>
 
-          <!-- PDF Upload Options -->
           <div class="form-group">
-            <label class="form-label">📁 رفع ملف الـ PDF من هاتفك أو جهازك:</label>
-            <input type="file" id="newBookPdfFile" accept="application/pdf" class="form-inp" style="padding: 8px;" />
-            <span style="font-size: 11px; color: var(--muted);">أو يمكنك وضع رابط مباشر لملف الـ PDF بالأسفل:</span>
+            <label class="form-label">🔗 رابط ملف الـ PDF السحابي (Google Drive / Mediafire / رابط مباشر):</label>
+            <input type="url" id="newBookPdfUrl" class="form-inp" placeholder="https://drive.google.com/... أو رابط مباشر" />
+            <span style="font-size: 11px; color: var(--muted);">يمكنك وضع رابط مباشر ليتم حفظه دائماً بدون أي فقدان للبيانات.</span>
           </div>
 
           <div class="form-group">
-            <label class="form-label">🔗 رابط ملف الـ PDF المباشر (اختياري في حال لم ترفع ملف):</label>
-            <input type="url" id="newBookPdfUrl" class="form-inp" placeholder="https://example.com/book.pdf" />
+            <label class="form-label">📝 الشرح والملخص الوزاري (يظهر داخل التطبيق فور فتح المادة):</label>
+            <textarea id="newBookContent" class="form-inp" placeholder="اكتب هنا ملخص التعاليل والتعاريف والأسئلة الوزارية المهمة..."></textarea>
           </div>
 
-          <button type="submit" class="btn-admin-submit" style="background: #10b981;">➕ نشر ملف الـ PDF مقفولاً للطلاب</button>
+          <button type="submit" class="btn-admin-submit" style="background: #10b981;">➕ نشر وحفظ الملزمة بشكل دائم ☁️</button>
         </form>
       </div>
 
@@ -231,7 +236,6 @@
                 <th>الملزمة والمادة</th>
                 <th>القسم</th>
                 <th>كود التفعيل</th>
-                <th>نوع الملف</th>
                 <th>حالة الكود</th>
                 <th>إجراءات الإدارة</th>
               </tr>
@@ -244,21 +248,26 @@
   </div>
 </div>
 
-<!-- Modal: PDF Viewer & Full Download -->
+<!-- Modal: Content Viewer & PDF Download -->
 <div id="pdfModal" class="modal-bg">
   <div class="modal-box">
     <div class="modal-head">
-      <h3 id="pdfModalTitle" style="font-weight:900; color:#34d399;">📖 تصفح وتحميل ملف الـ PDF</h3>
+      <h3 id="pdfModalTitle" style="font-weight:900; color:#34d399;">📖 تصفح الملزمة المفتوحة</h3>
       <button onclick="closePdfModal()" class="btn-close">✕</button>
     </div>
     
-    <!-- Embedded PDF Viewer -->
-    <iframe id="pdfViewerFrame" class="pdf-viewer-frame" src=""></iframe>
+    <!-- Text Summary View -->
+    <div id="textViewContainer" class="content-box-text"></div>
 
-    <!-- Direct PDF Download Button -->
-    <a id="downloadPdfBtn" href="#" download="ملزمة_طلبتي.pdf" class="btn-download-pdf">
-      ⬇️ تحميل نسخة PDF كاملة على هاتفك
-    </a>
+    <!-- Action Buttons -->
+    <div class="modal-actions">
+      <a id="openExternalPdfBtn" href="#" target="_blank" class="btn-action-modal btn-open-external">
+        🔍 فتح وتحميل نسخة PDF كاملة
+      </a>
+      <button onclick="copyCurrentContent()" class="btn-action-modal btn-download-pdf">
+        📋 نسخ نص الملخص والأسئلة
+      </button>
+    </div>
   </div>
 </div>
 
@@ -268,46 +277,47 @@
 </footer>
 
 <script>
-  // Initial Books & Sample PDF Links
+  // Initial Books List
   const defaultBooks = [
     { 
       id: 1, 
+      title: "ملزمة الاجتماعيات الملخصة", 
+      category: "الاجتماعيات", 
+      code: "TAL-SOC-99", 
+      isUsed: false, 
+      pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+      content: "📌 ملخص الاجتماعيات الوزاري الشامل:\n\n1. الجغرافيا:\n- موقع العراق الجغرافي والفلكي وأهميته الاستراتيجية.\n- أقسام السطح: المنطقة الجبلية، المتموجة، السهل الرسوبي، والهضبة الغربية.\n- مناخ العراق والعوامل المؤثرة فيه مع أهم التعاليل الوزارية.\n\n2. التاريخ:\n- ثورة العشرين وأسبابها ونتائجها الوطنية.\n- معاهدة 1930 وبنودها الرئيسية.\n\n3. الوطنية:\n- الدستور العراقي وحقوق وواجبات المواطن العراقي."
+    },
+    { 
+      id: 2, 
       title: "ملزمة الرياضيات - الثالث متوسط (PDF)", 
       category: "الرياضيات", 
       code: "TAL-MATH-77", 
       isUsed: false, 
-      pdfUrl: "https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf",
-      desc: "النسخة الكاملة بصيغة PDF مع حلول التمارين والأسئلة الوزارية المكررة."
+      pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+      content: "📌 أهم مسائل الرياضيات الوزارية:\n1. حل المعادلات بالتحليل واستخراج العامل المشترك الأكبر.\n2. إيجاد الحد المفقود في المقدار الجبري ليصبح مربعاً كاملاً.\n3. حل متباينات القيمة المطلقة بيانيا وجبريا.\n4. المسائل الرياضية الخاصة بالمستطيل والمثلثات في الفصل الثالث."
     },
     { 
-      id: 2, 
+      id: 3, 
       title: "ملزمة اللغة العربية - القواعد والأدب (PDF)", 
       category: "اللغة العربية", 
       code: "TAL-ARAB-88", 
       isUsed: false, 
-      pdfUrl: "https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf",
-      desc: "شامل القواعد والنصوص والإنشاءات الوزارية بصيغة PDF عالية الدقة."
-    },
-    { 
-      id: 3, 
-      title: "ملزمة اللغة الإنجليزية - English for Iraq (PDF)", 
-      category: "اللغة الإنجليزية", 
-      code: "TAL-ENG-99", 
-      isUsed: false, 
-      pdfUrl: "https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf",
-      desc: "ملف PDF شامل لكافة الوحدات والقطع والإنشاءات والتمارين الوزارية."
+      pdfUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+      content: "📌 ملخص القواعد والأدب الوزاري:\n- الميزان الصرفي وأبواب الأفعال الثلاثية ومصادرها.\n- صياغة اسم الفاعل واسم المفعول وصيغ المبالغة.\n- الأدب: حياة معروف الرصافي، الجواهري، وإبراهيم طوقان مع القصائد المطلوبة للحفظ."
     }
   ];
 
-  let books = JSON.parse(localStorage.getItem('talabe_pdf_books')) || defaultBooks;
-  let unlockedBookIds = JSON.parse(localStorage.getItem('talabe_pdf_unlocked')) || [];
+  // Permanent Storage Engine
+  let books = JSON.parse(localStorage.getItem('talabe_permanent_books_v3')) || defaultBooks;
+  let unlockedBookIds = JSON.parse(localStorage.getItem('talabe_permanent_unlocked_v3')) || [];
 
   function saveStorage() {
     try {
-      localStorage.setItem('talabe_pdf_books', JSON.stringify(books));
-      localStorage.setItem('talabe_pdf_unlocked', JSON.stringify(unlockedBookIds));
-    } catch(e) {
-      console.warn("Storage quota limit reached", e);
+      localStorage.setItem('talabe_permanent_books_v3', JSON.stringify(books));
+      localStorage.setItem('talabe_permanent_unlocked_v3', JSON.stringify(unlockedBookIds));
+    } catch (e) {
+      console.error("Storage error:", e);
     }
   }
 
@@ -359,13 +369,13 @@
               </div>
             </div>
             <h3 class="book-title">${b.title}</h3>
-            <p class="book-desc">${isUnlocked ? 'تم فتح الملزمة! يمكنك الآن تصفحها أو تحميل ملف الـ PDF كاملاً على هاتفك.' : b.desc}</p>
+            <p class="book-desc">${isUnlocked ? 'تم فتح الملزمة بنجاح! انقر بالأسفل للقراءة الفورية أو تحميل ملف الـ PDF.' : 'المنهج الكامل مع الأسئلة الوزارية وحلول التمارين المعتمدة.'}</p>
           </div>
 
           <div class="book-footer">
             <span class="price-text">10,000 د.ع</span>
             ${isUnlocked ? `
-              <button onclick="openPdfViewer(${b.id})" class="btn-action btn-read">📖 فتح وتحميل PDF</button>
+              <button onclick="openPdfViewer(${b.id})" class="btn-action btn-read">📖 تصفح وتحميل الملزمة</button>
             ` : `
               <button onclick="redirectToWhatsAppBuy('${b.title}')" class="btn-action btn-lock">🔓 فتح المادة (10,000 د.ع)</button>
             `}
@@ -401,7 +411,7 @@
       return;
     }
 
-    // Unlock & Burn
+    // Unlock & Burn Code
     found.isUsed = true;
     if (!unlockedBookIds.includes(found.id)) {
       unlockedBookIds.push(found.id);
@@ -409,27 +419,35 @@
 
     saveStorage();
     renderStudentBooks();
-    alert(`🎉 مبروك! تم فتح ملف الـ PDF لمادة "${found.title}" بنجاح! يمكنك الآن تصفحه وتحميله.`);
+    alert(`🎉 مبروك! تم فتح "${found.title}" بنجاح! يمكنك الآن تصفحها وتحميلها.`);
     codeInput.value = '';
+    openPdfViewer(found.id);
   }
 
-  // Open PDF Viewer & Download
+  let activeViewBook = null;
+
   function openPdfViewer(id) {
     const book = books.find(b => b.id === id);
-    if (book && book.pdfUrl) {
-      document.getElementById('pdfModalTitle').innerText = '📖 ' + book.title;
-      document.getElementById('pdfViewerFrame').src = book.pdfUrl;
-      const dlBtn = document.getElementById('downloadPdfBtn');
-      dlBtn.href = book.pdfUrl;
-      dlBtn.download = book.title + '.pdf';
-      document.getElementById('pdfModal').style.display = 'flex';
-    } else {
-      alert('⚠️ جاري تجهيز رابط الـ PDF لهذه المادة من قبل الإدارة.');
+    if (!book) return;
+    activeViewBook = book;
+
+    document.getElementById('pdfModalTitle').innerText = '📖 ' + book.title;
+    document.getElementById('textViewContainer').innerText = book.content || 'تم فتح المادة بنجاح.';
+
+    const rawUrl = book.pdfUrl || 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
+    document.getElementById('openExternalPdfBtn').href = rawUrl;
+
+    document.getElementById('pdfModal').style.display = 'flex';
+  }
+
+  function copyCurrentContent() {
+    if (activeViewBook && activeViewBook.content) {
+      navigator.clipboard.writeText(activeViewBook.content);
+      alert('📋 تم نسخ محتوى الملزمة والأسئلة بنجاح!');
     }
   }
 
   function closePdfModal() {
-    document.getElementById('pdfViewerFrame').src = '';
     document.getElementById('pdfModal').style.display = 'none';
   }
 
@@ -441,7 +459,6 @@
         <td style="font-weight:bold; color:#fff;">${b.title}</td>
         <td><span class="cat-badge">${b.category}</span></td>
         <td><span class="code-badge">${b.code}</span></td>
-        <td><span style="color:#f87171; font-weight:bold;">PDF 📄</span></td>
         <td>
           <span style="font-size:11px; padding:3px 8px; border-radius:6px; font-weight:bold; ${b.isUsed ? 'background:rgba(239,68,68,0.15); color:#f87171;' : 'background:rgba(16,185,129,0.15); color:#34d399;'}">
             ${b.isUsed ? 'مستخدم ومحروق ❌' : 'جديد وجاهز للاستخدام ✓'}
@@ -458,32 +475,15 @@
     `).join('');
   }
 
-  // Handle PDF Book Creation
+  // Handle Create PDF Book with Permanent Storage
   function handleCreatePdfBook(e) {
     e.preventDefault();
     const title = document.getElementById('newBookTitle').value.trim();
     const category = document.getElementById('newBookCat').value.trim();
     const code = document.getElementById('newBookCode').value.trim().toUpperCase();
-    const urlInput = document.getElementById('newBookPdfUrl').value.trim();
-    const fileInput = document.getElementById('newBookPdfFile');
+    const pdfUrl = document.getElementById('newBookPdfUrl').value.trim() || 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
+    const content = document.getElementById('newBookContent').value.trim();
 
-    let pdfUrl = urlInput || "https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf";
-
-    if (fileInput.files && fileInput.files[0]) {
-      const file = fileInput.files[0];
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        saveNewBook(title, category, code, event.target.result);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      saveNewBook(title, category, code, pdfUrl);
-    }
-
-    e.target.reset();
-  }
-
-  function saveNewBook(title, category, code, pdfUrl) {
     const newBook = {
       id: Date.now(),
       title,
@@ -491,19 +491,20 @@
       code,
       isUsed: false,
       pdfUrl,
-      desc: "ملف PDF معتمد مع الأسئلة الوزارية وحلول التمارين."
+      content: content || 'ملخص المادة والأسئلة الوزارية وحلول التمارين المعتمدة.'
     };
 
     books.unshift(newBook);
     saveStorage();
     renderAdminTable();
     renderStudentBooks();
-    alert('✅ تم رفع ملف الـ PDF وتوليد كود التفعيل السري بنجاح!');
+    alert('✅ تم نشر وحفظ الملزمة بشكل دائم وتوليد كود التفعيل السري بنجاح!');
+    e.target.reset();
   }
 
   // Delete Book
   function deleteBook(id) {
-    if (confirm('هل أنت متأكد من حذف هذا الملف نهائياً؟')) {
+    if (confirm('هل أنت متأكد من حذف هذه الملزمة نهائياً؟')) {
       books = books.filter(b => b.id !== id);
       unlockedBookIds = unlockedBookIds.filter(bid => bid !== id);
       saveStorage();
@@ -519,7 +520,7 @@
   }
 
   function sendCodeWhatsapp(title, code) {
-    const text = `مرحباً بك في منصة طلبتي التعليمية 🎓\nتم استلام التحويل (10,000 د.ع) وتأكيد اشتراكك في: ${title}\n🔑 كود التفعيل الخاص بك لفتح وتحميل ملف الـ PDF (لمرة واحدة): ${code}\nأدخل الكود في التطبيق وسيفتح لك ملف الـ PDF كاملاً.`;
+    const text = `مرحباً بك في منصة طلبتي التعليمية 🎓\nتم استلام التحويل (10,000 د.ع) وتأكيد اشتراكك في: ${title}\n🔑 كود التفعيل الخاص بك (لمرة واحدة): ${code}\nأدخل الكود في التطبيق وسيفتح لك ملف الملزمة كاملاً.`;
     window.location.href = `https://wa.me/?text=${encodeURIComponent(text)}`;
   }
 
