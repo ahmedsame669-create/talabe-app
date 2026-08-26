@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -237,6 +236,103 @@
       font-size: 0.75rem;
       font-weight: 800;
       cursor: pointer;
+    }
+
+    /* ↩️ Back Navigation Buttons & Floating Return Styles */
+    .btn-header-back {
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      border: 1.5px solid #60a5fa;
+      color: #fff;
+      border-radius: 12px;
+      padding: 6px 14px;
+      font-size: 0.84rem;
+      font-weight: 900;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: 0.2s;
+      box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+    }
+    .btn-header-back:hover {
+      background: #1d4ed8;
+      border-color: #93c5fd;
+      transform: translateX(2px);
+    }
+    .section-back-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      background: linear-gradient(90deg, rgba(14, 26, 56, 0.95), rgba(7, 13, 30, 0.95));
+      border: 1.5px solid rgba(56, 189, 248, 0.35);
+      border-radius: 18px;
+      padding: 10px 14px;
+      gap: 8px;
+      flex-wrap: wrap;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+      animation: fadeInSlide 0.25s ease-out;
+    }
+    .btn-back-nav {
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      border: 1.5px solid #38bdf8;
+      color: #fff;
+      border-radius: 12px;
+      padding: 8px 16px;
+      font-size: 0.88rem;
+      font-weight: 900;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: 0.2s;
+      box-shadow: 0 4px 14px rgba(2,132,199,0.35);
+    }
+    .btn-back-nav:hover {
+      background: #0369a1;
+      transform: translateX(3px);
+    }
+    .btn-home-nav {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid #334155;
+      color: #94a3b8;
+      border-radius: 12px;
+      padding: 8px 14px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: 0.2s;
+    }
+    .btn-home-nav:hover {
+      background: #1e293b;
+      color: #38bdf8;
+      border-color: #38bdf8;
+    }
+    .floating-back-fab {
+      position: fixed;
+      bottom: 20px;
+      left: 18px;
+      z-index: 99999;
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: #fff;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      border-radius: 999px;
+      padding: 10px 18px;
+      font-weight: 900;
+      font-size: 0.88rem;
+      box-shadow: 0 8px 25px rgba(2, 132, 199, 0.65);
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      transition: 0.2s transform;
+      animation: fadeInSlide 0.3s ease-out;
+    }
+    .floating-back-fab:active {
+      transform: scale(0.95);
     }
 
     /* Announcement */
@@ -872,9 +968,15 @@
   
   <!-- Header Bar -->
   <div class="top-nav">
-    <div class="brand">
-      <div class="brand-logo">🎓</div>
-      <div>منصة <span>طلبتي</span> VIP</div>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <button id="headerGlobalBackBtn" type="button" onclick="goBackNav()" class="btn-header-back" style="display:none;" title="الرجوع للخلف">
+        <span>⬅️</span>
+        <span>رجوع</span>
+      </button>
+      <div class="brand">
+        <div class="brand-logo">🎓</div>
+        <div>منصة <span>طلبتي</span> VIP</div>
+      </div>
     </div>
     
     <!-- User Profile & Top Direct Actions -->
@@ -1010,6 +1112,17 @@
   <!-- ⭐ Tab 2: مرشحات النجاح                    -->
   <!-- ========================================== -->
   <div id="section-predictions" class="tab-content">
+    <div class="section-back-bar">
+      <button type="button" onclick="goBackNav()" class="btn-back-nav">
+        <span>⬅️</span>
+        <span>رجوع للخلف</span>
+      </button>
+      <button type="button" onclick="switchNavTab('books')" class="btn-home-nav">
+        <span>📚</span>
+        <span>الرئيسية (الملازم والكتب)</span>
+      </button>
+    </div>
+
     <div class="vip-hero-banner" style="background: linear-gradient(135deg, #19163e 0%, #292671 50%, #3730a3 100%);">
       <div class="vip-tag" style="background:rgba(167,139,250,0.2); border-color:#a78bfa; color:#c4b5fd;">⭐ بنك الأسئلة والمرشحات المؤكدة</div>
       <h1 class="vip-hero-title">مرشحات النجاح الوزارية المؤكدة 100% 🎯</h1>
@@ -1056,6 +1169,17 @@
   <!-- 📌 Tab 3: الثوابت الوزارية                 -->
   <!-- ========================================== -->
   <div id="section-thawabit" class="tab-content">
+    <div class="section-back-bar">
+      <button type="button" onclick="goBackNav()" class="btn-back-nav">
+        <span>⬅️</span>
+        <span>رجوع للخلف</span>
+      </button>
+      <button type="button" onclick="switchNavTab('books')" class="btn-home-nav">
+        <span>📚</span>
+        <span>الرئيسية (الملازم والكتب)</span>
+      </button>
+    </div>
+
     <div class="vip-hero-banner" style="background: linear-gradient(135deg, #054131 0%, #065f46 50%, #047857 100%);">
       <div class="vip-tag" style="background:rgba(52,211,153,0.2); border-color:#34d399; color:#6ee7b7;">📌 ثوابت الامتحان الوزاري</div>
       <h1 class="vip-hero-title">الثوابت الوزارية المؤكدة لكل المواد 📋</h1>
@@ -1069,6 +1193,17 @@
   <!-- ⏱️ Tab 4: جدول وعدّاد الامتحانات الوزارية -->
   <!-- ========================================== -->
   <div id="section-timetable" class="tab-content">
+    <div class="section-back-bar">
+      <button type="button" onclick="goBackNav()" class="btn-back-nav">
+        <span>⬅️</span>
+        <span>رجوع للخلف</span>
+      </button>
+      <button type="button" onclick="switchNavTab('books')" class="btn-home-nav">
+        <span>📚</span>
+        <span>الرئيسية (الملازم والكتب)</span>
+      </button>
+    </div>
+
     <div class="vip-hero-banner" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f766e 100%);">
       <div class="vip-tag" style="background:rgba(20,184,166,0.2); border-color:#14b8a6; color:#5eead4;">⏱️ المواعيد الرسمية 2026</div>
       <h1 class="vip-hero-title">العد التنازلي وجدول الامتحانات الوزارية 🇮🇶</h1>
@@ -1160,6 +1295,17 @@
   <!-- 🧮 Tab 5: حاسبة المعدل الوزاري             -->
   <!-- ========================================== -->
   <div id="section-calculator" class="tab-content">
+    <div class="section-back-bar">
+      <button type="button" onclick="goBackNav()" class="btn-back-nav">
+        <span>⬅️</span>
+        <span>رجوع للخلف</span>
+      </button>
+      <button type="button" onclick="switchNavTab('books')" class="btn-home-nav">
+        <span>📚</span>
+        <span>الرئيسية (الملازم والكتب)</span>
+      </button>
+    </div>
+
     <div class="vip-hero-banner" style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%);">
       <div class="vip-tag" style="background:rgba(199,210,254,0.2); border-color:#818cf8; color:#e0e7ff;">🧮 الحساب الدقيق</div>
       <h1 class="vip-hero-title">حاسبة المعدل الوزاري للثالث والسادس 🇮🇶</h1>
@@ -1208,6 +1354,17 @@
   <!-- 📝 Tab 6: امتحن نفسك (100)                -->
   <!-- ========================================== -->
   <div id="section-quiz" class="tab-content">
+    <div class="section-back-bar">
+      <button type="button" onclick="goBackNav()" class="btn-back-nav">
+        <span>⬅️</span>
+        <span>رجوع للخلف</span>
+      </button>
+      <button type="button" onclick="switchNavTab('books')" class="btn-home-nav">
+        <span>📚</span>
+        <span>الرئيسية (الملازم والكتب)</span>
+      </button>
+    </div>
+
     <div style="background:linear-gradient(135deg, #091328 0%, #142852 100%); border:1px solid rgba(56, 189, 248, 0.4); border-radius:24px; padding:20px 16px; text-align:center; margin-bottom:20px;">
       <h2 style="font-size:1.45rem; font-weight:900; color:#38bdf8; margin-bottom:6px;">📝 نظام الاختبار الوزاري التجريبي (من 100)</h2>
       <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:18px;">اختر المادة لاختبار نفسك مباشرة مع التصحيح والدرجة من 100:</p>
@@ -1235,6 +1392,17 @@
   <!-- 📑 Tab 7: الأسئلة والحلول الوزارية (الأرشيف)-->
   <!-- ========================================== -->
   <div id="section-archives" class="tab-content">
+    <div class="section-back-bar">
+      <button type="button" onclick="goBackNav()" class="btn-back-nav">
+        <span>⬅️</span>
+        <span>رجوع للخلف</span>
+      </button>
+      <button type="button" onclick="switchNavTab('books')" class="btn-home-nav">
+        <span>📚</span>
+        <span>الرئيسية (الملازم والكتب)</span>
+      </button>
+    </div>
+
     <div class="vip-hero-banner" style="background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #3b82f6 100%);">
       <div class="vip-tag" style="background:rgba(147,197,253,0.2); border-color:#60a5fa; color:#dbeafe;">📑 بنك الأسئلة الرسمية</div>
       <h1 class="vip-hero-title">الأسئلة والأجوبة الوزارية النموذجية (2020 - 2025) 🇮🇶</h1>
@@ -1268,6 +1436,17 @@
   <!-- 📋 Tab 8: منظم المذاكرة والمهام اليومية    -->
   <!-- ========================================== -->
   <div id="section-planner" class="tab-content">
+    <div class="section-back-bar">
+      <button type="button" onclick="goBackNav()" class="btn-back-nav">
+        <span>⬅️</span>
+        <span>رجوع للخلف</span>
+      </button>
+      <button type="button" onclick="switchNavTab('books')" class="btn-home-nav">
+        <span>📚</span>
+        <span>الرئيسية (الملازم والكتب)</span>
+      </button>
+    </div>
+
     <div class="vip-hero-banner" style="background: linear-gradient(135deg, #064e3b 0%, #047857 50%, #10b981 100%);">
       <div class="vip-tag" style="background:rgba(110,231,183,0.2); border-color:#34d399; color:#a7f3d0;">📋 خطة المذاكرة الشخصية</div>
       <h1 class="vip-hero-title">منظم المذاكرة والمهام اليومية ومفكرة الطالب ✍️</h1>
@@ -1322,6 +1501,17 @@
   <!-- 💡 Tab 9: نصائح وتوجيهات التفوق والتحفيز   -->
   <!-- ========================================== -->
   <div id="section-tips" class="tab-content">
+    <div class="section-back-bar">
+      <button type="button" onclick="goBackNav()" class="btn-back-nav">
+        <span>⬅️</span>
+        <span>رجوع للخلف</span>
+      </button>
+      <button type="button" onclick="switchNavTab('books')" class="btn-home-nav">
+        <span>📚</span>
+        <span>الرئيسية (الملازم والكتب)</span>
+      </button>
+    </div>
+
     <div class="vip-hero-banner" style="background: linear-gradient(135deg, #4c1d95 0%, #581c87 50%, #6b21a8 100%);">
       <div class="vip-tag" style="background:rgba(216,180,254,0.2); border-color:#c084fc; color:#f3e8ff;">💡 وصايا الأوائل</div>
       <h1 class="vip-hero-title">نصائح وإرشادات التفوق والنجاح الوزاري 🌟</h1>
@@ -1385,6 +1575,17 @@
   <!-- 🛡️ Tab 5: لوحة الإدارة الكاملة (خاصة بالمشرف فقط)        -->
   <!-- ========================================================= -->
   <div id="section-admin" class="tab-content" style="display:none !important;">
+    <div class="section-back-bar">
+      <button type="button" onclick="goBackNav()" class="btn-back-nav">
+        <span>⬅️</span>
+        <span>رجوع للخلف</span>
+      </button>
+      <button type="button" onclick="switchNavTab('books')" class="btn-home-nav">
+        <span>📚</span>
+        <span>الرئيسية (الملازم والكتب)</span>
+      </button>
+    </div>
+
     <div class="admin-dashboard-container">
       
       <!-- Top Title -->
@@ -1731,6 +1932,12 @@
     </div>
   </div>
 
+  <!-- 🔘 Floating Back Action Button (Mobile & Desktop) -->
+  <button id="floatingBackFab" type="button" onclick="goBackNav()" class="floating-back-fab" title="الرجوع للخلف">
+    <span>⬅️</span>
+    <span>رجوع للخلف</span>
+  </button>
+
 </div>
 
 <!-- ========================================== -->
@@ -1738,9 +1945,15 @@
 <!-- ========================================== -->
 <div id="pdfViewerModal" class="pdf-modal-bg">
   <div class="pdf-modal-header" style="flex-wrap:wrap; gap:10px;">
-    <div>
-      <h3 id="pdfViewerTitle" style="color:#38bdf8; font-weight:900; font-size:1.1rem;">📖 تصفح الملزمة</h3>
-      <span id="pdfViewerCat" style="font-size:0.75rem; color:#94a3b8;">المنهاج الوزاري المعتمد</span>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <button onclick="closePdfViewer()" class="btn-header-back" style="background:#ef4444; border-color:#f87171; color:#fff;" title="رجوع وإغلاق">
+        <span>⬅️</span>
+        <span>رجوع للخلف</span>
+      </button>
+      <div>
+        <h3 id="pdfViewerTitle" style="color:#38bdf8; font-weight:900; font-size:1.1rem;">📖 تصفح الملزمة</h3>
+        <span id="pdfViewerCat" style="font-size:0.75rem; color:#94a3b8;">المنهاج الوزاري المعتمد</span>
+      </div>
     </div>
 
     <!-- Interactive Reader Top Toolbar -->
@@ -1755,7 +1968,7 @@
       <button onclick="downloadPdfDirect()" id="pdfDownloadBtn" class="btn-action btn-read" style="background:#2563eb; color:#fff;">
         📥 تنزيل PDF
       </button>
-      <button onclick="closePdfViewer()" class="btn-close" style="font-size:1.2rem; padding:0 8px;">✕</button>
+      <button onclick="closePdfViewer()" class="btn-close" style="font-size:1.2rem; padding:0 8px;" title="إغلاق">✕</button>
     </div>
   </div>
 
@@ -2553,11 +2766,62 @@
     if (modal) modal.style.display = 'none';
   }
 
-  function switchNavTab(tab) {
+  let currentNavTab = 'books';
+  let navHistory = [];
+
+  function goBackNav() {
+    // 1. If any modal is open, close it first
+    const pdfModal = document.getElementById('pdfViewerModal');
+    if (pdfModal && pdfModal.style.display === 'flex') {
+      closePdfViewer();
+      return;
+    }
+    const mcModal = document.getElementById('mastercardPaymentModal');
+    if (mcModal && mcModal.style.display === 'flex') {
+      closeMastercardModal();
+      return;
+    }
+    const profileModal = document.getElementById('studentProfileModal');
+    if (profileModal && profileModal.style.display === 'flex') {
+      closeStudentProfileModal();
+      return;
+    }
+
+    // 2. Otherwise navigate back in tab history
+    if (navHistory.length > 0) {
+      const prevTab = navHistory.pop();
+      switchNavTab(prevTab, true);
+    } else {
+      switchNavTab('books', true);
+    }
+  }
+
+  function switchNavTab(tab, isBack = false) {
     // Strict protection: If not admin, completely block admin tab
     if (tab === 'admin' && (!currentUser || currentUser.role !== 'admin')) {
       tab = 'books';
     }
+
+    if (!isBack && currentNavTab && currentNavTab !== tab) {
+      navHistory.push(currentNavTab);
+    }
+    currentNavTab = tab;
+
+    // Update Header Back Button & Floating Back FAB visibility
+    const headerBackBtn = document.getElementById('headerGlobalBackBtn');
+    const floatingBackFab = document.getElementById('floatingBackFab');
+
+    if (tab !== 'books') {
+      if (headerBackBtn) headerBackBtn.style.display = 'inline-flex';
+      if (floatingBackFab) floatingBackFab.style.display = 'inline-flex';
+    } else {
+      if (headerBackBtn) headerBackBtn.style.display = 'none';
+      if (floatingBackFab) floatingBackFab.style.display = 'none';
+      if (isBack) navHistory = []; // Reset history when returned home
+    }
+
+    // Smooth scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
     document.querySelectorAll('.tab-content').forEach(el => {
       el.classList.remove('active');
@@ -2585,7 +2849,7 @@
 
     if (tab === 'admin') {
       if (!currentUser || currentUser.role !== 'admin') {
-        switchNavTab('books');
+        switchNavTab('books', true);
         return;
       }
       renderAdminAll();
