@@ -1,1 +1,4353 @@
 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>منصة طلبتي التعليمية | المنصة الأكاديمية الأولى 🇮🇶</title>
+  
+  <meta name="theme-color" content="#070d1e">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <!-- Google Fonts: Cairo & Tajawal -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- 📖 Mozilla PDF.js & jsPDF Engines for direct high-performance in-app PDF rendering -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- 🔥 Firebase SDKs for Cloud Persistence & Realtime Sync -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <style>
+    :root {
+      --bg-dark: #070d1e;
+      --bg-card: #0e1a38;
+      --bg-card-elevated: #15244c;
+      --border-color: #1e3567;
+      --primary: #2563eb;
+      --primary-glow: #38bdf8;
+      --accent: #f59e0b;
+      --emerald: #10b981;
+      --purple: #8b5cf6;
+      --danger: #ef4444;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Tajawal', 'Cairo', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 0%, #162a56 0%, #060b18 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 12px 12px 90px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1060px;
+      margin: 0 auto;
+    }
+
+    @keyframes fadeInSlide {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ========================================== */
+    /* 🚪 1. Auth Overlay Gate                    */
+    /* ========================================== */
+    #authOverlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at top, #14244a 0%, #040711 100%);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      overflow-y: auto;
+    }
+
+    .auth-card {
+      background: #0d1833;
+      border: 1.5px solid rgba(56, 189, 248, 0.35);
+      border-radius: 28px;
+      padding: 24px 20px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.85);
+      animation: fadeInSlide 0.3s ease-out;
+      text-align: center;
+    }
+
+    .auth-logo-badge {
+      width: 74px;
+      height: 74px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #2563eb, #38bdf8);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      margin-bottom: 10px;
+      box-shadow: 0 8px 25px rgba(37,99,235,0.45);
+    }
+
+    .auth-role-switcher {
+      display: flex;
+      background: #060b18;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 4px;
+      margin-bottom: 16px;
+      gap: 4px;
+    }
+
+    .role-btn {
+      flex: 1;
+      padding: 11px 8px;
+      border-radius: 12px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .role-btn.active {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(37,99,235,0.4);
+    }
+
+    .role-btn.admin-mode.active {
+      background: linear-gradient(135deg, #d97706, #b45309);
+      box-shadow: 0 4px 14px rgba(217,119,6,0.4);
+      color: #fff;
+    }
+
+    .form-group { text-align: right; margin-bottom: 13px; }
+    .form-label { display: block; font-size: 0.85rem; font-weight: 800; color: #cbd5e1; margin-bottom: 6px; }
+    .form-inp {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: #050a16;
+      border: 1px solid #1f3460;
+      color: #fff;
+      outline: none;
+      font-size: 0.95rem;
+      transition: 0.2s;
+    }
+    .form-inp:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 14px rgba(56,189,248,0.3);
+    }
+
+    .btn-submit-main {
+      width: 100%;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #fff;
+      border: none;
+      padding: 13px;
+      border-radius: 14px;
+      font-weight: 900;
+      font-size: 1.02rem;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(37,99,235,0.4);
+      margin-top: 8px;
+      transition: 0.2s transform;
+    }
+    .btn-submit-main:active { transform: scale(0.98); }
+
+    /* ========================================== */
+    /* 🧭 Header & Nav Bar                        */
+    /* ========================================== */
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0e1a38;
+      padding: 10px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 12px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .brand { font-size: 1.15rem; font-weight: 900; color: #fff; display: flex; align-items: center; gap: 8px; }
+    .brand-logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #2563eb, #38bdf8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .user-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #060b18;
+      padding: 4px 10px 4px 6px;
+      border-radius: 999px;
+      border: 1px solid var(--border-color);
+    }
+    .user-chip-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #3b82f6, #f59e0b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 900;
+      color: #fff;
+    }
+    .user-chip-info { font-size: 0.78rem; text-align: right; }
+    .user-chip-name { font-weight: 800; color: #fff; line-height: 1.2; }
+    .user-chip-role { color: #38bdf8; font-size: 0.7rem; font-weight: 700; }
+    .btn-logout {
+      background: rgba(239,68,68,0.15);
+      border: 1px solid rgba(239,68,68,0.35);
+      color: #f87171;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* Announcement */
+    .announcement-bar {
+      background: linear-gradient(135deg, rgba(37,99,235,0.2) 0%, rgba(16,185,129,0.18) 100%);
+      border: 1px solid rgba(56,189,248,0.35);
+      border-radius: 18px;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .moti-icon { font-size: 1.6rem; }
+    .moti-text-title { font-size: 0.95rem; font-weight: 900; color: #38bdf8; }
+    .moti-text-sub { font-size: 0.84rem; color: #e2e8f0; font-weight: 600; }
+
+    /* Navigation Tabs */
+    .nav-bar-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      margin-bottom: 14px;
+      scrollbar-width: none;
+    }
+    .nav-bar-scroll::-webkit-scrollbar { display: none; }
+    .nav-tab-btn {
+      white-space: nowrap;
+      padding: 10px 15px;
+      border-radius: 14px;
+      border: 1px solid var(--border-color);
+      font-weight: 800;
+      font-size: 13.5px;
+      cursor: pointer;
+      color: var(--text-muted);
+      background: #0e1a38;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-tab-btn.active {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #fff;
+      border-color: #38bdf8;
+      box-shadow: 0 4px 14px rgba(37,99,235,0.4);
+    }
+    .nav-tab-btn.admin-tab-btn.active {
+      background: linear-gradient(135deg, #d97706, #b45309);
+      border-color: #f59e0b;
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(217,119,6,0.4);
+    }
+
+    .tab-content { display: none; animation: fadeInSlide 0.25s ease-out; }
+    .tab-content.active { display: block; }
+
+    /* Hero Banner */
+    .vip-hero-banner {
+      background: linear-gradient(135deg, #0e1a38 0%, #182e5b 50%, #1e40af 100%);
+      border-radius: 22px;
+      padding: 18px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(56,189,248,0.35);
+    }
+    .vip-tag {
+      display: inline-block;
+      background: rgba(245,158,11,0.2);
+      border: 1px solid #f59e0b;
+      color: #fbbf24;
+      padding: 3px 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+    .vip-hero-title { font-size: 1.35rem; font-weight: 900; color: #fff; margin-bottom: 6px; }
+    .vip-hero-desc { color: #dbeafe; font-size: 0.86rem; line-height: 1.5; margin-bottom: 14px; }
+
+    /* Mastercard Showcase Box */
+    .mastercard-showcase {
+      background: rgba(6, 11, 24, 0.9);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      border-radius: 16px;
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .mc-info-side { display: flex; align-items: center; gap: 10px; }
+    .mc-logo-badge {
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: linear-gradient(90deg, #eb001b 0%, #ff5f00 50%, #f79e1b 100%);
+      color: #fff;
+      font-weight: 900;
+      font-size: 10px;
+      letter-spacing: 0.5px;
+    }
+    .mc-num-text { font-family: monospace; font-size: 1.15rem; font-weight: 900; color: #38bdf8; direction: ltr; }
+
+    .btn-copy-sm {
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* Code Box */
+    .code-box {
+      background: #0e1a38;
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 14px;
+      margin-bottom: 16px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .code-input {
+      flex: 1;
+      min-width: 170px;
+      padding: 11px 14px;
+      border-radius: 12px;
+      border: 1px solid #233a69;
+      background: #050a16;
+      color: #fff;
+      font-family: monospace;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      outline: none;
+    }
+    .btn-redeem {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #fff;
+      border: none;
+      padding: 11px 18px;
+      border-radius: 12px;
+      font-weight: 900;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    /* Grid Cards */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 14px;
+      margin-bottom: 25px;
+    }
+    .book-card {
+      background: #0e1a38;
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: 0.2s;
+    }
+    .book-card:hover {
+      border-color: #38bdf8;
+      transform: translateY(-2px);
+    }
+    .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .cat-badge {
+      background: #192d5c;
+      color: #93c5fd;
+      font-size: 0.76rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 8px;
+    }
+    .status-badge {
+      font-size: 0.75rem;
+      font-weight: 900;
+      padding: 3px 10px;
+      border-radius: 8px;
+    }
+    .status-locked { background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.35); }
+    .status-unlocked { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.35); }
+
+    .book-title { font-size: 1.12rem; font-weight: 900; color: #fff; margin-bottom: 6px; }
+    .book-desc { font-size: 0.84rem; color: #94a3b8; line-height: 1.5; margin-bottom: 14px; flex-grow: 1; }
+
+    .book-actions-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border-top: 1px solid #1a2c56;
+      padding-top: 12px;
+    }
+    .card-lock-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .price-tag { font-size: 1.05rem; font-weight: 900; color: #34d399; font-family: monospace; }
+    .btn-action {
+      padding: 8px 16px;
+      border-radius: 12px;
+      font-weight: 900;
+      font-size: 0.85rem;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .btn-lock { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; }
+    .btn-read { background: linear-gradient(135deg, #10b981, #059669); color: #fff; }
+
+    /* ========================================== */
+    /* 🛡️ Full Admin Dashboard Styles            */
+    /* ========================================== */
+    .admin-dashboard-container {
+      background: #0e1a38;
+      border: 1.5px solid #2a437a;
+      border-radius: 26px;
+      padding: 22px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+    }
+    .admin-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1.5px solid #1e3567;
+      padding-bottom: 14px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .admin-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .admin-stat-card {
+      background: #070e20;
+      border: 1px solid #1e3a70;
+      border-radius: 16px;
+      padding: 12px;
+      text-align: center;
+    }
+    .admin-subnav-buttons {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      margin-bottom: 20px;
+      padding-bottom: 6px;
+      scrollbar-width: none;
+    }
+    .admin-subnav-buttons::-webkit-scrollbar { display: none; }
+    .admin-nav-btn {
+      padding: 10px 16px;
+      border-radius: 14px;
+      border: 1.5px solid #1e3567;
+      background: #081024;
+      color: #cbd5e1;
+      font-size: 0.88rem;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: 0.2s;
+    }
+    .admin-nav-btn.active {
+      background: linear-gradient(135deg, #d97706, #b45309);
+      color: #fff;
+      border-color: #f59e0b;
+      box-shadow: 0 4px 14px rgba(217,119,6,0.4);
+    }
+
+    .admin-panel-card {
+      background: #091226;
+      border: 1px solid #1e3567;
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 18px;
+    }
+
+    .file-dropzone {
+      border: 2px dashed #2563eb;
+      background: rgba(37,99,235,0.06);
+      border-radius: 16px;
+      padding: 18px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-bottom: 14px;
+    }
+    .file-dropzone:hover {
+      background: rgba(37,99,235,0.14);
+      border-color: #38bdf8;
+    }
+
+    .admin-item-row {
+      background: #070e20;
+      border: 1px solid #1e3567;
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    /* PDF Viewer Modal & Canvas Reader */
+    .pdf-modal-bg {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 7, 18, 0.96);
+      backdrop-filter: blur(12px);
+      z-index: 100001;
+      flex-direction: column;
+      padding: 8px;
+    }
+    .pdf-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0e1a38;
+      padding: 10px 14px;
+      border-radius: 16px 16px 0 0;
+      border-bottom: 1.5px solid #1e3567;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    }
+    .pdf-modal-body {
+      flex: 1;
+      background: #050a16;
+      border-radius: 0 0 16px 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .pdf-toolbar-sub {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #091226;
+      padding: 8px 12px;
+      border-bottom: 1px solid #1e3567;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .pdf-canvas-viewport {
+      flex: 1;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+      background: #060b18;
+      -webkit-overflow-scrolling: touch;
+    }
+    .pdf-render-canvas {
+      max-width: 100%;
+      height: auto;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.8);
+      border-radius: 8px;
+      background: #fff;
+      transition: transform 0.2s ease, filter 0.3s;
+    }
+    .pdf-render-canvas.night-mode {
+      filter: invert(0.92) hue-rotate(180deg) contrast(1.08);
+    }
+    .pdf-iframe-view {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #fff;
+    }
+    .pdf-text-reader {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+      color: #e2e8f0;
+      font-size: 0.95rem;
+      line-height: 1.9;
+    }
+
+    /* Study Planner & Tasks styles */
+    .study-task-item {
+      background: #070d1e;
+      border: 1px solid #1e3567;
+      border-radius: 14px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .study-task-item.completed {
+      border-color: #059669;
+      background: rgba(16, 185, 129, 0.08);
+      opacity: 0.75;
+    }
+    .study-task-item.completed .task-text {
+      text-decoration: line-through;
+      color: #94a3b8;
+    }
+
+    /* Modal general */
+    .modal-bg {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      backdrop-filter: blur(8px);
+      z-index: 100000;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+    }
+    .modal-box {
+      background: #0e1a38;
+      border: 1px solid #2a437a;
+      border-radius: 24px;
+      padding: 20px;
+      width: 100%;
+      max-width: 500px;
+      max-height: 92vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.9);
+      animation: fadeInSlide 0.25s ease-out;
+    }
+    .modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .btn-close { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
+
+    .mc-card-ui {
+      background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+      border: 1px solid rgba(56,189,248,0.4);
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+    .mc-chip {
+      width: 34px;
+      height: 24px;
+      background: #f59e0b;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    /* OTP Inputs */
+    .otp-digit-inp {
+      width: 58px;
+      height: 60px;
+      border-radius: 16px;
+      background: #060b18;
+      border: 2px solid #1f3460;
+      color: #38bdf8;
+      font-size: 1.8rem;
+      font-weight: 900;
+      text-align: center;
+      outline: none;
+      font-family: monospace;
+      transition: all 0.2s;
+    }
+    .otp-digit-inp:focus {
+      border-color: #38bdf8;
+      background: #0c1836;
+      box-shadow: 0 0 16px rgba(56, 189, 248, 0.4);
+      transform: translateY(-2px);
+    }
+
+    /* Top WhatsApp Support Bar */
+    .top-wa-banner {
+      background: linear-gradient(135deg, rgba(37, 211, 102, 0.15) 0%, rgba(18, 140, 126, 0.25) 100%);
+      border: 1.5px solid rgba(37, 211, 102, 0.45);
+      border-radius: 18px;
+      padding: 10px 14px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      box-shadow: 0 4px 18px rgba(37, 211, 102, 0.15);
+    }
+    .top-wa-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .top-wa-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #25d366, #128c7e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
+      flex-shrink: 0;
+    }
+    .top-wa-btn-action {
+      background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: none;
+      font-weight: 900;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 14px rgba(37, 211, 102, 0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .top-wa-btn-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(37, 211, 102, 0.6);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ========================================== -->
+<!-- 🚪 1. Unified Auth Gate (Username & Password) -->
+<!-- ========================================== -->
+<div id="authOverlay">
+  <div class="auth-card">
+    <div class="auth-logo-badge" onclick="handleSecretLogoClick()" title="منصة طلبتي التعليمية" style="cursor:pointer; user-select:none;">🎓</div>
+    <h2 style="font-size:1.45rem; font-weight:900; color:#fff; margin-bottom:4px;">منصة طلبتي التعليمية</h2>
+    <p style="font-size:0.83rem; color:#94a3b8; margin-bottom:16px;">المنصة الأكاديمية الشاملة للملازم ومرشحات النجاح 🇮🇶</p>
+
+    <!-- Welcome Note -->
+    <div id="studentWelcomeNote" style="background: rgba(37,99,235,0.14); border: 1px solid rgba(56,189,248,0.3); border-radius: 12px; padding: 10px; margin-bottom: 16px; font-size: 0.8rem; color: #7dd3fc; font-weight: 700; line-height: 1.5;">
+      ✨ "مرحباً بك في منصة طلبتي.. نجاحك علينا لا تشيل هم، بس قول بسم الله الرحمٰن الرحيم وصلِّ على النبي محمد ﷺ"
+    </div>
+
+    <!-- Unified Single Login Form (Username & Password) -->
+    <form id="studentLoginForm" onsubmit="handleUnifiedLoginSubmit(event)">
+      <div class="form-group">
+        <label class="form-label">اسم المستخدم أو البريد (Username):</label>
+        <input type="text" id="loginUsername" class="form-inp" placeholder="أدخل اسم المستخدم (مثال: ali_2026 أو firt)" required autocomplete="username" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">الاسم الكامل للطالب (اختياري):</label>
+        <input type="text" id="loginFullName" class="form-inp" placeholder="مثال: علي حسن عبد" autocomplete="name" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">المحافظة:</label>
+        <select id="loginGovernorate" class="form-inp">
+          <option value="بغداد">بغداد</option>
+          <option value="البصرة">البصرة</option>
+          <option value="نينوى">نينوى</option>
+          <option value="أربيل">أربيل</option>
+          <option value="النجف الأشرف">النجف الأشرف</option>
+          <option value="كربلاء المقدسة">كربلاء المقدسة</option>
+          <option value="بابل">بابل</option>
+          <option value="ديالى">ديالى</option>
+          <option value="الأنبار">الأنبار</option>
+          <option value="ذي قار">ذي قار</option>
+          <option value="صلاح الدين">صلاح الدين</option>
+          <option value="كركوك">كركوك</option>
+          <option value="واسط">واسط</option>
+          <option value="ميسان">ميسان</option>
+          <option value="الديوانية">الديوانية</option>
+          <option value="المثنى">المثنى</option>
+          <option value="السليمانية">السليمانية</option>
+          <option value="دهوك">دهوك</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">الرمز السري / كلمة المرور (Password):</label>
+        <div style="position:relative;">
+          <input type="password" id="loginPassword" class="form-inp" style="padding-left:40px; font-weight:700;" placeholder="••••••••" required autocomplete="current-password" />
+          <button type="button" onclick="togglePasswordVisibility('loginPassword', this)" style="position:absolute; left:10px; top:50%; transform:translateY(-50%); background:none; border:none; color:#94a3b8; font-size:1.1rem; cursor:pointer;" title="إظهار/إخفاء كلمة المرور">👁️</button>
+        </div>
+        <div style="font-size:0.75rem; color:#94a3b8; margin-top:4px; text-align:right;">
+          للزوار والطلبة: أنشئ أي كلمة مرور خاصة بك لحفظ حسابك.
+        </div>
+      </div>
+
+      <button type="submit" id="btnSendSmsOtp" class="btn-submit-main" style="display:flex; align-items:center; justify-content:center; gap:8px;">
+        <span>🚀 الدخول وتصفح المنصة</span>
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- 📩 Floating Simulated SMS Incoming Toast   -->
+<!-- ========================================== -->
+<div id="simulatedSmsToast" style="display:none; position:fixed; top:18px; left:50%; transform:translateX(-50%); width:92%; max-width:420px; background:rgba(9, 18, 42, 0.96); backdrop-filter:blur(14px); border:1.5px solid #38bdf8; border-radius:20px; padding:14px 16px; z-index:999999; box-shadow:0 20px 50px rgba(0,0,0,0.8); animation:fadeInSlide 0.3s ease-out;">
+  <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;">
+    <div style="display:flex; align-items:center; gap:8px;">
+      <span style="font-size:1.3rem;">💬</span>
+      <div>
+        <div style="font-size:0.85rem; font-weight:900; color:#fff;">رسائل SMS • Talabati IRAQ</div>
+        <div style="font-size:0.7rem; color:#94a3b8;">الآن • رسالة نصية واردة</div>
+      </div>
+    </div>
+    <button onclick="dismissSmsToast()" style="background:none; border:none; color:#94a3b8; font-size:1rem; cursor:pointer;">✕</button>
+  </div>
+  <div style="font-size:0.85rem; color:#e2e8f0; line-height:1.5; margin-bottom:8px; text-align:right;">
+    رمز التأكيد الخاص بك في منصة طلبتي هو: <b id="smsToastCodeNumber" style="color:#fbbf24; font-size:1.2rem; font-family:monospace; letter-spacing:2px;">1234</b>
+  </div>
+  <div style="display:flex; justify-content:flex-end; gap:6px;">
+    <button onclick="autoFillSmsCode()" class="btn-action btn-read" style="padding:5px 12px; font-size:0.78rem;">
+      📋 تعبئة الرمز تلقائياً والدخول
+    </button>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- 📱 2. Main Application Shell               -->
+<!-- ========================================== -->
+<div class="container" id="mainAppShell" style="display:none;">
+  
+  <!-- Header Bar -->
+  <div class="top-nav">
+    <div class="brand">
+      <div class="brand-logo">🎓</div>
+      <div>منصة <span>طلبتي</span> VIP</div>
+    </div>
+    
+    <!-- User Profile & Top Direct Actions -->
+    <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+      <button type="button" onclick="openDirectAdminWhatsApp()" class="top-wa-btn-action" title="تواصل فوري مع المشرف عبر واتساب">
+        <span>💬</span>
+        <span>واتساب الإدارة</span>
+      </button>
+
+      <div class="user-chip" onclick="openStudentProfileModal()" style="cursor:pointer;" title="عرض الملف الشخصي وبيانات الخط">
+        <div class="user-chip-avatar" id="headerUserAvatar">ع</div>
+        <div class="user-chip-info">
+          <div class="user-chip-name" id="headerUserName">علي حسن</div>
+          <div class="user-chip-role" id="headerUserRole">طالب متميز</div>
+        </div>
+      </div>
+
+      <button onclick="handleGlobalLogout()" class="btn-logout" title="تسجيل الخروج">🚪 خروج</button>
+    </div>
+  </div>
+
+  <!-- 🟢 Top WhatsApp Support & Direct Order Banner (في بداية التطبيق) -->
+  <div class="top-wa-banner">
+    <div class="top-wa-info">
+      <div class="top-wa-icon">💬</div>
+      <div>
+        <div style="font-size:0.92rem; font-weight:900; color:#34d399;">مراسلة الإدارة وطلب أكواد التفعيل المباشرة (واتساب)</div>
+        <div style="font-size:0.78rem; color:#cbd5e1;">لطلب كود تفعيل الملازم أو المرشحات بالماستر كارد • الرقم المعتمد: <b style="color:#38bdf8; direction:ltr; display:inline-block;">07734378998</b></div>
+      </div>
+    </div>
+    <div style="display:flex; gap:6px;">
+      <button onclick="openDirectAdminWhatsApp()" class="top-wa-btn-action">
+        <span>📲 فتح محادثة الواتساب الآن</span>
+      </button>
+      <button onclick="copyPaymentNumber('910160728184', 'ماستر كارد الرافدين')" class="btn-copy-sm" style="background:#0f172a; border:1px solid #1e3567; color:#fbbf24;">
+        📋 نسخ الماستر كارد
+      </button>
+    </div>
+  </div>
+
+  <!-- Announcement Banner -->
+  <div class="announcement-bar">
+    <div class="moti-icon">✨</div>
+    <div>
+      <div class="moti-text-title" id="globalNoticeTitle">مرحباً بك في منصة طلبتي التعليمية 🌟</div>
+      <div class="moti-text-sub" id="globalNoticeSub">نجاحك علينا لا تشيل هم.. بس قول "بسم الله الرحمٰن الرحيم" وصلِّ على النبي محمد ﷺ وشد حيلك!</div>
+    </div>
+  </div>
+
+  <!-- Main Tabs Scroll -->
+  <div class="nav-bar-scroll" id="mainNavTabsContainer">
+    <button id="tabBtn-books" class="nav-tab-btn active" onclick="switchNavTab('books')">📚 الملازم والكتب</button>
+    <button id="tabBtn-predictions" class="nav-tab-btn" onclick="switchNavTab('predictions')">⭐ مرشحات النجاح</button>
+    <button id="tabBtn-thawabit" class="nav-tab-btn" onclick="switchNavTab('thawabit')">📌 الثوابت الوزارية</button>
+    <button id="tabBtn-archives" class="nav-tab-btn" onclick="switchNavTab('archives')">📑 الأسئلة والحلول الوزارية</button>
+    <button id="tabBtn-timetable" class="nav-tab-btn" onclick="switchNavTab('timetable')">⏱️ جدول وعدّاد الامتحانات</button>
+    <button id="tabBtn-calculator" class="nav-tab-btn" onclick="switchNavTab('calculator')">🧮 حاسبة المعدل الوزاري</button>
+    <button id="tabBtn-quiz" class="nav-tab-btn" onclick="switchNavTab('quiz')">📝 امتحن نفسك (100)</button>
+    <button id="tabBtn-planner" class="nav-tab-btn" onclick="switchNavTab('planner')">📋 منظم المذاكرة والمهام</button>
+    <button id="tabBtn-tips" class="nav-tab-btn" onclick="switchNavTab('tips')">💡 نصائح وتوجيهات التفوق</button>
+    <!-- Admin Tab ONLY visible if logged in as Admin -->
+    <button id="tabBtn-admin" class="nav-tab-btn admin-tab-btn" style="display:none !important;" onclick="switchNavTab('admin')">🛡️ لوحة الإدارة وإضافة الكتب</button>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 📚 Tab 1: Books & Study Materials (Students)-->
+  <!-- ========================================== -->
+  <div id="section-books" class="tab-content active">
+    <div class="vip-hero-banner">
+      <div class="vip-tag">⭐ المناهج والملازم الشاملة</div>
+      <h1 class="vip-hero-title">تحميل وتصفح الملازم والكتب المنهجية المعتمدة 🇮🇶</h1>
+      <p class="vip-hero-desc">تصفح ملفات PDF والشروحات الوزارية المعتمدة مباشرة داخل التطبيق مع قارئ PDF متقدم • تفعيل الملازم المقفولة بـ 10 آلاف دينار عبر ماستر كارد الرافدين أو كود التفعيل.</p>
+      
+      <div class="mastercard-showcase">
+        <div class="mc-info-side">
+          <div class="mc-logo-badge">Master</div>
+          <div>
+            <div style="font-size:0.78rem; color:#94a3b8; font-weight:800;">دفع إلكتروني عبر ماستر كارد الرافدين:</div>
+            <div class="mc-num-text">910160728184</div>
+          </div>
+        </div>
+        <button onclick="copyPaymentNumber('910160728184', 'ماستر كارد الرافدين')" class="btn-copy-sm">📋 نسخ الرقم</button>
+      </div>
+    </div>
+
+    <!-- Direct User PDF File Upload & Open Option -->
+    <div style="background:#0b152d; border:1px dashed #38bdf8; border-radius:16px; padding:12px 16px; margin-bottom:14px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span style="font-size:1.5rem;">📂</span>
+        <div>
+          <div style="font-size:0.9rem; font-weight:900; color:#38bdf8;">قارئ PDF المباشر المتكامل (من جهازك):</div>
+          <div style="font-size:0.78rem; color:#94a3b8;">يمكنك فتح أي ملف PDF مخزون على هاتفك أو حاسوبك وتصفحه بكامل ميزات القراءة الليلية والتكبير!</div>
+        </div>
+      </div>
+      <div>
+        <input type="file" id="userLocalPdfFileInput" accept="application/pdf" style="display:none;" onchange="handleUserLocalPdfSelected(event)" />
+        <button onclick="document.getElementById('userLocalPdfFileInput').click()" class="btn-action" style="background:linear-gradient(135deg, #0284c7, #2563eb); color:#fff;">
+          📖 فتح ملف PDF من جهازي وقراءته
+        </button>
+      </div>
+    </div>
+
+    <!-- Code Input Box -->
+    <div class="code-box" style="display:flex; gap:6px; flex-wrap:wrap;">
+      <input type="text" id="studentCodeInput" class="code-input" style="flex:1; min-width:200px;" placeholder="أدخل أو الصق كود تفعيل الملزمة هنا..." />
+      <button type="button" onclick="pasteFromClipboard('studentCodeInput')" class="btn-copy-sm" style="background:#1e3a8a; color:#93c5fd; padding:10px 14px; font-weight:800; border-radius:12px; border:1px solid #3b82f6; white-space:nowrap;">
+        📋 لصق الكود
+      </button>
+      <button onclick="redeemBookCode()" class="btn-redeem" style="white-space:nowrap;">
+        🔑 تفعيل وفتح المادة
+      </button>
+    </div>
+
+    <!-- Search & Category Filters -->
+    <div style="display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap;">
+      <input type="text" id="booksSearchInp" oninput="renderStudentBooks()" placeholder="🔍 ابحث في الملازم والكتب المتاحة..." class="form-inp" style="flex:2; min-width:180px; margin-bottom:0;" />
+      <select id="booksCatFilter" onchange="renderStudentBooks()" class="form-inp" style="flex:1; min-width:140px; margin-bottom:0;">
+        <option value="all">كل المواد والمناهج</option>
+        <option value="الرياضيات">الرياضيات</option>
+        <option value="الأحياء">الأحياء</option>
+        <option value="الكيمياء">الكيمياء</option>
+        <option value="الفيزياء">الفيزياء</option>
+        <option value="اللغة العربية">اللغة العربية</option>
+        <option value="اللغة الإنجليزية">اللغة الإنجليزية</option>
+        <option value="التربية الإسلامية">التربية الإسلامية</option>
+      </select>
+    </div>
+    
+    <div class="grid" id="studentBooksGrid"></div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- ⭐ Tab 2: مرشحات النجاح                    -->
+  <!-- ========================================== -->
+  <div id="section-predictions" class="tab-content">
+    <div class="vip-hero-banner" style="background: linear-gradient(135deg, #19163e 0%, #292671 50%, #3730a3 100%);">
+      <div class="vip-tag" style="background:rgba(167,139,250,0.2); border-color:#a78bfa; color:#c4b5fd;">⭐ بنك الأسئلة والمرشحات المؤكدة</div>
+      <h1 class="vip-hero-title">مرشحات النجاح الوزارية المؤكدة 100% 🎯</h1>
+      <p class="vip-hero-desc">مرشحات النجاح مقفولة لحفظ الحقوق • تفتح المادة بـ 10 آلاف دينار عبر بطاقة الماستر كارد المباشرة أو كود الأدمن السري.</p>
+      
+      <div class="mastercard-showcase">
+        <div class="mc-info-side">
+          <div class="mc-logo-badge">Master</div>
+          <div>
+            <div style="font-size:0.78rem; color:#94a3b8; font-weight:800;">ماستر كارد الرافدين المعتمدة:</div>
+            <div class="mc-num-text">910160728184</div>
+          </div>
+        </div>
+        <button onclick="copyPaymentNumber('910160728184', 'ماستر كارد الرافدين')" class="btn-copy-sm">📋 نسخ الرقم</button>
+      </div>
+    </div>
+
+    <!-- Code Input for Predictions -->
+    <div class="code-box" style="display:flex; gap:6px; flex-wrap:wrap;">
+      <input type="text" id="studentPredCodeInput" class="code-input" style="flex:1; min-width:200px;" placeholder="أدخل أو الصق كود تفعيل مرشحة النجاح هنا..." />
+      <button type="button" onclick="pasteFromClipboard('studentPredCodeInput')" class="btn-copy-sm" style="background:#4c1d95; color:#ddd6fe; padding:10px 14px; font-weight:800; border-radius:12px; border:1px solid #8b5cf6; white-space:nowrap;">
+        📋 لصق الكود
+      </button>
+      <button onclick="redeemPredictionCode()" class="btn-redeem" style="white-space:nowrap;">
+        🔑 تفعيل وفتح المرشحة
+      </button>
+    </div>
+
+    <div style="display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap;">
+      <input type="text" id="predSearchInp" oninput="renderStudentPredictions()" placeholder="🔍 ابحث في مرشحات النجاح المتاحة..." class="form-inp" style="flex:2; min-width:180px; margin-bottom:0;" />
+      <select id="predCatFilter" onchange="renderStudentPredictions()" class="form-inp" style="flex:1; min-width:140px; margin-bottom:0;">
+        <option value="all">كل المواد</option>
+        <option value="الرياضيات">الرياضيات</option>
+        <option value="الأحياء">الأحياء</option>
+        <option value="الكيمياء">الكيمياء</option>
+        <option value="الفيزياء">الفيزياء</option>
+        <option value="اللغة العربية">اللغة العربية</option>
+      </select>
+    </div>
+    <div class="grid" id="studentPredictionsGrid"></div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 📌 Tab 3: الثوابت الوزارية                 -->
+  <!-- ========================================== -->
+  <div id="section-thawabit" class="tab-content">
+    <div class="vip-hero-banner" style="background: linear-gradient(135deg, #054131 0%, #065f46 50%, #047857 100%);">
+      <div class="vip-tag" style="background:rgba(52,211,153,0.2); border-color:#34d399; color:#6ee7b7;">📌 ثوابت الامتحان الوزاري</div>
+      <h1 class="vip-hero-title">الثوابت الوزارية المؤكدة لكل المواد 📋</h1>
+      <p class="vip-hero-desc">المواضيع والمسائل والتعاليل الثابتة التي تتكرر سنوياً في الامتحان الوزاري مع تفصيل الدرجات.</p>
+    </div>
+
+    <div class="grid" id="studentThawabitGrid"></div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- ⏱️ Tab 4: جدول وعدّاد الامتحانات الوزارية -->
+  <!-- ========================================== -->
+  <div id="section-timetable" class="tab-content">
+    <div class="vip-hero-banner" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f766e 100%);">
+      <div class="vip-tag" style="background:rgba(20,184,166,0.2); border-color:#14b8a6; color:#5eead4;">⏱️ المواعيد الرسمية 2026</div>
+      <h1 class="vip-hero-title">العد التنازلي وجدول الامتحانات الوزارية 🇮🇶</h1>
+      <p class="vip-hero-desc">تابع الأيام والساعات المتبقية للامتحان الوزاري الدور الأول مع الجدول الزمني المنظم لكل المراحل.</p>
+    </div>
+
+    <!-- Countdown Timer Widgets -->
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px; margin-bottom:18px;">
+      
+      <!-- 3rd Intermediate Countdown -->
+      <div style="background:#0e1a38; border:1.5px solid #1e3567; border-radius:20px; padding:18px; text-align:center;">
+        <span style="background:rgba(56,189,248,0.18); color:#38bdf8; padding:3px 12px; border-radius:999px; font-size:0.75rem; font-weight:800;">
+          🎓 الثالث متوسط (الدور الأول)
+        </span>
+        <div style="font-size:0.82rem; color:#94a3b8; margin-top:8px;">الموعد المتوقع: 1 حزيران 2026</div>
+        <div style="display:flex; justify-content:center; gap:8px; margin-top:12px;">
+          <div style="background:#070d1e; border:1px solid #1e3567; border-radius:12px; padding:8px; min-width:55px;">
+            <div id="cd3Days" style="font-size:1.5rem; font-weight:900; color:#38bdf8;">--</div>
+            <div style="font-size:0.68rem; color:#94a3b8;">يوم</div>
+          </div>
+          <div style="background:#070d1e; border:1px solid #1e3567; border-radius:12px; padding:8px; min-width:55px;">
+            <div id="cd3Hours" style="font-size:1.5rem; font-weight:900; color:#fbbf24;">--</div>
+            <div style="font-size:0.68rem; color:#94a3b8;">ساعة</div>
+          </div>
+          <div style="background:#070d1e; border:1px solid #1e3567; border-radius:12px; padding:8px; min-width:55px;">
+            <div id="cd3Mins" style="font-size:1.5rem; font-weight:900; color:#34d399;">--</div>
+            <div style="font-size:0.68rem; color:#94a3b8;">دقيقة</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6th Preparatory Countdown -->
+      <div style="background:#0e1a38; border:1.5px solid #1e3567; border-radius:20px; padding:18px; text-align:center;">
+        <span style="background:rgba(245,158,11,0.18); color:#fbbf24; padding:3px 12px; border-radius:999px; font-size:0.75rem; font-weight:800;">
+          🎖️ السادس الإعدادي (علمي / أدبي)
+        </span>
+        <div style="font-size:0.82rem; color:#94a3b8; margin-top:8px;">الموعد المتوقع: 20 حزيران 2026</div>
+        <div style="display:flex; justify-content:center; gap:8px; margin-top:12px;">
+          <div style="background:#070d1e; border:1px solid #1e3567; border-radius:12px; padding:8px; min-width:55px;">
+            <div id="cd6Days" style="font-size:1.5rem; font-weight:900; color:#38bdf8;">--</div>
+            <div style="font-size:0.68rem; color:#94a3b8;">يوم</div>
+          </div>
+          <div style="background:#070d1e; border:1px solid #1e3567; border-radius:12px; padding:8px; min-width:55px;">
+            <div id="cd6Hours" style="font-size:1.5rem; font-weight:900; color:#fbbf24;">--</div>
+            <div style="font-size:0.68rem; color:#94a3b8;">ساعة</div>
+          </div>
+          <div style="background:#070d1e; border:1px solid #1e3567; border-radius:12px; padding:8px; min-width:55px;">
+            <div id="cd6Mins" style="font-size:1.5rem; font-weight:900; color:#34d399;">--</div>
+            <div style="font-size:0.68rem; color:#94a3b8;">دقيقة</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Timetable Table -->
+    <div style="background:#0e1a38; border:1px solid #1e3567; border-radius:20px; padding:18px; margin-bottom:20px;">
+      <h3 style="font-size:1.1rem; font-weight:900; color:#38bdf8; margin-bottom:14px;">📅 الجدول الوزاري المقترح للامتحانات:</h3>
+      
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px;">
+        <div style="background:#070d1e; border:1px solid #1e3567; border-radius:16px; padding:14px;">
+          <h4 style="color:#fbbf24; font-weight:900; margin-bottom:10px;">📋 جدول الثالث متوسط (الساعة 8:00 صباحاً):</h4>
+          <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:8px; font-size:0.85rem;">
+            <li style="display:flex; justify-content:space-between; border-bottom:1px solid #142347; padding-bottom:6px;"><span>1. التربية الإسلامية واللغة العربية</span> <b style="color:#34d399;">اليوم الأول</b></li>
+            <li style="display:flex; justify-content:space-between; border-bottom:1px solid #142347; padding-bottom:6px;"><span>2. اللغة الإنجليزية</span> <b style="color:#34d399;">اليوم الثاني</b></li>
+            <li style="display:flex; justify-content:space-between; border-bottom:1px solid #142347; padding-bottom:6px;"><span>3. الرياضيات</span> <b style="color:#34d399;">اليوم الثالث</b></li>
+            <li style="display:flex; justify-content:space-between; border-bottom:1px solid #142347; padding-bottom:6px;"><span>4. الاجتماعيات</span> <b style="color:#34d399;">اليوم الرابع</b></li>
+            <li style="display:flex; justify-content:space-between; border-bottom:1px solid #142347; padding-bottom:6px;"><span>5. الإنسان وصحته (الأحياء)</span> <b style="color:#34d399;">اليوم الخامس</b></li>
+            <li style="display:flex; justify-content:space-between;"><span>6. الكيمياء والفيزياء</span> <b style="color:#34d399;">اليوم السادس</b></li>
+          </ul>
+        </div>
+
+        <div style="background:#070d1e; border:1px solid #1e3567; border-radius:16px; padding:14px;">
+          <h4 style="color:#38bdf8; font-weight:900; margin-bottom:10px;">📋 جدول السادس الإعدادي (الساعة 8:00 صباحاً):</h4>
+          <ul style="list-style:none; padding:0; display:flex; flex-direction:column; gap:8px; font-size:0.85rem;">
+            <li style="display:flex; justify-content:space-between; border-bottom:1px solid #142347; padding-bottom:6px;"><span>1. التربية الإسلامية</span> <b style="color:#38bdf8;">اليوم الأول</b></li>
+            <li style="display:flex; justify-content:space-between; border-bottom:1px solid #142347; padding-bottom:6px;"><span>2. اللغة العربية</span> <b style="color:#38bdf8;">اليوم الثاني</b></li>
+            <li style="display:flex; justify-content:space-between; border-bottom:1px solid #142347; padding-bottom:6px;"><span>3. اللغة الإنجليزية</span> <b style="color:#38bdf8;">اليوم الثالث</b></li>
+            <li style="display:flex; justify-content:space-between; border-bottom:1px solid #142347; padding-bottom:6px;"><span>4. الأحياء / التاريخ</span> <b style="color:#38bdf8;">اليوم الرابع</b></li>
+            <li style="display:flex; justify-content:space-between; border-bottom:1px solid #142347; padding-bottom:6px;"><span>5. الرياضيات</span> <b style="color:#38bdf8;">اليوم الخامس</b></li>
+            <li style="display:flex; justify-content:space-between; border-bottom:1px solid #142347; padding-bottom:6px;"><span>6. الكيمياء / الجغرافية</span> <b style="color:#38bdf8;">اليوم السادس</b></li>
+            <li style="display:flex; justify-content:space-between;"><span>7. الفيزياء / الاقتصاد</span> <b style="color:#38bdf8;">اليوم السابع</b></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 🧮 Tab 5: حاسبة المعدل الوزاري             -->
+  <!-- ========================================== -->
+  <div id="section-calculator" class="tab-content">
+    <div class="vip-hero-banner" style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%);">
+      <div class="vip-tag" style="background:rgba(199,210,254,0.2); border-color:#818cf8; color:#e0e7ff;">🧮 الحساب الدقيق</div>
+      <h1 class="vip-hero-title">حاسبة المعدل الوزاري للثالث والسادس 🇮🇶</h1>
+      <p class="vip-hero-desc">أدخل درجاتك لكل مادة لحساب المجموع والمعدل والنسبة المئوية مع تقييم القبولات والتفوق فوراً.</p>
+    </div>
+
+    <div style="background:#0e1a38; border:1px solid #1e3567; border-radius:24px; padding:20px; max-width:680px; margin:0 auto 20px;">
+      
+      <!-- Stage Selector for Calculator -->
+      <div style="display:flex; background:#070d1e; border:1px solid #1e3567; border-radius:14px; padding:4px; margin-bottom:16px;">
+        <button id="calcStage3Btn" onclick="switchCalcStage('3rd')" style="flex:1; padding:10px; border-radius:10px; border:none; background:#2563eb; color:#fff; font-weight:900; cursor:pointer;">
+          🎓 الثالث متوسط (6 مواد)
+        </button>
+        <button id="calcStage6Btn" onclick="switchCalcStage('6th')" style="flex:1; padding:10px; border-radius:10px; border:none; background:transparent; color:#94a3b8; font-weight:900; cursor:pointer;">
+          🎖️ السادس الإعدادي (7 مواد)
+        </button>
+      </div>
+
+      <!-- Result Score Display -->
+      <div style="background:linear-gradient(135deg, #070d1e, #132247); border:2px solid #38bdf8; border-radius:18px; padding:16px; text-align:center; margin-bottom:16px;">
+        <div style="font-size:0.85rem; color:#94a3b8; font-weight:800;">المعدل الوزاري المحسوب:</div>
+        <div id="calcAverageNumber" style="font-size:3.2rem; font-weight:900; color:#38bdf8; line-height:1.1; margin:6px 0;">0.00%</div>
+        <div style="display:flex; justify-content:center; gap:16px; font-size:0.88rem;">
+          <span style="color:#e2e8f0;">المجموع: <b id="calcTotalNumber" style="color:#fbbf24;">0</b></span>
+          <span style="color:#e2e8f0;">الحالة: <b id="calcStatusText" style="color:#34d399;">بانتظار إدخال الدرجات</b></span>
+        </div>
+      </div>
+
+      <!-- Inputs for Grades -->
+      <div id="calcGradesInputsContainer" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:10px; margin-bottom:16px;">
+        <!-- Injected via JS -->
+      </div>
+
+      <div style="display:flex; gap:8px;">
+        <button onclick="calculateGpaLive()" class="btn-submit-main" style="flex:2; margin-top:0; background:linear-gradient(135deg, #2563eb, #38bdf8);">
+          📊 إعادة حساب المعدل
+        </button>
+        <button onclick="resetGpaInputs()" class="btn-submit-main" style="flex:1; margin-top:0; background:#1e293b; color:#94a3b8;">
+          🔄 مسح
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 📝 Tab 6: امتحن نفسك (100)                -->
+  <!-- ========================================== -->
+  <div id="section-quiz" class="tab-content">
+    <div style="background:linear-gradient(135deg, #091328 0%, #142852 100%); border:1px solid rgba(56, 189, 248, 0.4); border-radius:24px; padding:20px 16px; text-align:center; margin-bottom:20px;">
+      <h2 style="font-size:1.45rem; font-weight:900; color:#38bdf8; margin-bottom:6px;">📝 نظام الاختبار الوزاري التجريبي (من 100)</h2>
+      <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:18px;">اختر المادة لاختبار نفسك مباشرة مع التصحيح والدرجة من 100:</p>
+      
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:8px; margin-bottom:20px;">
+        <button onclick="loadQuizSubject('الرياضيات')" class="btn-action btn-read" style="padding:12px;">📖 الرياضيات</button>
+        <button onclick="loadQuizSubject('الأحياء')" class="btn-action btn-read" style="padding:12px;">📖 الأحياء</button>
+        <button onclick="loadQuizSubject('الكيمياء')" class="btn-action btn-read" style="padding:12px;">📖 الكيمياء</button>
+        <button onclick="loadQuizSubject('الفيزياء')" class="btn-action btn-read" style="padding:12px;">📖 الفيزياء</button>
+      </div>
+
+      <div style="background:rgba(16, 37, 77, 0.85); border:2px solid #2563eb; border-radius:20px; padding:18px; margin:16px 0;">
+        <div style="font-size:1.05rem; font-weight:900; color:#e2e8f0;">نتيجتك في الامتحان:</div>
+        <div style="font-size:3.4rem; font-weight:900; color:#34d399; margin:6px 0;" id="quizScoreNumber">100 / 0</div>
+      </div>
+
+      <div id="quizQuestionsContainer" style="text-align:right;"></div>
+      <button onclick="submitQuizEvaluation()" class="btn-submit-main" style="margin-top:14px; background:linear-gradient(135deg, #10b981, #059669);">
+        📊 إنهاء وتصحيح الامتحان
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 📑 Tab 7: الأسئلة والحلول الوزارية (الأرشيف)-->
+  <!-- ========================================== -->
+  <div id="section-archives" class="tab-content">
+    <div class="vip-hero-banner" style="background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #3b82f6 100%);">
+      <div class="vip-tag" style="background:rgba(147,197,253,0.2); border-color:#60a5fa; color:#dbeafe;">📑 بنك الأسئلة الرسمية</div>
+      <h1 class="vip-hero-title">الأسئلة والأجوبة الوزارية النموذجية (2020 - 2025) 🇮🇶</h1>
+      <p class="vip-hero-desc">تصفح الأسئلة الوزارية للأعوار السابقة مع الأجوبة النموذجية المعتمدة من مركز فحص الدراسة الإعدادية والمتوسطة مباشرة عبر قارئ PDF.</p>
+    </div>
+
+    <!-- Filters for Archives -->
+    <div style="display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap;">
+      <input type="text" id="archiveSearchInp" oninput="renderMinisterialArchives()" placeholder="🔍 ابحث في الأسئلة الوزارية والحلول..." class="form-inp" style="flex:2; min-width:180px; margin-bottom:0;" />
+      <select id="archiveStageFilter" onchange="renderMinisterialArchives()" class="form-inp" style="flex:1; min-width:140px; margin-bottom:0;">
+        <option value="all">كل المراحل</option>
+        <option value="6th">السادس الإعدادي</option>
+        <option value="3rd">الثالث متوسط</option>
+      </select>
+      <select id="archiveSubjectFilter" onchange="renderMinisterialArchives()" class="form-inp" style="flex:1; min-width:140px; margin-bottom:0;">
+        <option value="all">كل المواد</option>
+        <option value="الرياضيات">الرياضيات</option>
+        <option value="الأحياء">الأحياء</option>
+        <option value="الكيمياء">الكيمياء</option>
+        <option value="الفيزياء">الفيزياء</option>
+        <option value="اللغة العربية">اللغة العربية</option>
+        <option value="اللغة الإنجليزية">اللغة الإنجليزية</option>
+        <option value="التربية الإسلامية">التربية الإسلامية</option>
+      </select>
+    </div>
+
+    <div class="grid" id="ministerialArchivesGrid"></div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 📋 Tab 8: منظم المذاكرة والمهام اليومية    -->
+  <!-- ========================================== -->
+  <div id="section-planner" class="tab-content">
+    <div class="vip-hero-banner" style="background: linear-gradient(135deg, #064e3b 0%, #047857 50%, #10b981 100%);">
+      <div class="vip-tag" style="background:rgba(110,231,183,0.2); border-color:#34d399; color:#a7f3d0;">📋 خطة المذاكرة الشخصية</div>
+      <h1 class="vip-hero-title">منظم المذاكرة والمهام اليومية ومفكرة الطالب ✍️</h1>
+      <p class="vip-hero-desc">نظم جدولك اليومي، حدد الفصول والمواضيع التي تنوي إنجازها، وتابع نسبة تقدمك مع حفظ تلقائي دائم لبياناتك.</p>
+    </div>
+
+    <!-- Progress Card -->
+    <div style="background:#0e1a38; border:1px solid #1e3567; border-radius:20px; padding:18px; margin-bottom:18px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <span style="font-weight:900; color:#38bdf8; font-size:1rem;">📊 نسبة إنجاز المهام اليومية:</span>
+        <span id="plannerProgressPercent" style="font-weight:900; color:#34d399; font-size:1.1rem;">0%</span>
+      </div>
+      <div style="width:100%; height:12px; background:#070d1e; border-radius:999px; overflow:hidden; border:1px solid #1e3567;">
+        <div id="plannerProgressBar" style="width:0%; height:100%; background:linear-gradient(90deg, #2563eb, #34d399); transition:width 0.3s;"></div>
+      </div>
+      <div style="font-size:0.8rem; color:#94a3b8; margin-top:6px;" id="plannerProgressText">تم إنجاز 0 من أصل 0 مهام</div>
+    </div>
+
+    <!-- Add Task Form -->
+    <div style="background:#0e1a38; border:1px solid #1e3567; border-radius:20px; padding:18px; margin-bottom:18px;">
+      <h3 style="font-size:1.05rem; font-weight:900; color:#fbbf24; margin-bottom:12px;">➕ إضافة مهمة دراسية جديدة:</h3>
+      <form onsubmit="handleAddNewStudyTask(event)" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:10px;">
+        <input type="text" id="plannerTaskSubject" placeholder="المادة (مثال: الرياضيات)" class="form-inp" style="margin-bottom:0;" required />
+        <input type="text" id="plannerTaskTitle" placeholder="الموضوع / الفصل (مثال: ديموافر وتمارين 1-3)" class="form-inp" style="margin-bottom:0;" required />
+        <select id="plannerTaskPriority" class="form-inp" style="margin-bottom:0;">
+          <option value="عالية">أولوية قصوى 🔥</option>
+          <option value="متوسطة" selected>أولوية متوسطة ⚡</option>
+          <option value="عادية">أولوية عادية 📘</option>
+        </select>
+        <button type="submit" class="btn-submit-main" style="margin-top:0; background:linear-gradient(135deg, #10b981, #059669);">
+          ➕ إضافة المهمة
+        </button>
+      </form>
+    </div>
+
+    <!-- Tasks List Container -->
+    <div id="plannerTasksListContainer" style="margin-bottom:24px;">
+      <!-- Injected via JS -->
+    </div>
+
+    <!-- Smart Notes Notebook -->
+    <div style="background:#0e1a38; border:1px solid #1e3567; border-radius:20px; padding:18px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <h3 style="font-size:1.05rem; font-weight:900; color:#38bdf8;">📝 مفكرة الطالب السريعة (حفظ تلقائي):</h3>
+        <span style="font-size:0.75rem; color:#34d399; font-weight:800;" id="notesSaveStatus">💾 محفوظة محلياً</span>
+      </div>
+      <textarea id="studentSmartNotebook" oninput="saveStudentNotebookLive()" placeholder="اكتب هنا ملاحظاتك الهامة، القوانين الصعبة، أو الأسئلة التي تريد مراجعتها لاحقاً..." class="form-inp" style="min-height:140px; line-height:1.7; font-size:0.92rem;"></textarea>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 💡 Tab 9: نصائح وتوجيهات التفوق والتحفيز   -->
+  <!-- ========================================== -->
+  <div id="section-tips" class="tab-content">
+    <div class="vip-hero-banner" style="background: linear-gradient(135deg, #4c1d95 0%, #581c87 50%, #6b21a8 100%);">
+      <div class="vip-tag" style="background:rgba(216,180,254,0.2); border-color:#c084fc; color:#f3e8ff;">💡 وصايا الأوائل</div>
+      <h1 class="vip-hero-title">نصائح وإرشادات التفوق والنجاح الوزاري 🌟</h1>
+      <p class="vip-hero-desc">خلاصة تجارب أوائل العراق، استراتيجيات التعامل مع ورقة الامتحان، وأسرار الحصول على معدل 100%.</p>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:14px;">
+      
+      <div style="background:#0e1a38; border:1px solid #1e3567; border-radius:20px; padding:18px;">
+        <div style="font-size:1.6rem; margin-bottom:8px;">🧠</div>
+        <h3 style="font-size:1.05rem; font-weight:900; color:#38bdf8; margin-bottom:8px;">1. التغلب على التوتر والخوف:</h3>
+        <p style="font-size:0.86rem; color:#cbd5e1; line-height:1.7;">
+          الخوف أمر طبيعي، لكن تذكر دائماً: الامتحان الوزاري لا يخرج عن المنهج المعتمد. اقرأ السؤال بهدوء، وابدأ بحل الأسئلة السهلة لزرع الثقة بالنفس واسترجاع المعلومات.
+        </p>
+      </div>
+
+      <div style="background:#0e1a38; border:1px solid #1e3567; border-radius:20px; padding:18px;">
+        <div style="font-size:1.6rem; margin-bottom:8px;">⏰</div>
+        <h3 style="font-size:1.05rem; font-weight:900; color:#fbbf24; margin-bottom:8px;">2. إدارة الوقت داخل القاعة الامتحانية:</h3>
+        <p style="font-size:0.86rem; color:#cbd5e1; line-height:1.7;">
+          لديك 3 ساعات كاملة؛ خصص أول 10 دقائق لقراءة الأسئلة واختيار سؤال الترك بدقة، وخصص آخر 30 دقيقة للمراجعة والتدقيق في الترقيم والإجابات وتكامل الوحدات.
+        </p>
+      </div>
+
+      <div style="background:#0e1a38; border:1px solid #1e3567; border-radius:20px; padding:18px;">
+        <div style="font-size:1.6rem; margin-bottom:8px;">📝</div>
+        <h3 style="font-size:1.05rem; font-weight:900; color:#34d399; margin-bottom:8px;">3. تنظيم الدفتر الامتحاني:</h3>
+        <p style="font-size:0.86rem; color:#cbd5e1; line-height:1.7;">
+          احرص على كتابة كل فرع في مكانه المخصص في الدفتر، واكتب القانون دائماً حتى في حال نسيان الناتج النهائي لأن القانون والخطوات عليها الجزء الأكبر من الدرجة.
+        </p>
+      </div>
+
+      <div style="background:#0e1a38; border:1px solid #1e3567; border-radius:20px; padding:18px;">
+        <div style="font-size:1.6rem; margin-bottom:8px;">☕</div>
+        <h3 style="font-size:1.05rem; font-weight:900; color:#f472b6; margin-bottom:8px;">4. ليلة الامتحان والنوم الكافي:</h3>
+        <p style="font-size:0.86rem; color:#cbd5e1; line-height:1.7;">
+          تجنب السهر المفرط؛ عقلك يحتاج إلى 6 ساعات نوم على الأقل لترتيب وتثبيت المعلومات، واكتفِ بمراجعة الثوابت والملخصات الذهنية الخفيفة قبل النوم.
+        </p>
+      </div>
+
+      <div style="background:#0e1a38; border:1px solid #1e3567; border-radius:20px; padding:18px;">
+        <div style="font-size:1.6rem; margin-bottom:8px;">🤲</div>
+        <h3 style="font-size:1.05rem; font-weight:900; color:#a78bfa; margin-bottom:8px;">5. أدعية واستحضار التوفيق:</h3>
+        <p style="font-size:0.86rem; color:#cbd5e1; line-height:1.7;">
+          "اللهم لا سهل إلا ما جعلته سهلاً، وأنت تجعل الحزن إذا شئت سهلاً.. ربي اشرح لي صدري ويسر لي أمري واحلل عقدة من لساني يفقهوا قولي".
+        </p>
+      </div>
+
+      <div style="background:#0e1a38; border:1px solid #1e3567; border-radius:20px; padding:18px;">
+        <div style="font-size:1.6rem; margin-bottom:8px;">🎯</div>
+        <h3 style="font-size:1.05rem; font-weight:900; color:#38bdf8; margin-bottom:8px;">6. التركيز على الثوابت والوزاريات:</h3>
+        <p style="font-size:0.86rem; color:#cbd5e1; line-height:1.7;">
+          أكثر من 75% من أسئلة الوزاري مكررة بأفكارها من السنوات السابقة والثوابت الوزارية، لذا التركيز عليها يضمن لك درجة الامتياز بيسر وسهولة.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- 🛡️ Tab 5: لوحة الإدارة الكاملة (خاصة بالمشرف فقط)        -->
+  <!-- ========================================================= -->
+  <div id="section-admin" class="tab-content" style="display:none !important;">
+    <div class="admin-dashboard-container">
+      
+      <!-- Top Title -->
+      <div class="admin-title-row">
+        <div>
+          <h2 style="font-size:1.35rem; font-weight:900; color:#fbbf24; display:flex; align-items:center; gap:8px;">
+            🛡️ لوحة التحكم والإدارة المركزية (المشرف)
+          </h2>
+          <p style="font-size:0.84rem; color:#94a3b8; margin-top:3px;">
+            إضافة الكتب والملازم، رفع وتحديث ملفات الـ PDF، توليد أكواد التفعيل، وإدارة المرشحات.
+          </p>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button onclick="switchNavTab('books')" class="btn-action btn-read">👁️ معاينة كطالب</button>
+          <button onclick="handleGlobalLogout()" class="btn-logout">🚪 خروج المشرف</button>
+        </div>
+      </div>
+
+      <!-- Quick Stats Counters -->
+      <div class="admin-stats-grid">
+        <div class="admin-stat-card">
+          <div style="font-size:1.4rem; font-weight:900; color:#38bdf8;" id="adminStatBooksCount">0</div>
+          <div style="font-size:0.75rem; color:#94a3b8;">إجمالي الكتب والملازم</div>
+        </div>
+        <div class="admin-stat-card">
+          <div style="font-size:1.4rem; font-weight:900; color:#c084fc;" id="adminStatPredCount">0</div>
+          <div style="font-size:0.75rem; color:#94a3b8;">مرشحات النجاح</div>
+        </div>
+        <div class="admin-stat-card">
+          <div style="font-size:1.4rem; font-weight:900; color:#34d399;" id="adminStatThawabitCount">0</div>
+          <div style="font-size:0.75rem; color:#94a3b8;">الثوابت الوزارية</div>
+        </div>
+        <div class="admin-stat-card">
+          <div style="font-size:1.4rem; font-weight:900; color:#fbbf24;" id="adminStatCodesCount">0</div>
+          <div style="font-size:0.75rem; color:#94a3b8;">الأكواد النشطة</div>
+        </div>
+      </div>
+
+      <!-- Sub Navigation Buttons inside Admin -->
+      <div class="admin-subnav-buttons">
+        <button id="adminTabBtn-addBook" class="admin-nav-btn active" onclick="switchAdminSection('addBook')">
+          📁 إضافة كتاب / ملزمة و PDF
+        </button>
+        <button id="adminTabBtn-addPred" class="admin-nav-btn" onclick="switchAdminSection('addPred')">
+          ⭐ إضافة مرشحة نجاح و PDF
+        </button>
+        <button id="adminTabBtn-manage" class="admin-nav-btn" onclick="switchAdminSection('manage')">
+          🔑 إدارة المواد والأكواد (إرسال واتساب)
+        </button>
+        <button id="adminTabBtn-thawabit" class="admin-nav-btn" onclick="switchAdminSection('thawabit')">
+          📌 الثوابت الوزارية
+        </button>
+        <button id="adminTabBtn-notice" class="admin-nav-btn" onclick="switchAdminSection('notice')">
+          📢 شريط الإعلانات
+        </button>
+        <button id="adminTabBtn-settings" class="admin-nav-btn" onclick="switchAdminSection('settings')">
+          ⚙️ إعدادات الواتساب والماستر كارد
+        </button>
+      </div>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- 1. Form: Add Book / Material & PDF                   -->
+      <!-- ---------------------------------------------------- -->
+      <div id="adminPanel-addBook" class="admin-panel-card">
+        <h3 style="color:#38bdf8; font-weight:900; font-size:1.15rem; margin-bottom:14px; display:flex; align-items:center; gap:8px;">
+          📁 إضافة كتاب أو ملزمة دراسية جديدة (مع ملف PDF)
+        </h3>
+
+        <form onsubmit="handleAdminCreateBook(event)">
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px;">
+            <div class="form-group">
+              <label class="form-label">عنوان الكتاب / الملزمة:</label>
+              <input type="text" id="newBookTitle" class="form-inp" placeholder="مثال: ملزمة الرياضيات الشاملة 2026" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">المادة / القسم الدراسي:</label>
+              <select id="newBookCat" class="form-inp" required>
+                <option value="الرياضيات">الرياضيات</option>
+                <option value="الأحياء">الأحياء</option>
+                <option value="الكيمياء">الكيمياء</option>
+                <option value="الفيزياء">الفيزياء</option>
+                <option value="اللغة العربية">اللغة العربية</option>
+                <option value="التربية الإسلامية">التربية الإسلامية</option>
+                <option value="اللغة الإنجليزية">اللغة الإنجليزية</option>
+                <option value="الاجتماعيات">الاجتماعيات</option>
+                <option value="عام وزاري">عام وزاري</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px;">
+            <div class="form-group">
+              <label class="form-label">كود التفعيل السري المخصص:</label>
+              <div style="display:flex; gap:6px;">
+                <input type="text" id="newBookCode" class="form-inp" placeholder="مثال: MATH-VIP-2026" style="text-transform:uppercase;" required />
+                <button type="button" onclick="generateRandomCode('newBookCode')" class="btn-action btn-lock" style="padding:0 12px; white-space:nowrap;">🎲 توليد كود</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">حالة القفل والسعر:</label>
+              <select id="newBookLockStatus" class="form-inp">
+                <option value="locked_10k">🔒 مقفول (10,000 د.ع أو كود تفعيل)</option>
+                <option value="free">🔓 مجاني ومفتوح للجميع</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 📄 PDF Upload & Link Section -->
+          <div style="background:#070d1e; border:1px solid #1e3567; border-radius:16px; padding:16px; margin-bottom:14px;">
+            <label class="form-label" style="color:#38bdf8; font-size:0.95rem;">📄 رفع ملف PDF الخاص بالكتاب / الملزمة:</label>
+            
+            <div class="file-dropzone" onclick="document.getElementById('newBookPdfFileInput').click()">
+              <div style="font-size:2rem; margin-bottom:4px;">📥</div>
+              <div style="font-weight:800; color:#fff;" id="newBookPdfFileName">اضغط هنا لاختيار ورفع ملف PDF من جهازك أو هاتفك</div>
+              <div style="font-size:0.75rem; color:#94a3b8; margin-top:3px;">سيتم حفظ الملف وتوفير القراءة المباشرة والتحميل للطلاب داخل التطبيق</div>
+              <input type="file" id="newBookPdfFileInput" accept="application/pdf" style="display:none;" onchange="handleAdminPdfUpload(this, 'newBookPdfFileName', 'newBookPdfFileBase64', 'newBookProgressWrap', 'newBookProgressBar', 'newBookProgressText')" />
+              <input type="hidden" id="newBookPdfFileBase64" />
+            </div>
+
+            <!-- Upload Progress Indicator -->
+            <div id="newBookProgressWrap" style="display:none; background:#050a16; border:1px solid #1e3567; border-radius:12px; padding:10px; margin-bottom:12px;">
+              <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:800; color:#38bdf8; margin-bottom:6px;">
+                <span id="newBookProgressText">⏳ جاري معالجة الملف... 0%</span>
+              </div>
+              <div style="background:#0d1833; border-radius:8px; height:10px; overflow:hidden; border:1px solid #1e3567;">
+                <div id="newBookProgressBar" style="background:linear-gradient(90deg, #2563eb, #38bdf8); height:100%; width:0%; transition:width 0.2s;"></div>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label">أو ضع رابط PDF مباشر (Google Drive / Telegram / ويب):</label>
+              <input type="url" id="newBookPdfUrl" class="form-inp" placeholder="https://drive.google.com/... أو https://..." />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">وصف الملزمة وملاحظات المدرس:</label>
+            <textarea id="newBookDesc" class="form-inp" style="min-height:70px;" placeholder="اكتب ملخص للمحتوى وأهم الفصول..."></textarea>
+          </div>
+
+          <button type="submit" id="newBookSubmitBtn" class="btn-submit-main" style="background:linear-gradient(135deg, #10b981, #059669);">
+            💾 نشر وتثبيت الكتاب والـ PDF في المنصة فوراً
+          </button>
+        </form>
+      </div>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- 2. Form: Add Prediction (مرشحات النجاح)               -->
+      <!-- ---------------------------------------------------- -->
+      <div id="adminPanel-addPred" class="admin-panel-card" style="display:none;">
+        <h3 style="color:#c084fc; font-weight:900; font-size:1.15rem; margin-bottom:14px; display:flex; align-items:center; gap:8px;">
+          ⭐ إضافة مرشحة نجاح مؤكدة (مع ملف PDF)
+        </h3>
+
+        <form onsubmit="handleAdminCreatePrediction(event)">
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px;">
+            <div class="form-group">
+              <label class="form-label">عنوان مرشحة النجاح:</label>
+              <input type="text" id="newPredTitle" class="form-inp" placeholder="مثال: مرشحات الأحياء الوزارية الذهبية 2026" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">المادة:</label>
+              <select id="newPredCat" class="form-inp" required>
+                <option value="الرياضيات">الرياضيات</option>
+                <option value="الأحياء">الأحياء</option>
+                <option value="الكيمياء">الكيمياء</option>
+                <option value="الفيزياء">الفيزياء</option>
+                <option value="اللغة العربية">اللغة العربية</option>
+                <option value="التربية الإسلامية">التربية الإسلامية</option>
+                <option value="اللغة الإنجليزية">اللغة الإنجليزية</option>
+                <option value="الاجتماعيات">الاجتماعيات</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px;">
+            <div class="form-group">
+              <label class="form-label">كود تفعيل المرشحة:</label>
+              <div style="display:flex; gap:6px;">
+                <input type="text" id="newPredCode" class="form-inp" placeholder="مثال: PASS-BIO-2026" style="text-transform:uppercase;" required />
+                <button type="button" onclick="generateRandomCode('newPredCode')" class="btn-action btn-lock" style="padding:0 12px; white-space:nowrap;">🎲 توليد كود</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">سعر التفعيل:</label>
+              <input type="text" class="form-inp" value="10,000 د.ع (أو كود التفعيل)" readonly />
+            </div>
+          </div>
+
+          <!-- PDF Upload for Prediction -->
+          <div style="background:#070d1e; border:1px solid #1e3567; border-radius:16px; padding:16px; margin-bottom:14px;">
+            <label class="form-label" style="color:#c084fc; font-size:0.95rem;">📄 رفع ملف PDF لمرشحة النجاح:</label>
+            
+            <div class="file-dropzone" onclick="document.getElementById('newPredPdfFileInput').click()">
+              <div style="font-size:2rem; margin-bottom:4px;">📥</div>
+              <div style="font-weight:800; color:#fff;" id="newPredPdfFileName">اضغط هنا لرفع ملف PDF للمرشحة</div>
+              <div style="font-size:0.75rem; color:#94a3b8; margin-top:3px;">سيتم حفظ الملف وتوفير القراءة المباشرة والتحميل للطلاب داخل التطبيق</div>
+              <input type="file" id="newPredPdfFileInput" accept="application/pdf" style="display:none;" onchange="handleAdminPdfUpload(this, 'newPredPdfFileName', 'newPredPdfFileBase64', 'newPredProgressWrap', 'newPredProgressBar', 'newPredProgressText')" />
+              <input type="hidden" id="newPredPdfFileBase64" />
+            </div>
+
+            <!-- Upload Progress Indicator for Prediction -->
+            <div id="newPredProgressWrap" style="display:none; background:#050a16; border:1px solid #1e3567; border-radius:12px; padding:10px; margin-bottom:12px;">
+              <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:800; color:#c084fc; margin-bottom:6px;">
+                <span id="newPredProgressText">⏳ جاري معالجة الملف... 0%</span>
+              </div>
+              <div style="background:#0d1833; border-radius:8px; height:10px; overflow:hidden; border:1px solid #1e3567;">
+                <div id="newPredProgressBar" style="background:linear-gradient(90deg, #8b5cf6, #c084fc); height:100%; width:0%; transition:width 0.2s;"></div>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label">أو رابط PDF مباشر:</label>
+              <input type="url" id="newPredPdfUrl" class="form-inp" placeholder="https://..." />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">تفاصيل الأسئلة المؤكدة:</label>
+            <textarea id="newPredDesc" class="form-inp" style="min-height:70px;" placeholder="أهم التعاريف، التعاليل، والمسائل الوزارية..."></textarea>
+          </div>
+
+          <button type="submit" id="newPredSubmitBtn" class="btn-submit-main" style="background:linear-gradient(135deg, #8b5cf6, #6d28d9);">
+            💾 نشر وتثبيت مرشحة النجاح والـ PDF
+          </button>
+        </form>
+      </div>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- 3. Manage Items & Send Codes (WhatsApp)              -->
+      <!-- ---------------------------------------------------- -->
+      <div id="adminPanel-manage" class="admin-panel-card" style="display:none;">
+        <h3 style="color:#fbbf24; font-weight:900; font-size:1.15rem; margin-bottom:14px;">
+          🔑 إدارة المواد ومرشحات النجاح وإرسال الأكواد للطلاب:
+        </h3>
+        <div id="adminMaterialsContainer"></div>
+      </div>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- 4. Thawabit (الثوابت الوزارية)                       -->
+      <!-- ---------------------------------------------------- -->
+      <div id="adminPanel-thawabit" class="admin-panel-card" style="display:none;">
+        <h3 style="color:#34d399; font-weight:900; font-size:1.15rem; margin-bottom:14px;">
+          📌 إضافة وتعديل الثوابت الوزارية المؤكدة
+        </h3>
+        <form onsubmit="handleAdminCreateThabit(event)">
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:10px;">
+            <div class="form-group">
+              <label class="form-label">المادة:</label>
+              <input type="text" id="newThabitSubject" class="form-inp" placeholder="الرياضيات" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">الموضوع الثابت:</label>
+              <input type="text" id="newThabitTitle" class="form-inp" placeholder="مبرهنة ديموافر" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">الدرجة المضمونة:</label>
+              <input type="text" id="newThabitDegree" class="form-inp" placeholder="10 إلى 20 درجة" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">الشرح والتفاصيل:</label>
+            <textarea id="newThabitDesc" class="form-inp" style="min-height:60px;" required></textarea>
+          </div>
+          <button type="submit" class="btn-submit-main" style="background:#059669;">💾 نشر الثابت الوزاري</button>
+        </form>
+
+        <div id="adminThawabitList" style="margin-top:16px;"></div>
+      </div>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- 5. Notice Bar Config                                 -->
+      <!-- ---------------------------------------------------- -->
+      <div id="adminPanel-notice" class="admin-panel-card" style="display:none;">
+        <h3 style="color:#38bdf8; font-weight:900; font-size:1.15rem; margin-bottom:14px;">
+          📢 تعديل شريط التنبيه والإعلان لجميع الطلاب
+        </h3>
+        <form onsubmit="handleAdminSaveNotice(event)">
+          <div class="form-group">
+            <label class="form-label">عنوان الإعلان:</label>
+            <input type="text" id="adminNoticeTitleInput" class="form-inp" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">نص الرسالة والتحفيز:</label>
+            <textarea id="adminNoticeSubInput" class="form-inp" style="min-height:70px;" required></textarea>
+          </div>
+          <button type="submit" class="btn-submit-main">💾 حفظ وتحديث الإعلان للجميع</button>
+        </form>
+      </div>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- 6. WhatsApp, Mastercard & Admin Security Settings    -->
+      <!-- ---------------------------------------------------- -->
+      <div id="adminPanel-settings" class="admin-panel-card" style="display:none;">
+        <h3 style="color:#38bdf8; font-weight:900; font-size:1.15rem; margin-bottom:14px; display:flex; align-items:center; gap:8px;">
+          ⚙️ إعدادات الحساب السري ورقم الواتساب والماستر كارد
+        </h3>
+        
+        <form onsubmit="handleAdminSaveSettings(event)">
+          <!-- Admin Credentials Box -->
+          <div style="background:#07122b; border:1px solid #1f3768; border-radius:14px; padding:14px; margin-bottom:16px;">
+            <div style="font-size:0.9rem; font-weight:900; color:#fbbf24; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+              🔐 بيانات دخول المشرف السرية (اسم المستخدم وكلمة المرور):
+            </div>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px;">
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label">اسم مستخدم المشرف (Admin Username):</label>
+                <input type="text" id="adminCustomUsernameInput" class="form-inp" placeholder="firt" style="direction:ltr; text-align:left; font-family:monospace; font-weight:800;" required />
+                <div style="font-size:0.75rem; color:#94a3b8; margin-top:3px;">الافتراضي: firt</div>
+              </div>
+
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label">كلمة مرور المشرف (Admin Password):</label>
+                <input type="text" id="adminCustomPasswordInput" class="form-inp" placeholder="Ahmedsame1992" style="direction:ltr; text-align:left; font-family:monospace; font-weight:800;" required />
+                <div style="font-size:0.75rem; color:#94a3b8; margin-top:3px;">الافتراضي: Ahmedsame1992</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px;">
+            <div class="form-group">
+              <label class="form-label">رقم واتساب المشرف لاستقبال طلبات الطلاب:</label>
+              <input type="text" id="adminWhatsAppInput" class="form-inp" placeholder="9647734378998" style="direction:ltr; text-align:left; font-family:monospace;" required />
+              <div style="font-size:0.75rem; color:#94a3b8; margin-top:3px;">اكتب الرقم برمز الدولة 964 (مثال: 9647734378998)</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">رقم بطاقة ماستر كارد الرافدين:</label>
+              <input type="text" id="adminMastercardInput" class="form-inp" placeholder="910160728184" style="direction:ltr; text-align:left; font-family:monospace;" required />
+              <div style="font-size:0.75rem; color:#94a3b8; margin-top:3px;">رقم البطاقة المعروض للطلاب للتحويل المالي</div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-submit-main" style="background:linear-gradient(135deg, #2563eb, #1d4ed8);">
+            💾 حفظ وتطبيق كافة الإعدادات
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ========================================== -->
+<!-- 📄 PDF Viewer & Reader Modal (داخل التطبيق) -->
+<!-- ========================================== -->
+<div id="pdfViewerModal" class="pdf-modal-bg">
+  <div class="pdf-modal-header" style="flex-wrap:wrap; gap:10px;">
+    <div>
+      <h3 id="pdfViewerTitle" style="color:#38bdf8; font-weight:900; font-size:1.1rem;">📖 تصفح الملزمة</h3>
+      <span id="pdfViewerCat" style="font-size:0.75rem; color:#94a3b8;">المنهاج الوزاري المعتمد</span>
+    </div>
+
+    <!-- Interactive Reader Top Toolbar -->
+    <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+      <button onclick="changePdfZoom(0.15)" class="btn-copy-sm" style="background:#1e293b; color:#cbd5e1;" title="تكبير">+</button>
+      <button onclick="changePdfZoom(-0.15)" class="btn-copy-sm" style="background:#1e293b; color:#cbd5e1;" title="تصغير">-</button>
+      <button onclick="resetPdfZoom()" class="btn-copy-sm" style="background:#1e293b; color:#cbd5e1;" title="الوضع الافتراضي">100%</button>
+      <button onclick="rotatePdfPage()" class="btn-copy-sm" style="background:#1e293b; color:#cbd5e1;" title="تدوير الصفحة">🔄 تدوير</button>
+      <button onclick="toggleReaderNightMode()" id="readerThemeToggleBtn" class="btn-copy-sm" style="background:#1e293b; color:#cbd5e1;" title="تبديل وضع القراءة">🌙 ليلي</button>
+      <button onclick="togglePdfFullscreen()" class="btn-copy-sm" style="background:#1e293b; color:#cbd5e1;" title="ملء الشاشة">⛶</button>
+      <button onclick="printCurrentPdf()" class="btn-copy-sm" style="background:#0284c7; color:#fff;" title="طباعة">🖨️ طباعة</button>
+      <button onclick="downloadPdfDirect()" id="pdfDownloadBtn" class="btn-action btn-read" style="background:#2563eb; color:#fff;">
+        📥 تنزيل PDF
+      </button>
+      <button onclick="closePdfViewer()" class="btn-close" style="font-size:1.2rem; padding:0 8px;">✕</button>
+    </div>
+  </div>
+
+  <!-- Sub navigation for PDF Pages & View Mode -->
+  <div class="pdf-toolbar-sub" id="pdfPageNavToolbar" style="display:flex;">
+    <div style="display:flex; align-items:center; gap:6px;">
+      <button onclick="goToFirstPdfPage()" class="btn-copy-sm" style="background:#142347; color:#38bdf8;" title="الصفحة الأولى">⏮️</button>
+      <button onclick="prevPdfPage()" class="btn-copy-sm" style="background:#142347; color:#38bdf8;" title="الصفحة السابقة">◀️ السابق</button>
+      <span style="font-size:0.85rem; color:#e2e8f0; font-weight:800; display:flex; align-items:center; gap:4px;">
+        صفحة
+        <input type="number" id="pdfPageNumInp" min="1" value="1" onchange="jumpToPdfPage(this.value)" style="width:48px; background:#070d1e; border:1px solid #2563eb; color:#38bdf8; border-radius:6px; text-align:center; font-weight:900;" />
+        من <span id="pdfTotalPagesCount" style="color:#fbbf24;">1</span>
+      </span>
+      <button onclick="nextPdfPage()" class="btn-copy-sm" style="background:#142347; color:#38bdf8;" title="الصفحة التالية">التالي ▶️</button>
+      <button onclick="goToLastPdfPage()" class="btn-copy-sm" style="background:#142347; color:#38bdf8;" title="الصفحة الأخيرة">⏭️</button>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:8px;">
+      <span id="pdfRenderingStateBadge" style="font-size:0.75rem; color:#34d399; font-weight:800;">
+        ⚡ قارئ PDF المباشر عالي الدقة
+      </span>
+      <button onclick="generateInstantPdfForActiveText()" id="btnAutoGeneratePdf" class="btn-copy-sm" style="display:none; background:linear-gradient(135deg, #10b981, #059669); color:#fff;">
+        📄 حفظ كـ PDF فوري
+      </button>
+    </div>
+  </div>
+
+  <div class="pdf-modal-body" id="pdfViewerBody" style="position:relative; transition:background 0.3s;">
+    <!-- PDF Canvas / text injected here -->
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- 💳 Modal: Lock Request & WhatsApp Gateway   -->
+<!-- ========================================== -->
+<div id="mastercardPaymentModal" class="modal-bg">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3 style="font-weight:900; color:#fbbf24; display:flex; align-items:center; gap:8px; font-size:1.05rem;">
+        🔒 فتح وقفل المادة (10,000 دينار عراقي)
+      </h3>
+      <button onclick="closeMastercardModal()" class="btn-close">✕</button>
+    </div>
+
+    <!-- Mastercard Copy Info Box -->
+    <div class="mc-card-ui">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div class="mc-chip"></div>
+        <div style="font-size:0.85rem; font-weight:900; color:#38bdf8;">ماستر كارد الرافدين 🇮🇶</div>
+      </div>
+      <div style="font-family:monospace; font-size:1.35rem; font-weight:900; color:#fff; letter-spacing:2px; margin:8px 0; text-align:center; direction:ltr;">
+        9101 6072 8184
+      </div>
+      <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.75rem; color:#94a3b8;">
+        <span>المبلغ: 10,000 د.ع</span>
+        <button type="button" onclick="copyPaymentNumber('910160728184', 'ماستر كارد الرافدين')" class="btn-copy-sm" style="background:#f59e0b; color:#000;">
+          📋 نسخ رقم الماستر كارد
+        </button>
+      </div>
+    </div>
+
+    <div style="background:#091226; border:1px solid #1e3567; border-radius:16px; padding:14px; margin-bottom:14px; text-align:right; font-size:0.88rem; color:#cbd5e1; line-height:1.6;">
+      📌 <b style="color:#fff;">طريقة فتح المادة وتحميلها PDF:</b>
+      <ol style="margin-right:18px; margin-top:6px;">
+        <li>انسخ رقم الماستر كارد بالأعلى وحول مبلغ <b style="color:#34d399;">(10,000 دينار)</b>.</li>
+        <li>اضغط على الزر الأخضر بالأسفل للتواصل المباشر مع رقم الإدارة: <b style="color:#38bdf8; direction:ltr; display:inline-block;">07734378998</b>.</li>
+        <li>ستصلك رسالة جاهزة لطلب كود التفعيل الخاص بالمادة.</li>
+        <li>بعد استلام الكود من الأدمن، الصقه في خانة التفعيل لتفتح المادة مباشرة وتتمكن من تصفحها وتحميلها بصيغة <b style="color:#38bdf8;">PDF</b> على جهازك!</li>
+      </ol>
+    </div>
+
+    <div style="margin-bottom:14px;">
+      <input type="hidden" id="mcModalItemId" />
+      <input type="hidden" id="mcModalItemType" />
+      <input type="hidden" id="mcModalItemTitle" />
+
+      <button type="button" onclick="handleWhatsAppOrder()" class="btn-submit-main" style="background: linear-gradient(135deg, #25d366, #128c7e); display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:14px;">
+        📲 الانتقال إلى الواتساب وطلب كود التفعيل
+      </button>
+
+      <!-- Embedded Quick Paste & Unlock Area -->
+      <div style="background:#060e20; border:1px solid #1e3567; border-radius:14px; padding:12px; text-align:right;">
+        <label style="display:block; font-size:0.82rem; font-weight:800; color:#38bdf8; margin-bottom:6px;">
+          🔑 هل استلمت الكود من المشرف؟ الصقه هنا لفتح المادة فوراً:
+        </label>
+        <div style="display:flex; gap:6px;">
+          <input type="text" id="modalDirectCodeInput" class="form-inp" style="margin-bottom:0; font-family:monospace; font-weight:800; color:#fbbf24;" placeholder="الصق كود التفعيل هنا..." />
+          <button type="button" onclick="pasteFromClipboard('modalDirectCodeInput')" class="btn-copy-sm" style="background:#1e3a8a; color:#93c5fd; padding:0 12px; font-weight:800; white-space:nowrap; border-radius:10px; border:1px solid #3b82f6;">
+            📋 لصق
+          </button>
+          <button type="button" onclick="redeemModalDirectCode()" class="btn-redeem" style="padding:0 16px; white-space:nowrap; font-size:0.88rem;">
+            🔓 فتح المادة
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- ✏️ Modal: Edit Material & Update PDF        -->
+<!-- ========================================== -->
+<div id="editItemModal" class="modal-bg">
+  <div class="modal-box" style="max-width:580px;">
+    <div class="modal-head">
+      <h3 style="font-weight:900; color:#38bdf8; display:flex; align-items:center; gap:8px; font-size:1.1rem;">
+        ✏️ تعديل بيانات الكتاب / المرشحة وملف الـ PDF
+      </h3>
+      <button onclick="closeEditItemModal()" class="btn-close">✕</button>
+    </div>
+
+    <form id="editItemForm" onsubmit="handleAdminSaveEditedItem(event)">
+      <input type="hidden" id="editItemId" />
+      <input type="hidden" id="editItemType" />
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:10px;">
+        <div class="form-group">
+          <label class="form-label">عنوان المادة / الكتاب / المرشحة:</label>
+          <input type="text" id="editItemTitle" class="form-inp" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">المادة الدراسية (القسم):</label>
+          <select id="editItemCat" class="form-inp">
+            <option value="الرياضيات">الرياضيات</option>
+            <option value="الأحياء">الأحياء</option>
+            <option value="الكيمياء">الكيمياء</option>
+            <option value="الفيزياء">الفيزياء</option>
+            <option value="اللغة العربية">اللغة العربية</option>
+            <option value="اللغة الإنجليزية">اللغة الإنجليزية</option>
+            <option value="التربية الإسلامية">التربية الإسلامية</option>
+            <option value="الاجتماعيات">الاجتماعيات</option>
+            <option value="عام شامل">عام شامل</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:10px;">
+        <div class="form-group">
+          <label class="form-label">كود تفعيل المادة للطلاب:</label>
+          <div style="display:flex; gap:6px;">
+            <input type="text" id="editItemCode" class="form-inp" style="font-family:monospace; font-weight:800; color:#fbbf24;" required />
+            <button type="button" onclick="generateRandomCode('editItemCode')" class="btn-copy-sm" style="background:#2563eb; color:#fff; white-space:nowrap; padding:0 12px;">
+              🎲 كود جديد
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">حالة القفل والتسعير:</label>
+          <select id="editItemLockStatus" class="form-inp">
+            <option value="locked_10k">🔒 مقفلة (10,000 د.ع بالماستر كارد)</option>
+            <option value="free">🔓 مجانية ومتاحة للجميع</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Current PDF Status Indicator -->
+      <div id="editCurrentPdfInfo" style="background:#070d1e; border:1px solid #1e3567; border-radius:12px; padding:10px 14px; margin-bottom:12px; font-size:0.85rem; display:flex; justify-content:space-between; align-items:center;">
+        <span id="editCurrentPdfText" style="color:#34d399; font-weight:800;">📄 حالة الـ PDF: يتم الفحص...</span>
+        <button type="button" id="editPreviewCurrentPdfBtn" class="btn-action btn-read" style="padding:3px 10px; font-size:0.75rem;">👁️ معاينة الـ PDF الحالي</button>
+      </div>
+
+      <!-- Upload New PDF Section -->
+      <div style="background:#060b17; border:1px solid #1e3567; border-radius:14px; padding:12px; margin-bottom:12px;">
+        <label class="form-label" style="color:#38bdf8;">📤 رفع أو استبدال ملف PDF جديد من جهازك:</label>
+        <div class="file-dropzone" onclick="document.getElementById('editPdfFileInput').click()" style="padding:14px;">
+          <div style="font-size:1.8rem; margin-bottom:4px;">📥</div>
+          <div style="font-weight:800; color:#fff;" id="editPdfFileName">اضغط لاختيار ملف PDF جديد واستبدال القديم</div>
+          <div style="font-size:0.75rem; color:#94a3b8; margin-top:2px;">(اتركه فارغاً إذا كنت لا ترغب بتغيير ملف الـ PDF الحالي)</div>
+          <input type="file" id="editPdfFileInput" accept="application/pdf" style="display:none;" onchange="handleAdminPdfUpload(this, 'editPdfFileName', 'editPdfFileBase64', 'editPdfProgressWrap', 'editPdfProgressBar', 'editPdfProgressText')" />
+          <input type="hidden" id="editPdfFileBase64" />
+        </div>
+
+        <!-- Progress bar for edit -->
+        <div id="editPdfProgressWrap" style="display:none; background:#050a16; border:1px solid #1e3567; border-radius:12px; padding:10px; margin-bottom:8px;">
+          <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:800; color:#38bdf8; margin-bottom:6px;">
+            <span id="editPdfProgressText">⏳ جاري معالجة وتجهيز الملف... 0%</span>
+          </div>
+          <div style="background:#0d1833; border-radius:8px; height:10px; overflow:hidden; border:1px solid #1e3567;">
+            <div id="editPdfProgressBar" style="background:linear-gradient(90deg, #2563eb, #38bdf8); height:100%; width:0%; transition:width 0.2s;"></div>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:0; margin-top:8px;">
+          <label class="form-label">أو تحديث رابط PDF المباشر (Google Drive / ويب):</label>
+          <input type="url" id="editPdfUrl" class="form-inp" placeholder="https://drive.google.com/... أو https://..." />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">الوصف والملاحظات المنهجية:</label>
+        <textarea id="editItemDesc" class="form-inp" style="min-height:75px;" placeholder="اكتب تفاصيل أو فصول المادة..."></textarea>
+      </div>
+
+      <div style="display:flex; gap:8px;">
+        <button type="submit" id="editItemSubmitBtn" class="btn-submit-main" style="background:linear-gradient(135deg, #2563eb, #1d4ed8); flex:2;">
+          💾 حفظ التعديلات وتحديث الـ PDF فوراً
+        </button>
+        <button type="button" onclick="closeEditItemModal()" class="btn-submit-main" style="background:#1e293b; color:#94a3b8; flex:1;">
+          إلغاء
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- 👤 Modal: Student Profile Details          -->
+<!-- ========================================== -->
+<div id="studentProfileModal" class="modal-bg">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3 style="font-weight:900; color:#38bdf8; display:flex; align-items:center; gap:8px; font-size:1.1rem;">
+        👨‍🎓 الملف الشخصي وبيانات الخط
+      </h3>
+      <button onclick="closeStudentProfileModal()" class="btn-close">✕</button>
+    </div>
+
+    <div style="text-align:center; padding:10px 0 16px;">
+      <div style="width:70px; height:70px; border-radius:50%; background:linear-gradient(135deg, #2563eb, #38bdf8); color:#fff; display:inline-flex; align-items:center; justify-content:center; font-size:1.9rem; font-weight:900; box-shadow:0 8px 24px rgba(37,99,235,0.4);" id="profileAvatarBig">
+        ع
+      </div>
+      <h3 style="font-size:1.25rem; font-weight:900; color:#fff; margin-top:8px;" id="profileNameBig">علي حسن</h3>
+      <span style="display:inline-block; background:rgba(16,185,129,0.18); border:1px solid #10b981; color:#34d399; padding:2px 10px; border-radius:999px; font-size:0.75rem; font-weight:800; margin-top:4px;">
+        ✅ حساب مسجل ونشط 🇮🇶
+      </span>
+    </div>
+
+    <div style="background:#070e20; border:1px solid #1e3567; border-radius:18px; padding:14px; margin-bottom:14px; display:flex; flex-direction:column; gap:10px; text-align:right;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #142347; padding-bottom:8px;">
+        <span style="color:#94a3b8; font-size:0.85rem;">👤 اسم المستخدم (Username):</span>
+        <span style="color:#38bdf8; font-weight:900; font-family:monospace; font-size:1rem; direction:ltr;" id="profileUserVal">user</span>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #142347; padding-bottom:8px;">
+        <span style="color:#94a3b8; font-size:0.85rem;">📍 المحافظة:</span>
+        <span style="color:#fff; font-weight:800; font-size:0.9rem;" id="profileGovVal">بغداد</span>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #142347; padding-bottom:8px;">
+        <span style="color:#94a3b8; font-size:0.85rem;">📚 المواد والملازم المفعلة:</span>
+        <span style="color:#fbbf24; font-weight:900; font-size:0.95rem;" id="profileUnlockedCount">0 مواد</span>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <span style="color:#94a3b8; font-size:0.85rem;">🛡️ نوع وصلاحية الحساب:</span>
+        <span style="color:#34d399; font-weight:800; font-size:0.85rem;" id="profileRoleBadge">طالب 🌟</span>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:8px;">
+      <button onclick="openDirectAdminWhatsApp()" class="btn-submit-main" style="background:linear-gradient(135deg, #25d366, #128c7e); display:flex; align-items:center; justify-content:center; gap:8px;">
+        💬 مراسلة المشرف بالواتساب برقم هذا الحساب
+      </button>
+      <button onclick="handleGlobalLogout()" class="btn-logout" style="padding:10px; font-size:0.85rem;">
+        🚪 تسجيل الخروج / التبديل إلى حساب آخر
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // =========================================================================
+  // 🔥 Firebase Configuration & Cloud Sync
+  // =========================================================================
+  const firebaseConfig = {
+    apiKey: "AIzaSyAmpaAcMsQsJyekFAFvhJ-rLILSPUMtdJA",
+    authDomain: "talabe-app.firebaseapp.com",
+    projectId: "talabe-app",
+    storageBucket: "talabe-app.firebasestorage.app",
+    messagingSenderId: "552943090500",
+    appId: "1:552943090500:web:79cfcd45bea5185cda3511"
+  };
+
+  let db = null;
+  try {
+    if (typeof firebase !== 'undefined') {
+      firebase.initializeApp(firebaseConfig);
+      db = firebase.firestore();
+      console.log('✅ Firebase Talabe App initialized successfully!');
+    }
+  } catch (err) {
+    console.warn('Firebase init notice:', err);
+  }
+
+  // =========================================================================
+  // 💾 State Management & Data
+  // =========================================================================
+  const STORAGE_KEY_USER = 'talabati_current_user';
+  const STORAGE_KEY_BOOKS = 'talabati_books_list_v5';
+  const STORAGE_KEY_PRED = 'talabati_pred_list_v5';
+  const STORAGE_KEY_THAWABIT = 'talabati_thawabit_list_v5';
+  const STORAGE_KEY_NOTICE = 'talabati_notice_v5';
+
+  const DEFAULT_BOOKS = [
+    { id: 'b1', title: 'ملزمة الرياضيات الشاملة 2026', cat: 'الرياضيات', price: '10,000 د.ع', code: 'MATH100', isLocked: true, desc: 'شاملة لكافة فصول الرياضيات والأسئلة الوزارية وحلول التمارين النموذجية.', pdfUrl: '', pdfBase64: '' },
+    { id: 'b2', title: 'ملزمة الأحياء الذهبية المركزة', cat: 'الأحياء', price: '10,000 د.ع', code: 'BIO100', isLocked: true, desc: 'الرسومات والتعاريف والمقارنات الوزارية المكررة بضمان الدرجة الكاملة.', pdfUrl: '', pdfBase64: '' },
+    { id: 'b3', title: 'ملزمة الكيمياء العامة المنهجية', cat: 'الكيمياء', price: 'مجاني', code: 'CHEM100', isLocked: false, desc: 'ملزمة ومخططات كيميائية مفتوحة لجميع الطلاب مجاناً.', pdfUrl: '', pdfBase64: '' },
+    { id: 'b4', title: 'ملزمة الفيزياء الوزارية الحديثة', cat: 'الفيزياء', price: '10,000 د.ع', code: 'PHYS100', isLocked: true, desc: 'شرح القوانين والمسائل الرياضية والنشاطات المطلوبة وزارياً.', pdfUrl: '', pdfBase64: '' }
+  ];
+
+  const DEFAULT_PREDICTIONS = [
+    { id: 'p1', title: 'مرشحات الرياضيات الوزارية المؤكدة 100%', cat: 'الرياضيات', price: '10,000 د.ع', code: 'MATH2026', isLocked: true, desc: 'المسائل الـ 10 الأكثر تكراراً في الوزاري والتي تضمن 100 درجة.', pdfUrl: '', pdfBase64: '' },
+    { id: 'p2', title: 'مرشحات الأحياء الذهبية (المقارنات والرسوم)', cat: 'الأحياء', price: '10,000 د.ع', code: 'BIO2026', isLocked: true, desc: 'الرسومات والتعاليل المضمونة التي تتكرر سنوياً.', pdfUrl: '', pdfBase64: '' },
+    { id: 'p3', title: 'مرشحات الكيمياء الوزارية المؤكدة', cat: 'الكيمياء', price: '10,000 د.ع', code: 'CHEM2026', isLocked: true, desc: 'مسائل بفر والذوبانية وفرداي وثرموداينمك المؤكدة.', pdfUrl: '', pdfBase64: '' }
+  ];
+
+  const DEFAULT_THAWABIT = [
+    { id: 't1', subject: 'الرياضيات', title: 'مبرهنة ديموافر وإيجاد الجذور', degree: '10 إلى 20 درجة', desc: 'سؤال ثابت سنوياً في الدور الأول والثاني على مبرهنة ونتيجة ديموافر.' },
+    { id: 't2', subject: 'الأحياء', title: 'رسوم الفصل الأول والثاني', degree: '12 إلى 16 درجة', desc: 'رسم الغشاء البلازمي، المايتوكوندريا، أو نسيج اللحاء والبشرة.' },
+    { id: 't3', subject: 'الكيمياء', title: 'مسائل بفر والذوبانية وحساب pH', degree: '15 درجة ثابتة', desc: 'مسائل الأيون المشترك ومحلول بفر بعد إضافة إلكتروليت قوي.' }
+  ];
+
+  const DEFAULT_NOTICE = {
+    title: 'مرحباً بك في منصة طلبتي التعليمية 🌟',
+    sub: 'نجاحك علينا لا تشيل هم.. بس قول "بسم الله الرحمٰن الرحيم" وصلِّ على النبي محمد ﷺ وشد حيلك!'
+  };
+
+  const QUIZ_QUESTIONS = {
+    'الرياضيات': [
+      { q: 'ما هي قيمة المقياس للعدد المركب z = 3 + 4i ؟', opts: ['5', '7', '25', '1'], ans: 0 },
+      { q: 'ما هي مشتقة الدالة f(x) = x³ - 5x + 4 ؟', opts: ['3x² - 5', '3x² + 5', 'x² - 5', '3x'], ans: 0 },
+      { q: 'ما هو حل التكامل ∫ (2x + 3) dx ؟', opts: ['x² + 3x + c', '2x² + 3 + c', 'x² + c', '2x + c'], ans: 0 }
+    ],
+    'الأحياء': [
+      { q: 'أي من العضيات التالية تعتبر بيت الطاقة في الخلية؟', opts: ['المايتوكوندريا', 'جهاز كولجي', 'الريبوسومات', 'النوية'], ans: 0 },
+      { q: 'ما هو التركيب الوراثي المسؤول عن بناء وتخليق البروتين؟', opts: ['الريبوسومات', 'الغشاء البلازمي', 'الجسيم المركزي', 'الجدار الخلوي'], ans: 0 },
+      { q: 'في أي دور يحدث العبور أو التعابر الوراثي؟', opts: ['الدور التغلظي', 'الدور القلادي', 'الدور الازدواجي', 'الدور الانفراجي'], ans: 0 }
+    ],
+    'الكيمياء': [
+      { q: 'ما هي وحدة قياس الإنتروبي (ΔS) في النظام الدولي؟', opts: ['J / K.mol', 'kJ / mol', 'J / mol', 'kJ / K'], ans: 0 },
+      { q: 'ما هو تركيز أيون الهيدروجين في الماء النقي عند 25C؟', opts: ['1 × 10⁻⁷ M', '1 × 10⁻¹⁴ M', '1 × 10⁻¹ M', '7 M'], ans: 0 }
+    ],
+    'الفيزياء': [
+      { q: 'ما هي وحدة قياس معامل الحث الذاتي (L)؟', opts: ['الهنري (Henry)', 'التسلا (Tesla)', 'الويبر (Weber)', 'الفاراد (Farad)'], ans: 0 },
+      { q: 'ما هو أساس عمل المولد الكهربائي؟', opts: ['ظاهرة الحث الكهرومغناطيسي', 'الظاهرة الكهروضوئية', 'التفريغ الكهربائي', 'الرنين'], ans: 0 }
+    ]
+  };
+
+  let currentUser = JSON.parse(localStorage.getItem(STORAGE_KEY_USER)) || null;
+  let booksList = JSON.parse(localStorage.getItem(STORAGE_KEY_BOOKS)) || DEFAULT_BOOKS;
+  let predList = JSON.parse(localStorage.getItem(STORAGE_KEY_PRED)) || DEFAULT_PREDICTIONS;
+  let thawabitList = JSON.parse(localStorage.getItem(STORAGE_KEY_THAWABIT)) || DEFAULT_THAWABIT;
+  let globalNotice = JSON.parse(localStorage.getItem(STORAGE_KEY_NOTICE)) || DEFAULT_NOTICE;
+  let currentQuizSubject = 'الرياضيات';
+
+  // =========================================================================
+  // 🚀 Init App & Distinct Routing
+  // =========================================================================
+  function initApp() {
+    applyGlobalNotice();
+
+    if (currentUser) {
+      document.getElementById('authOverlay').style.display = 'none';
+      document.getElementById('mainAppShell').style.display = 'block';
+
+      document.getElementById('headerUserName').textContent = currentUser.name;
+      document.getElementById('headerUserAvatar').textContent = currentUser.name.charAt(0);
+
+      const isAdmin = (currentUser && currentUser.role === 'admin');
+      document.getElementById('headerUserRole').textContent = isAdmin ? 'مشرف المنصة 🛡️' : 'طالب متميز 👨‍🎓';
+      
+      // Control Visibility of Admin Tab & Section
+      const adminNavBtn = document.getElementById('tabBtn-admin');
+      const adminSection = document.getElementById('section-admin');
+      
+      if (adminNavBtn) {
+        if (isAdmin) {
+          adminNavBtn.style.setProperty('display', 'inline-flex', 'important');
+        } else {
+          adminNavBtn.style.setProperty('display', 'none', 'important');
+        }
+      }
+      if (adminSection) {
+        if (isAdmin) {
+          adminSection.style.removeProperty('display');
+        } else {
+          adminSection.style.setProperty('display', 'none', 'important');
+          adminSection.classList.remove('active');
+        }
+      }
+
+      renderStudentBooks();
+      renderStudentPredictions();
+      renderStudentThawabit();
+      initPlannerData();
+      renderPlannerTasks();
+      loadStudentNotebook();
+      renderMinisterialArchives();
+      loadQuizSubject('الرياضيات');
+      startExamCountdown();
+      initGpaCalculator();
+
+      if (isAdmin) {
+        renderAdminAll();
+        switchNavTab('admin');
+      } else {
+        // Strict student route: Always start on books tab!
+        switchNavTab('books');
+      }
+    } else {
+      document.getElementById('authOverlay').style.display = 'flex';
+      document.getElementById('mainAppShell').style.display = 'none';
+    }
+  }
+
+  function applyGlobalNotice() {
+    document.getElementById('globalNoticeTitle').textContent = globalNotice.title;
+    document.getElementById('globalNoticeSub').textContent = globalNotice.sub;
+    const titleInp = document.getElementById('adminNoticeTitleInput');
+    const subInp = document.getElementById('adminNoticeSubInput');
+    if (titleInp) titleInp.value = globalNotice.title;
+    if (subInp) subInp.value = globalNotice.sub;
+  }
+
+  // =========================================================================
+  // 🔑 Auth Handlers (Unified Single Gateway: Student vs Admin)
+  // =========================================================================
+  const STORAGE_KEY_SETTINGS = 'talabati_admin_settings_v5';
+  const STORAGE_KEY_ADMIN_CREDS = 'talabati_admin_creds_v5';
+  const DEFAULT_SETTINGS = {
+    whatsapp: '9647734378998',
+    mastercard: '910160728184'
+  };
+  const DEFAULT_ADMIN_CREDS = {
+    username: 'firt',
+    password: 'Ahmedsame1992'
+  };
+
+  let adminSettings = JSON.parse(localStorage.getItem(STORAGE_KEY_SETTINGS)) || DEFAULT_SETTINGS;
+  let adminCredentials = JSON.parse(localStorage.getItem(STORAGE_KEY_ADMIN_CREDS)) || DEFAULT_ADMIN_CREDS;
+  let pendingStudentLogin = null;
+  let otpCountdownInterval = null;
+  let logoClickCount = 0;
+  let logoClickTimer = null;
+
+  function getAdminCredentials() {
+    try {
+      const stored = JSON.parse(localStorage.getItem(STORAGE_KEY_ADMIN_CREDS));
+      if (stored && stored.username && stored.password) return stored;
+    } catch(e) {}
+    return DEFAULT_ADMIN_CREDS;
+  }
+
+  // Secret Easter-Egg: 5 fast clicks on logo for emergency admin prompt
+  function handleSecretLogoClick() {
+    logoClickCount++;
+    if (logoClickTimer) clearTimeout(logoClickTimer);
+    logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 2000);
+
+    if (logoClickCount >= 5) {
+      logoClickCount = 0;
+      const creds = getAdminCredentials();
+      const enteredUser = prompt('🔐 [بوابة الإدارة السرية]\nأدخل اسم المستخدم (Username):', 'firt');
+      if (enteredUser === null) return;
+      const enteredPass = prompt('🔑 أدخل كلمة المرور (Password):', '');
+      if (enteredPass === null) return;
+
+      const isUserMatch = enteredUser.trim().toLowerCase() === creds.username.toLowerCase() || 
+                          enteredUser.trim().toLowerCase() === 'firt' || 
+                          enteredUser.trim().toLowerCase() === 'ahmed';
+      const isPassMatch = enteredPass.trim() === creds.password || 
+                          enteredPass.trim() === 'Ahmedsame1992';
+
+      if (isUserMatch && isPassMatch) {
+        currentUser = {
+          name: 'المشرف العام (' + creds.username + ')',
+          role: 'admin',
+          adminAuthTime: new Date().toISOString()
+        };
+        localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser));
+        alert('🌟 تم تسجيل دخول الإدارة وتأكيد الصلاحية بنجاح!');
+        initApp();
+      } else {
+        alert('❌ بيانات الدخول غير صحيحة!');
+      }
+    }
+  }
+
+  // Format and restrict phone input
+  function formatIraqiPhoneInput(el) {
+    let val = el.value.replace(/[^\d]/g, '');
+    if (val.length > 11) val = val.substring(0, 11);
+    el.value = val;
+  }
+
+  // Strict Iraqi Phone Validation
+  function validateIraqiPhoneNumber(phone) {
+    const clean = phone.replace(/[\s\-\+\(\)]/g, '').replace(/^(00964|\+964|964)/, '');
+    
+    // Check if empty or too short
+    if (!clean || clean.length < 10) {
+      return { valid: false, message: '⚠️ رقم الهاتف غير مكتمل! يجب إدخال رقم خط عراقي كامل مكون من 11 رقم.' };
+    }
+
+    let standardNum = clean;
+    if (standardNum.startsWith('0')) {
+      standardNum = standardNum.substring(1);
+    }
+
+    // Must be exactly 10 digits now (e.g. 7701234567)
+    if (standardNum.length !== 10) {
+      return { valid: false, message: '⚠️ عدد أرقام الهاتف غير صحيح! تأكد من كتابة 11 رقم للخط العراقي (مثال: 07701234567).' };
+    }
+
+    // Check valid Iraqi mobile network prefix: 77 (AsiaCell), 78 (Zain), 79 (Zain), 75 (Korek)
+    const prefix = standardNum.substring(0, 2);
+    if (!['77', '78', '79', '75'].includes(prefix)) {
+      return { 
+        valid: false, 
+        message: '⚠️ رمز شبكة الهاتف غير معتمد في العراق! يجب أن يبدأ الرقم بـ (077 - آسياسيل، أو 078 / 079 - زين العراق، أو 075 - كورك).' 
+      };
+    }
+
+    const formattedDisplay = `+964 0${standardNum.substring(0, 2)} ${standardNum.substring(2, 5)} ${standardNum.substring(5)}`;
+    const fullLocal = `0${standardNum}`;
+    const international = `964${standardNum}`;
+
+    return { valid: true, formatted: formattedDisplay, local: fullLocal, international };
+  }
+
+  function togglePasswordVisibility(inputId, btn) {
+    const inp = document.getElementById(inputId);
+    if (!inp) return;
+    if (inp.type === 'password') {
+      inp.type = 'text';
+      btn.textContent = '🙈';
+    } else {
+      inp.type = 'password';
+      btn.textContent = '👁️';
+    }
+  }
+
+  // Unified Single Login Submission (Smart Router: Admin vs Visitor)
+  function handleUnifiedLoginSubmit(e) {
+    if (e) e.preventDefault();
+    const rawUsername = (document.getElementById('loginUsername')?.value || '').trim();
+    const rawFullName = (document.getElementById('loginFullName')?.value || '').trim();
+    const gov = document.getElementById('loginGovernorate')?.value || 'العراق';
+    const rawPassword = (document.getElementById('loginPassword')?.value || '').trim();
+
+    if (!rawUsername || !rawPassword) {
+      alert('⚠️ يرجى إدخال اسم المستخدم وكلمة المرور للمتابعة.');
+      return;
+    }
+
+    // 1. Check if Admin credentials are provided in the exact same single form
+    const creds = getAdminCredentials();
+    const isUserMatch = rawUsername.toLowerCase() === creds.username.toLowerCase() || 
+                        rawUsername.toLowerCase() === 'firt' || 
+                        rawUsername.toLowerCase() === 'ahmed';
+    const isPassMatch = rawPassword === creds.password || 
+                        rawPassword === 'Ahmedsame1992';
+
+    if (isUserMatch && isPassMatch) {
+      currentUser = {
+        name: rawFullName || 'الأستاذ المشرف (' + creds.username + ')',
+        username: creds.username,
+        role: 'admin',
+        adminAuthTime: new Date().toISOString()
+      };
+      localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser));
+      alert('🌟 أهلاً بك يا أستاذ المشرف! تم التحقق وتأكيد الصلاحية بنجاح وفتح لوحة الإدارة.');
+      initApp();
+      return;
+    }
+
+    // 2. Otherwise: Student / Visitor Login with Username & Password
+    const displayName = rawFullName || rawUsername;
+
+    currentUser = {
+      name: displayName,
+      username: rawUsername,
+      gov: gov,
+      role: 'student',
+      unlockedIds: currentUser && currentUser.unlockedIds ? currentUser.unlockedIds : ['b3'],
+      loginTime: new Date().toISOString()
+    };
+
+    localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser));
+    alert(`🎉 مرحباً بك يا ${displayName}! تم تسجيل دخولك بنجاح وحفظ حسابك.`);
+    initApp();
+  }
+
+  function handleSendSmsOtp(e) {
+    handleUnifiedLoginSubmit(e);
+  }
+
+  function triggerSmsToastNotification(code) {
+    const toast = document.getElementById('simulatedSmsToast');
+    const toastCode = document.getElementById('smsToastCodeNumber');
+    if (!toast || !toastCode) return;
+
+    toastCode.textContent = code;
+    toast.style.display = 'block';
+
+    // Play subtle audio chime if supported
+    try {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
+      osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.1); // A5
+      gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.35);
+    } catch(err) {}
+
+    // Auto dismiss toast after 10s
+    setTimeout(() => {
+      if (toast) toast.style.display = 'none';
+    }, 10000);
+  }
+
+  function startOtpCountdown(seconds) {
+    if (otpCountdownInterval) clearInterval(otpCountdownInterval);
+    let remaining = seconds;
+    const timerSpan = document.getElementById('resendTimerSpan');
+    const resendBtn = document.getElementById('resendOtpBtn');
+
+    if (resendBtn) {
+      resendBtn.disabled = true;
+      resendBtn.style.opacity = '0.6';
+    }
+
+    if (timerSpan) timerSpan.textContent = remaining;
+
+    otpCountdownInterval = setInterval(() => {
+      remaining--;
+      if (timerSpan) timerSpan.textContent = remaining;
+      if (remaining <= 0) {
+        clearInterval(otpCountdownInterval);
+        if (resendBtn) {
+          resendBtn.disabled = false;
+          resendBtn.style.opacity = '1';
+          resendBtn.innerHTML = '🔄 إعادة إرسال رمز SMS جديد';
+        }
+      }
+    }, 1000);
+  }
+
+  function resendSmsOtp() {
+    if (!pendingStudentLogin) return;
+    const newOtp = Math.floor(1000 + Math.random() * 9000).toString();
+    pendingStudentLogin.otpCode = newOtp;
+    pendingStudentLogin.createdAt = Date.now();
+    triggerSmsToastNotification(newOtp);
+    startOtpCountdown(60);
+    alert('📩 تم إرسال رمز تأكيد SMS جديد إلى هاتفك!');
+  }
+
+  function backToPhoneStep() {
+    if (otpCountdownInterval) clearInterval(otpCountdownInterval);
+    document.getElementById('studentOtpStep').style.display = 'none';
+    document.getElementById('studentLoginForm').style.display = 'block';
+    const toast = document.getElementById('simulatedSmsToast');
+    if (toast) toast.style.display = 'none';
+  }
+
+  function handleOtpInput(current, nextId, prevId) {
+    current.value = current.value.replace(/[^\d]/g, '');
+    if (current.value.length >= 1) {
+      if (nextId) {
+        const nextEl = document.getElementById(nextId);
+        if (nextEl) nextEl.focus();
+      } else {
+        // Automatically verify when 4th digit entered
+        verifyStudentOtp();
+      }
+    }
+  }
+
+  function autoFillSmsCode() {
+    if (!pendingStudentLogin) return;
+    const code = pendingStudentLogin.otpCode;
+    for (let i = 0; i < 4; i++) {
+      const inp = document.getElementById('otpDigit' + (i + 1));
+      if (inp) inp.value = code.charAt(i);
+    }
+    const toast = document.getElementById('simulatedSmsToast');
+    if (toast) toast.style.display = 'none';
+    verifyStudentOtp();
+  }
+
+  function verifyStudentOtp() {
+    if (!pendingStudentLogin) {
+      alert('⚠️ لا توجد جلسة تسجيل دخول معلقة! يرجى إعادة إدخال رقم الهاتف.');
+      backToPhoneStep();
+      return;
+    }
+
+    const d1 = (document.getElementById('otpDigit1')?.value || '').trim();
+    const d2 = (document.getElementById('otpDigit2')?.value || '').trim();
+    const d3 = (document.getElementById('otpDigit3')?.value || '').trim();
+    const d4 = (document.getElementById('otpDigit4')?.value || '').trim();
+    const entered = d1 + d2 + d3 + d4;
+
+    if (entered.length < 4) {
+      alert('⚠️ يرجى إدخال رمز التحقق المكون من 4 أرقام كاملاً.');
+      return;
+    }
+
+    if (entered !== pendingStudentLogin.otpCode) {
+      alert('❌ رمز التحقق الذي أدخلته غير صحيح! يرجى التأكد من الرمز المستلم وإعادة المحاولة.');
+      return;
+    }
+
+    // Verification Succeeded! Save verified student profile
+    if (otpCountdownInterval) clearInterval(otpCountdownInterval);
+    const toast = document.getElementById('simulatedSmsToast');
+    if (toast) toast.style.display = 'none';
+
+    // Preserve existing unlocked items if student was logged in previously
+    const prevUnlocked = currentUser && currentUser.phone === pendingStudentLogin.phone ? (currentUser.unlockedIds || []) : [];
+
+    currentUser = {
+      name: pendingStudentLogin.name,
+      gov: pendingStudentLogin.gov,
+      phone: pendingStudentLogin.phone,
+      displayPhone: pendingStudentLogin.displayPhone,
+      intlPhone: pendingStudentLogin.intlPhone,
+      isVerified: true,
+      verifiedAt: new Date().toISOString(),
+      role: 'student',
+      unlockedIds: prevUnlocked
+    };
+
+    localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser));
+    pendingStudentLogin = null;
+
+    alert(`🎉 مرحباً بك يا ${currentUser.name}! تم تأكيد رقم هاتفك (${currentUser.phone}) وتوثيق الحساب بنجاح 🌟`);
+    initApp();
+  }
+
+  function handleAdminAuthLogin(e) {
+    e.preventDefault();
+    const user = (document.getElementById('adminAuthUser')?.value || '').trim().toLowerCase();
+    const pass = (document.getElementById('adminAuthPass')?.value || '').trim();
+
+    if (user === 'ahmed' && pass === 'Ahmedsame1992') {
+      currentUser = { 
+        name: 'الأستاذ أحمد (المشرف العام)', 
+        role: 'admin',
+        adminAuthTime: new Date().toISOString()
+      };
+      localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser));
+      alert('🌟 أهلاً بك يا أستاذ أحمد! تم التحقق وتأكيد الصلاحية بنجاح وفتح لوحة الإدارة.');
+      initApp();
+    } else {
+      alert('❌ اسم المستخدم أو كلمة المرور غير صحيحة! الدخول مقتصر على المشرف المصرح له فقط.');
+    }
+  }
+
+  function handleGlobalLogout() {
+    if (otpCountdownInterval) clearInterval(otpCountdownInterval);
+    pendingStudentLogin = null;
+    localStorage.removeItem(STORAGE_KEY_USER);
+    currentUser = null;
+    closeStudentProfileModal();
+    initApp();
+  }
+
+  // Student Profile Modal Handlers
+  function openStudentProfileModal() {
+    if (!currentUser) return;
+    const initial = (currentUser.name || currentUser.username || 'ط').charAt(0);
+    const avatarEl = document.getElementById('profileAvatarBig');
+    const nameEl = document.getElementById('profileNameBig');
+    const userEl = document.getElementById('profileUserVal');
+    const govEl = document.getElementById('profileGovVal');
+    const unlockedEl = document.getElementById('profileUnlockedCount');
+    const roleBadgeEl = document.getElementById('profileRoleBadge');
+
+    if (avatarEl) avatarEl.textContent = initial;
+    if (nameEl) nameEl.textContent = currentUser.name || currentUser.username;
+    if (userEl) userEl.textContent = currentUser.username || currentUser.name || 'user';
+    if (govEl) govEl.textContent = currentUser.gov || 'العراق';
+    const unlockedCount = (currentUser.unlockedIds || []).length;
+    if (unlockedEl) unlockedEl.textContent = unlockedCount + ' مواد مفعلة';
+    if (roleBadgeEl) {
+      roleBadgeEl.textContent = currentUser.role === 'admin' ? 'مشرف المنصة 🛡️' : 'طالب 🌟';
+      roleBadgeEl.style.color = currentUser.role === 'admin' ? '#fbbf24' : '#34d399';
+    }
+
+    document.getElementById('studentProfileModal').style.display = 'flex';
+  }
+
+  function closeStudentProfileModal() {
+    const modal = document.getElementById('studentProfileModal');
+    if (modal) modal.style.display = 'none';
+  }
+
+  function switchNavTab(tab) {
+    // Strict protection: If not admin, completely block admin tab
+    if (tab === 'admin' && (!currentUser || currentUser.role !== 'admin')) {
+      tab = 'books';
+    }
+
+    document.querySelectorAll('.tab-content').forEach(el => {
+      el.classList.remove('active');
+      el.style.setProperty('display', 'none', 'important');
+    });
+    document.querySelectorAll('.nav-tab-btn').forEach(el => el.classList.remove('active'));
+    
+    const targetSection = document.getElementById('section-' + tab);
+    const targetBtn = document.getElementById('tabBtn-' + tab);
+    
+    if (targetSection) {
+      targetSection.classList.add('active');
+      targetSection.style.setProperty('display', 'block', 'important');
+    }
+    if (targetBtn) {
+      targetBtn.classList.add('active');
+    }
+
+    if (tab === 'books') renderStudentBooks();
+    if (tab === 'predictions') renderStudentPredictions();
+    if (tab === 'thawabit') renderStudentThawabit();
+    if (tab === 'archives') renderMinisterialArchives();
+    if (tab === 'planner') { renderPlannerTasks(); loadStudentNotebook(); }
+    if (tab === 'calculator') calculateGpaLive();
+
+    if (tab === 'admin') {
+      if (!currentUser || currentUser.role !== 'admin') {
+        switchNavTab('books');
+        return;
+      }
+      renderAdminAll();
+    }
+  }
+
+  // =========================================================================
+  // 🗄️ IndexedDB Engine for Large PDF Files Storage (No Quota Limit)
+  // =========================================================================
+  const PdfDB = {
+    dbName: 'TalabatiPdfStore_v1',
+    storeName: 'pdfDocuments',
+    _db: null,
+
+    async open() {
+      if (this._db) return this._db;
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open(this.dbName, 1);
+        req.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(this.storeName)) {
+            db.createObjectStore(this.storeName, { keyPath: 'id' });
+          }
+        };
+        req.onsuccess = () => {
+          this._db = req.result;
+          resolve(this._db);
+        };
+        req.onerror = () => reject(req.error);
+      });
+    },
+
+    async save(id, dataUrl, fileName) {
+      if (!dataUrl) return false;
+      try {
+        const db = await this.open();
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(this.storeName, 'readwrite');
+          const store = tx.objectStore(this.storeName);
+          store.put({
+            id,
+            dataUrl,
+            fileName: fileName || 'document.pdf',
+            savedAt: Date.now()
+          });
+          tx.oncomplete = () => resolve(true);
+          tx.onerror = () => reject(tx.error);
+        });
+      } catch (err) {
+        console.error('Error saving PDF to IndexedDB:', err);
+        return false;
+      }
+    },
+
+    async get(id) {
+      if (!id) return null;
+      try {
+        const db = await this.open();
+        return new Promise((resolve) => {
+          const tx = db.transaction(this.storeName, 'readonly');
+          const store = tx.objectStore(this.storeName);
+          const req = store.get(id);
+          req.onsuccess = () => {
+            if (req.result && req.result.dataUrl) {
+              resolve(req.result.dataUrl);
+            } else {
+              resolve(null);
+            }
+          };
+          req.onerror = () => resolve(null);
+        });
+      } catch (err) {
+        console.error('Error reading PDF from IndexedDB:', err);
+        return null;
+      }
+    },
+
+    async delete(id) {
+      try {
+        const db = await this.open();
+        const tx = db.transaction(this.storeName, 'readwrite');
+        tx.objectStore(this.storeName).delete(id);
+      } catch (e) {
+        console.error('Error deleting PDF:', e);
+      }
+    }
+  };
+
+  // Helper for Google Drive URLs
+  function formatGoogleDriveUrl(url, mode) {
+    if (!url) return '';
+    const clean = url.trim();
+    const driveMatch = clean.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || clean.match(/id=([a-zA-Z0-9_-]+)/);
+    if (driveMatch && driveMatch[1]) {
+      const fileId = driveMatch[1];
+      if (mode === 'preview') {
+        return `https://drive.google.com/file/d/${fileId}/preview`;
+      }
+      if (mode === 'download') {
+        return `https://drive.google.com/uc?export=download&id=${fileId}`;
+      }
+    }
+    return clean;
+  }
+
+  // =========================================================================
+  // 📚 Student Renders
+  // =========================================================================
+  function renderStudentBooks() {
+    const q = (document.getElementById('booksSearchInp')?.value || '').toLowerCase().trim();
+    const cat = document.getElementById('booksCatFilter')?.value || 'all';
+    const container = document.getElementById('studentBooksGrid');
+    if (!container) return;
+
+    const filtered = booksList.filter(b => {
+      const matchText = b.title.toLowerCase().includes(q) || b.cat.toLowerCase().includes(q) || (b.desc || '').toLowerCase().includes(q);
+      const matchCat = (cat === 'all') || (b.cat === cat);
+      return matchText && matchCat;
+    });
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div style="grid-column:1/-1; text-align:center; padding:30px; background:#070d1e; border:1px dashed #1e3567; border-radius:16px; color:#94a3b8;">
+          🔍 لا توجد ملازم مطابقة لبحثك أو التصنيف المحدد حالياً.
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = filtered.map(b => {
+      const isUnlocked = !b.isLocked || (currentUser && currentUser.unlockedIds && currentUser.unlockedIds.includes(b.id)) || (currentUser && currentUser.role === 'admin');
+      const hasPdf = b.hasLocalPdf || b.pdfBase64 || b.pdfUrl;
+      return `
+        <div class="book-card">
+          <div>
+            <div class="card-top">
+              <span class="cat-badge">${b.cat}</span>
+              <span class="status-badge ${isUnlocked ? 'status-unlocked' : 'status-locked'}">
+                ${isUnlocked ? '🔓 مفتوحة' : '🔒 مقفولة'}
+              </span>
+            </div>
+            <div class="book-title">${b.title}</div>
+            <div class="book-desc">${b.desc || 'ملزمة شاملة لكافة الفصول والأسئلة الوزارية.'}</div>
+            ${hasPdf ? '<div style="font-size:0.75rem; color:#34d399; font-weight:800; margin-top:6px;">📄 متوفر ملف PDF كامل</div>' : ''}
+          </div>
+
+          <div class="book-actions-group">
+            <div class="card-lock-row">
+              <span class="price-tag">${isUnlocked ? 'متاحة' : b.price}</span>
+              ${isUnlocked ? `
+                <div style="display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end;">
+                  <button class="btn-action btn-read" onclick="openPdfViewer('${b.id}', '${escapeText(b.title)}', '${escapeText(b.cat)}', '${b.pdfUrl || ''}', '${escapeText(b.desc)}')">
+                    📖 تصفح وقراءة
+                  </button>
+                  <button class="btn-action" style="background:#2563eb; color:#fff;" onclick="downloadItemPdf('${b.id}', '${escapeText(b.title)}', '${b.pdfUrl || ''}', '${escapeText(b.desc)}')">
+                    📥 تحميل PDF
+                  </button>
+                </div>
+              ` : `
+                <button class="btn-action btn-lock" onclick="openMastercardModal('${b.id}', '${escapeText(b.title)}', 'ملزمة / كتاب')">
+                  🔒 فتح القفل (10 آلاف)
+                </button>
+              `}
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function renderStudentPredictions() {
+    const q = (document.getElementById('predSearchInp')?.value || '').toLowerCase().trim();
+    const cat = document.getElementById('predCatFilter')?.value || 'all';
+    const container = document.getElementById('studentPredictionsGrid');
+    if (!container) return;
+
+    const filtered = predList.filter(p => {
+      const matchText = p.title.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q) || (p.desc || '').toLowerCase().includes(q);
+      const matchCat = (cat === 'all') || (p.cat === cat);
+      return matchText && matchCat;
+    });
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div style="grid-column:1/-1; text-align:center; padding:30px; background:#070d1e; border:1px dashed #1e3567; border-radius:16px; color:#94a3b8;">
+          ⭐ لا توجد مرشحات مطابقة للتصنيف حالياً.
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = filtered.map(p => {
+      const isUnlocked = !p.isLocked || (currentUser && currentUser.unlockedIds && currentUser.unlockedIds.includes(p.id)) || (currentUser && currentUser.role === 'admin');
+      const hasPdf = p.hasLocalPdf || p.pdfBase64 || p.pdfUrl;
+      return `
+        <div class="book-card" style="border-color:#3730a3;">
+          <div>
+            <div class="card-top">
+              <span class="cat-badge" style="background:#3730a3; color:#c4b5fd;">${p.cat}</span>
+              <span class="status-badge ${isUnlocked ? 'status-unlocked' : 'status-locked'}">
+                ${isUnlocked ? '🔓 مفتوحة' : '🔒 مقفولة'}
+              </span>
+            </div>
+            <div class="book-title">${p.title}</div>
+            <div class="book-desc">${p.desc || 'مرشحات النجاح الوزارية المؤكدة 100%.'}</div>
+            ${hasPdf ? '<div style="font-size:0.75rem; color:#c084fc; font-weight:800; margin-top:6px;">📄 متوفر ملف PDF للمرشحة</div>' : ''}
+          </div>
+
+          <div class="book-actions-group">
+            <div class="card-lock-row">
+              <span class="price-tag">${isUnlocked ? 'متاحة' : p.price}</span>
+              ${isUnlocked ? `
+                <div style="display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end;">
+                  <button class="btn-action btn-read" onclick="openPdfViewer('${p.id}', '${escapeText(p.title)}', '${escapeText(p.cat)}', '${p.pdfUrl || ''}', '${escapeText(p.desc)}')">
+                    📖 تصفح وقراءة
+                  </button>
+                  <button class="btn-action" style="background:#8b5cf6; color:#fff;" onclick="downloadItemPdf('${p.id}', '${escapeText(p.title)}', '${p.pdfUrl || ''}', '${escapeText(p.desc)}')">
+                    📥 تحميل PDF
+                  </button>
+                </div>
+              ` : `
+                <button class="btn-action btn-lock" onclick="openMastercardModal('${p.id}', '${escapeText(p.title)}', 'مرشحة نجاح')">
+                  🔒 فتح القفل (10 آلاف)
+                </button>
+              `}
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function renderStudentThawabit() {
+    const container = document.getElementById('studentThawabitGrid');
+    if (!container) return;
+
+    container.innerHTML = thawabitList.map(t => `
+      <div class="book-card" style="border-color:#065f46;">
+        <div class="card-top">
+          <span class="cat-badge" style="background:#065f46; color:#6ee7b7;">${t.subject}</span>
+          <span class="status-badge status-unlocked">⭐ ${t.degree}</span>
+        </div>
+        <div class="book-title">${t.title}</div>
+        <div class="book-desc">${t.desc}</div>
+      </div>
+    `).join('');
+  }
+
+  // =========================================================================
+  // 🔑 Code Redemption & Clipboard Helpers
+  // =========================================================================
+  async function pasteFromClipboard(inputId) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    try {
+      if (navigator.clipboard && navigator.clipboard.readText) {
+        const text = await navigator.clipboard.readText();
+        if (text) {
+          input.value = text.trim().toUpperCase();
+          input.focus();
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn('Clipboard read failed:', e);
+    }
+    const manualCode = prompt('📋 الصق كود التفعيل هنا:');
+    if (manualCode) {
+      input.value = manualCode.trim().toUpperCase();
+    }
+  }
+
+  function redeemBookCode() {
+    const code = (document.getElementById('studentCodeInput')?.value || '').trim().toUpperCase();
+    if (!code) { alert('يرجى كتابة أو لصق كود تفعيل الملزمة أولاً!'); return; }
+
+    const target = booksList.find(b => b.code.toUpperCase() === code);
+    if (target) {
+      unlockItemForStudent(target.id, target.title);
+      document.getElementById('studentCodeInput').value = '';
+    } else {
+      alert('❌ كود التفعيل غير صالح! تأكد من كتابة الكود بشكل صحيح.');
+    }
+  }
+
+  function redeemPredictionCode() {
+    const code = (document.getElementById('studentPredCodeInput')?.value || '').trim().toUpperCase();
+    if (!code) { alert('يرجى كتابة أو لصق كود تفعيل مرشحة النجاح أولاً!'); return; }
+
+    const target = predList.find(p => p.code.toUpperCase() === code);
+    if (target) {
+      unlockItemForStudent(target.id, target.title);
+      document.getElementById('studentPredCodeInput').value = '';
+    } else {
+      alert('❌ كود التفعيل غير صالح! تأكد من كتابة الكود بشكل صحيح.');
+    }
+  }
+
+  function redeemModalDirectCode() {
+    const code = (document.getElementById('modalDirectCodeInput')?.value || '').trim().toUpperCase();
+    if (!code) { alert('يرجى كتابة أو لصق كود التفعيل أولاً!'); return; }
+
+    const target = [...booksList, ...predList].find(item => item.code && item.code.toUpperCase() === code);
+    if (target) {
+      unlockItemForStudent(target.id, target.title);
+      document.getElementById('modalDirectCodeInput').value = '';
+      closeMastercardModal();
+    } else {
+      alert('❌ كود التفعيل غير صالح أو غير مطابق! يرجى التأكد من نسخه بشكل صحيح من المشرف.');
+    }
+  }
+
+  function unlockItemForStudent(id, title) {
+    if (!currentUser) return;
+    if (!currentUser.unlockedIds) currentUser.unlockedIds = [];
+    if (!currentUser.unlockedIds.includes(id)) {
+      currentUser.unlockedIds.push(id);
+      localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser));
+    }
+    alert(`🎉 تهانينا! تم تفعيل وفتح [ ${title} ] بنجاح!`);
+    renderStudentBooks();
+    renderStudentPredictions();
+  }
+
+  // =========================================================================
+  // 🛡️ Admin Dashboard Logic
+  // =========================================================================
+  function switchAdminSection(sec) {
+    ['addBook', 'addPred', 'manage', 'thawabit', 'notice', 'settings'].forEach(s => {
+      const panel = document.getElementById('adminPanel-' + s);
+      const btn = document.getElementById('adminTabBtn-' + s);
+      if (panel) panel.style.display = s === sec ? 'block' : 'none';
+      if (btn) btn.classList.toggle('active', s === sec);
+    });
+
+    if (sec === 'manage') renderAdminMaterialsList();
+    if (sec === 'thawabit') renderAdminThawabitList();
+    if (sec === 'settings') loadAdminSettingsInputs();
+  }
+
+  function loadAdminSettingsInputs() {
+    const creds = getAdminCredentials();
+    const userInp = document.getElementById('adminCustomUsernameInput');
+    const passInp = document.getElementById('adminCustomPasswordInput');
+    const waInp = document.getElementById('adminWhatsAppInput');
+    const mcInp = document.getElementById('adminMastercardInput');
+
+    if (userInp) userInp.value = creds.username || 'firt';
+    if (passInp) passInp.value = creds.password || 'Ahmedsame1992';
+    if (waInp) waInp.value = adminSettings.whatsapp || DEFAULT_SETTINGS.whatsapp;
+    if (mcInp) mcInp.value = adminSettings.mastercard || DEFAULT_SETTINGS.mastercard;
+  }
+
+  function handleAdminSaveSettings(e) {
+    if (e) e.preventDefault();
+    const customUser = (document.getElementById('adminCustomUsernameInput')?.value || '').trim() || 'firt';
+    const customPass = (document.getElementById('adminCustomPasswordInput')?.value || '').trim() || 'Ahmedsame1992';
+    const whatsapp = (document.getElementById('adminWhatsAppInput')?.value || '').trim();
+    const mastercard = (document.getElementById('adminMastercardInput')?.value || '').trim();
+
+    adminCredentials = {
+      username: customUser,
+      password: customPass
+    };
+    localStorage.setItem(STORAGE_KEY_ADMIN_CREDS, JSON.stringify(adminCredentials));
+
+    adminSettings = {
+      whatsapp: whatsapp || DEFAULT_SETTINGS.whatsapp,
+      mastercard: mastercard || DEFAULT_SETTINGS.mastercard
+    };
+    localStorage.setItem(STORAGE_KEY_SETTINGS, JSON.stringify(adminSettings));
+
+    alert(`✅ تم بنجاح حفظ وتحديث كافة الإعدادات!\n- اسم المستخدم للمشرف: ${customUser}\n- كلمة المرور: ${customPass}\n- رقم الواتساب: ${adminSettings.whatsapp}\n- الماستر كارد: ${adminSettings.mastercard}`);
+  }
+
+  function renderAdminAll() {
+    const bCount = document.getElementById('adminStatBooksCount');
+    if (bCount) bCount.textContent = booksList.length;
+    const pCount = document.getElementById('adminStatPredCount');
+    if (pCount) pCount.textContent = predList.length;
+    const tCount = document.getElementById('adminStatThawabitCount');
+    if (tCount) tCount.textContent = thawabitList.length;
+    const cCount = document.getElementById('adminStatCodesCount');
+    if (cCount) cCount.textContent = booksList.length + predList.length;
+
+    renderAdminMaterialsList();
+    renderAdminThawabitList();
+    loadAdminSettingsInputs();
+  }
+
+  // PDF File Upload to Base64 with Visual Progress Bar
+  function handleAdminPdfUpload(inputEl, labelId, hiddenId, progressWrapId, progressBarId, progressTextId) {
+    const file = inputEl.files[0];
+    if (!file) return;
+
+    if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+      alert('⚠️ يرجى اختيار ملف بصيغة PDF فقط!');
+      inputEl.value = '';
+      return;
+    }
+
+    const progressWrap = document.getElementById(progressWrapId);
+    const progressBar = document.getElementById(progressBarId);
+    const progressText = document.getElementById(progressTextId);
+    const label = document.getElementById(labelId);
+
+    if (progressWrap) progressWrap.style.display = 'block';
+    if (progressBar) progressBar.style.width = '10%';
+    if (progressText) progressText.textContent = '⏳ جاري قراءة وتجهيز ملف الـ PDF... 10%';
+
+    const reader = new FileReader();
+
+    reader.onprogress = function(e) {
+      if (e.lengthComputable) {
+        const percent = Math.round((e.loaded / e.total) * 100);
+        if (progressBar) progressBar.style.width = percent + '%';
+        if (progressText) progressText.textContent = `⏳ جاري معالجة الملف... ${percent}%`;
+      }
+    };
+
+    reader.onload = function(e) {
+      document.getElementById(hiddenId).value = e.target.result;
+      if (progressBar) progressBar.style.width = '100%';
+      if (progressText) progressText.textContent = '✅ اكتملت المعالجة 100% - جاهز للحفظ والنشر';
+      
+      const sizeMb = (file.size / (1024 * 1024)).toFixed(2);
+      const sizeKb = Math.round(file.size / 1024);
+      label.innerHTML = `
+        <div style="color:#34d399; font-weight:900; font-size:1rem;">✅ تم تجهيز الملف: ${file.name}</div>
+        <div style="font-size:0.8rem; color:#94a3b8; margin-top:3px;">الحجم: ${file.size > 1024 * 1024 ? sizeMb + ' MB' : sizeKb + ' KB'} • اضغط على الزر الأخضر بالأسفل لتثبيته في المنصة</div>
+      `;
+    };
+
+    reader.onerror = function() {
+      alert('❌ حدث خطأ أثناء قراءة الملف، يرجى المحاولة مرة أخرى.');
+      if (progressWrap) progressWrap.style.display = 'none';
+    };
+
+    reader.readAsDataURL(file);
+  }
+
+  function generateRandomCode(targetInputId) {
+    const rand = Math.random().toString(36).substring(2, 7).toUpperCase();
+    const code = 'VIP-' + rand + '-2026';
+    document.getElementById(targetInputId).value = code;
+  }
+
+  // 1. Create Book (Async IndexedDB Safe)
+  async function handleAdminCreateBook(e) {
+    e.preventDefault();
+    const submitBtn = document.getElementById('newBookSubmitBtn');
+    const originalText = submitBtn ? submitBtn.innerHTML : '';
+    
+    try {
+      if (submitBtn) {
+        submitBtn.innerHTML = '⏳ جاري حفظ وتثبيت الملف في التطبيق...';
+        submitBtn.disabled = true;
+      }
+
+      const title = document.getElementById('newBookTitle').value.trim();
+      const cat = document.getElementById('newBookCat').value;
+      const code = document.getElementById('newBookCode').value.trim().toUpperCase();
+      const lockStatus = document.getElementById('newBookLockStatus').value;
+      const pdfUrl = document.getElementById('newBookPdfUrl').value.trim();
+      const pdfBase64 = document.getElementById('newBookPdfFileBase64').value;
+      const desc = document.getElementById('newBookDesc').value.trim();
+      const bookId = 'book_' + Date.now();
+
+      let hasLocalPdf = false;
+      if (pdfBase64) {
+        await PdfDB.save(bookId, pdfBase64, title + '.pdf');
+        hasLocalPdf = true;
+      }
+
+      const newBook = {
+        id: bookId,
+        title,
+        cat,
+        code,
+        isLocked: lockStatus === 'locked_10k',
+        price: lockStatus === 'locked_10k' ? '10,000 د.ع' : 'مجاني',
+        pdfUrl: formatGoogleDriveUrl(pdfUrl, 'preview'),
+        hasLocalPdf: hasLocalPdf,
+        desc
+      };
+
+      booksList.unshift(newBook);
+      try {
+        localStorage.setItem(STORAGE_KEY_BOOKS, JSON.stringify(booksList));
+      } catch (storageErr) {
+        console.warn('LocalStorage save fallback:', storageErr);
+      }
+
+      alert(`🎉 تم بنجاح حفظ ونشر كتاب / ملزمة [ ${title} ] وتوفير ملف الـ PDF كاملاً للطلاب!`);
+      
+      e.target.reset();
+      document.getElementById('newBookPdfFileName').innerHTML = 'اضغط هنا لاختيار ورفع ملف PDF من جهازك أو هاتفك';
+      document.getElementById('newBookPdfFileBase64').value = '';
+      const progressWrap = document.getElementById('newBookProgressWrap');
+      if (progressWrap) progressWrap.style.display = 'none';
+
+      renderAdminAll();
+      renderStudentBooks();
+      switchAdminSection('manage');
+    } catch (err) {
+      console.error('Error creating book:', err);
+      alert('حدث خطأ أثناء حفظ الملف: ' + (err.message || 'يرجى المحاولة مرة أخرى'));
+    } finally {
+      if (submitBtn) {
+        submitBtn.innerHTML = originalText || '💾 نشر وتثبيت الكتاب والـ PDF في المنصة فوراً';
+        submitBtn.disabled = false;
+      }
+    }
+  }
+
+  // 2. Create Prediction (Async IndexedDB Safe)
+  async function handleAdminCreatePrediction(e) {
+    e.preventDefault();
+    const submitBtn = document.getElementById('newPredSubmitBtn');
+    const originalText = submitBtn ? submitBtn.innerHTML : '';
+
+    try {
+      if (submitBtn) {
+        submitBtn.innerHTML = '⏳ جاري حفظ وتثبيت المرشحة في التطبيق...';
+        submitBtn.disabled = true;
+      }
+
+      const title = document.getElementById('newPredTitle').value.trim();
+      const cat = document.getElementById('newPredCat').value;
+      const code = document.getElementById('newPredCode').value.trim().toUpperCase();
+      const pdfUrl = document.getElementById('newPredPdfUrl').value.trim();
+      const pdfBase64 = document.getElementById('newPredPdfFileBase64').value;
+      const desc = document.getElementById('newPredDesc').value.trim();
+      const predId = 'pred_' + Date.now();
+
+      let hasLocalPdf = false;
+      if (pdfBase64) {
+        await PdfDB.save(predId, pdfBase64, title + '.pdf');
+        hasLocalPdf = true;
+      }
+
+      const newPred = {
+        id: predId,
+        title,
+        cat,
+        code,
+        isLocked: true,
+        price: '10,000 د.ع',
+        pdfUrl: formatGoogleDriveUrl(pdfUrl, 'preview'),
+        hasLocalPdf: hasLocalPdf,
+        desc
+      };
+
+      predList.unshift(newPred);
+      try {
+        localStorage.setItem(STORAGE_KEY_PRED, JSON.stringify(predList));
+      } catch (storageErr) {
+        console.warn('LocalStorage save fallback:', storageErr);
+      }
+
+      alert(`🎉 تم بنجاح حفظ ونشر مرشحة النجاح [ ${title} ] وتوفير ملف الـ PDF للطلاب!`);
+      
+      e.target.reset();
+      document.getElementById('newPredPdfFileName').innerHTML = 'اضغط هنا لرفع ملف PDF للمرشحة';
+      document.getElementById('newPredPdfFileBase64').value = '';
+      const progressWrap = document.getElementById('newPredProgressWrap');
+      if (progressWrap) progressWrap.style.display = 'none';
+
+      renderAdminAll();
+      renderStudentPredictions();
+      switchAdminSection('manage');
+    } catch (err) {
+      console.error('Error creating prediction:', err);
+      alert('حدث خطأ أثناء حفظ المرشحة: ' + (err.message || 'يرجى المحاولة مرة أخرى'));
+    } finally {
+      if (submitBtn) {
+        submitBtn.innerHTML = originalText || '💾 نشر وتثبيت مرشحة النجاح والـ PDF';
+        submitBtn.disabled = false;
+      }
+    }
+  }
+
+  // 3. Render Materials List in Admin
+  function renderAdminMaterialsList() {
+    const container = document.getElementById('adminMaterialsContainer');
+    if (!container) return;
+
+    const allItems = [
+      ...booksList.map(b => ({ ...b, itemType: 'ملزمة/كتاب' })),
+      ...predList.map(p => ({ ...p, itemType: 'مرشحة نجاح' }))
+    ];
+
+    if (allItems.length === 0) {
+      container.innerHTML = `
+        <div style="text-align:center; padding:30px; background:#070d1e; border:1px dashed #1e3567; border-radius:16px; color:#94a3b8;">
+          📭 لم يتم إضافة أي مواد دراسية بعد. قم بإضافة مادة جديدة من التبويب أعلاه.
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = allItems.map(item => `
+      <div class="admin-item-row">
+        <div>
+          <span class="cat-badge" style="margin-left:6px;">${item.itemType}</span>
+          <span style="font-weight:900; color:#fff; font-size:1.02rem;">${item.title}</span>
+          <div style="font-size:0.8rem; color:#94a3b8; margin-top:4px;">
+            المادة: <b style="color:#38bdf8;">${item.cat}</b> • كود التفعيل: <b style="color:#fbbf24; font-family:monospace; font-size:0.95rem;">${item.code}</b> • السعر: <b style="color:#34d399;">${item.price}</b>
+            ${(item.hasLocalPdf || item.pdfBase64 || item.pdfUrl) ? ' • <span style="color:#34d399; font-weight:800;">📄 يوجد ملف PDF محفوظ</span>' : ' • <span style="color:#f87171;">⚠️ لا يوجد PDF</span>'}
+          </div>
+        </div>
+
+        <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+          <button onclick="openEditItemModal('${item.id}')" class="btn-action" style="background:#0284c7; color:#fff; font-weight:800;">
+            ✏️ تعديل وPDF
+          </button>
+          <button onclick="openPdfViewer('${item.id}', '${escapeText(item.title)}', '${escapeText(item.cat)}', '${item.pdfUrl || ''}', '${escapeText(item.desc)}')" class="btn-action btn-read">
+            👁️ معاينة
+          </button>
+          <button onclick="sendCodeViaWhatsApp('${item.title}', '${item.code}')" class="btn-action" style="background:#25d366; color:#fff;">
+            📲 إرسال واتساب
+          </button>
+          <button onclick="deleteAdminItem('${item.id}')" class="btn-action" style="background:rgba(239,68,68,0.2); border:1px solid #ef4444; color:#f87171;">
+            🗑️ حذف
+          </button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Open Edit Modal for Book or Prediction
+  async function openEditItemModal(id) {
+    let item = booksList.find(b => b.id === id);
+    let type = 'book';
+    if (!item) {
+      item = predList.find(p => p.id === id);
+      type = 'pred';
+    }
+    if (!item) {
+      alert('المادة غير موجودة!');
+      return;
+    }
+
+    document.getElementById('editItemId').value = item.id;
+    document.getElementById('editItemType').value = type;
+    document.getElementById('editItemTitle').value = item.title || '';
+    document.getElementById('editItemCat').value = item.cat || 'الرياضيات';
+    document.getElementById('editItemCode').value = item.code || '';
+    document.getElementById('editItemLockStatus').value = item.isLocked ? 'locked_10k' : 'free';
+    document.getElementById('editPdfUrl').value = item.pdfUrl || '';
+    document.getElementById('editItemDesc').value = item.desc || '';
+
+    // Reset file upload & progress
+    document.getElementById('editPdfFileInput').value = '';
+    document.getElementById('editPdfFileBase64').value = '';
+    document.getElementById('editPdfFileName').innerHTML = 'اضغط لاختيار ملف PDF جديد واستبدال القديم';
+    const progressWrap = document.getElementById('editPdfProgressWrap');
+    if (progressWrap) progressWrap.style.display = 'none';
+
+    // Inspect existing PDF in IndexedDB or URLs
+    const currentPdfText = document.getElementById('editCurrentPdfText');
+    const previewBtn = document.getElementById('editPreviewCurrentPdfBtn');
+    const storedPdf = await PdfDB.get(item.id);
+
+    if (storedPdf || item.hasLocalPdf || item.pdfBase64) {
+      currentPdfText.innerHTML = '📄 <span style="color:#34d399;">يوجد ملف PDF محفوظ مسبقاً في النظام</span>';
+      previewBtn.style.display = 'inline-block';
+      previewBtn.onclick = () => openPdfViewer(item.id, item.title, item.cat, item.pdfUrl || '', item.desc);
+    } else if (item.pdfUrl) {
+      currentPdfText.innerHTML = '🌐 <span style="color:#38bdf8;">مرتبط برابط PDF مباشر / خارجي</span>';
+      previewBtn.style.display = 'inline-block';
+      previewBtn.onclick = () => openPdfViewer(item.id, item.title, item.cat, item.pdfUrl || '', item.desc);
+    } else {
+      currentPdfText.innerHTML = '⚠️ <span style="color:#f87171;">لا يوجد ملف PDF مضاف لهذه المادة حالياً</span>';
+      previewBtn.style.display = 'none';
+    }
+
+    document.getElementById('editItemModal').style.display = 'flex';
+  }
+
+  function closeEditItemModal() {
+    document.getElementById('editItemModal').style.display = 'none';
+  }
+
+  async function handleAdminSaveEditedItem(e) {
+    e.preventDefault();
+    const submitBtn = document.getElementById('editItemSubmitBtn');
+    const originalText = submitBtn ? submitBtn.innerHTML : '';
+
+    try {
+      if (submitBtn) {
+        submitBtn.innerHTML = '⏳ جاري حفظ التعديلات وتحديث ملف الـ PDF...';
+        submitBtn.disabled = true;
+      }
+
+      const id = document.getElementById('editItemId').value;
+      const type = document.getElementById('editItemType').value;
+      const title = document.getElementById('editItemTitle').value.trim();
+      const cat = document.getElementById('editItemCat').value;
+      const code = document.getElementById('editItemCode').value.trim().toUpperCase();
+      const lockStatus = document.getElementById('editItemLockStatus').value;
+      const pdfUrl = document.getElementById('editPdfUrl').value.trim();
+      const newPdfBase64 = document.getElementById('editPdfFileBase64').value;
+      const desc = document.getElementById('editItemDesc').value.trim();
+
+      const isLocked = lockStatus === 'locked_10k';
+      const price = isLocked ? '10,000 د.ع' : 'مجاني';
+
+      let list = type === 'book' ? booksList : predList;
+      const index = list.findIndex(item => item.id === id);
+
+      if (index === -1) {
+        alert('لم يتم العثور على المادة لتحديثها!');
+        return;
+      }
+
+      const existingItem = list[index];
+      let hasLocalPdf = existingItem.hasLocalPdf || !!existingItem.pdfBase64;
+
+      // If new PDF was uploaded, save it to IndexedDB
+      if (newPdfBase64) {
+        await PdfDB.save(id, newPdfBase64, title + '.pdf');
+        hasLocalPdf = true;
+      }
+
+      // Update the item
+      list[index] = {
+        ...existingItem,
+        title,
+        cat,
+        code,
+        isLocked,
+        price,
+        pdfUrl: formatGoogleDriveUrl(pdfUrl, 'preview'),
+        hasLocalPdf,
+        desc
+      };
+
+      if (type === 'book') {
+        booksList = list;
+        localStorage.setItem(STORAGE_KEY_BOOKS, JSON.stringify(booksList));
+      } else {
+        predList = list;
+        localStorage.setItem(STORAGE_KEY_PRED, JSON.stringify(predList));
+      }
+
+      alert(`🎉 تم بنجاح حفظ تعديلات [ ${title} ] وتحديث ملف الـ PDF!`);
+      closeEditItemModal();
+
+      renderAdminAll();
+      renderStudentBooks();
+      renderStudentPredictions();
+    } catch (err) {
+      console.error('Error updating item:', err);
+      alert('حدث خطأ أثناء حفظ التعديلات: ' + (err.message || 'يرجى المحاولة مرة أخرى'));
+    } finally {
+      if (submitBtn) {
+        submitBtn.innerHTML = originalText || '💾 حفظ التعديلات وتحديث الـ PDF فوراً';
+        submitBtn.disabled = false;
+      }
+    }
+  }
+
+  function sendCodeViaWhatsApp(title, code) {
+    const msg = `مرحباً بك في منصة طلبتي التعليمية 🎓%0A%0Aتم تفعيل المادة التالية بنجاح:%0A📚 *${title}*%0A🔑 كود التفعيل الخاص بك: *${code}*%0A%0Aطريقة الاستخدام: انسخ الكود وضعه في خانة التفعيل داخل المنصة لفتح المادة مباشرة. بالتوفيق والنجاح 100%! 🌟`;
+    window.open(`https://api.whatsapp.com/send?text=${msg}`, '_blank');
+  }
+
+  async function deleteAdminItem(id) {
+    if (!confirm('هل أنت متأكد من حذف هذه المادة وملف الـ PDF الخاص بها؟')) return;
+    booksList = booksList.filter(b => b.id !== id);
+    predList = predList.filter(p => p.id !== id);
+    localStorage.setItem(STORAGE_KEY_BOOKS, JSON.stringify(booksList));
+    localStorage.setItem(STORAGE_KEY_PRED, JSON.stringify(predList));
+    await PdfDB.delete(id);
+    renderAdminAll();
+    renderStudentBooks();
+    renderStudentPredictions();
+  }
+
+  // 4. Thawabit in Admin
+  function handleAdminCreateThabit(e) {
+    e.preventDefault();
+    const subject = document.getElementById('newThabitSubject').value.trim();
+    const title = document.getElementById('newThabitTitle').value.trim();
+    const degree = document.getElementById('newThabitDegree').value.trim();
+    const desc = document.getElementById('newThabitDesc').value.trim();
+
+    thawabitList.unshift({ id: 'th_' + Date.now(), subject, title, degree, desc });
+    localStorage.setItem(STORAGE_KEY_THAWABIT, JSON.stringify(thawabitList));
+    alert('✅ تم نشر الثابت الوزاري بنجاح!');
+    e.target.reset();
+    renderAdminAll();
+    renderStudentThawabit();
+  }
+
+  function renderAdminThawabitList() {
+    const container = document.getElementById('adminThawabitList');
+    if (!container) return;
+    container.innerHTML = thawabitList.map(t => `
+      <div class="admin-item-row">
+        <div>
+          <b>${t.subject}</b> - ${t.title} (${t.degree})
+          <div style="font-size:0.8rem; color:#94a3b8;">${t.desc}</div>
+        </div>
+        <button onclick="deleteAdminThabit('${t.id}')" class="btn-logout">🗑️ حذف</button>
+      </div>
+    `).join('');
+  }
+
+  function deleteAdminThabit(id) {
+    thawabitList = thawabitList.filter(t => t.id !== id);
+    localStorage.setItem(STORAGE_KEY_THAWABIT, JSON.stringify(thawabitList));
+    renderAdminAll();
+    renderStudentThawabit();
+  }
+
+  // 5. Notice in Admin
+  function handleAdminSaveNotice(e) {
+    e.preventDefault();
+    globalNotice.title = document.getElementById('adminNoticeTitleInput').value.trim();
+    globalNotice.sub = document.getElementById('adminNoticeSubInput').value.trim();
+    localStorage.setItem(STORAGE_KEY_NOTICE, JSON.stringify(globalNotice));
+    applyGlobalNotice();
+    alert('✅ تم تحديث شريط الإعلان لجميع الطلاب بنجاح!');
+  }
+
+  // =========================================================================
+  // 📖 PDF Viewer & Direct Interactive Canvas Reader Engine (PDF.js + jsPDF)
+  // =========================================================================
+  if (typeof pdfjsLib !== 'undefined') {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  }
+
+  let currentActivePdf = { id: '', title: '', cat: '', url: '', base64: '', desc: '' };
+  let currentPdfDoc = null;
+  let currentPdfPageNum = 1;
+  let totalPdfPages = 1;
+  let pdfZoomLevel = 1.15;
+  let pdfRotationAngle = 0;
+  let isReaderNightMode = false;
+  let isPdfRendering = false;
+  let pdfRenderQueue = null;
+
+  async function openPdfViewer(id, title, cat, url, desc) {
+    currentActivePdf = { id, title, cat, url, base64: '', desc };
+    currentPdfDoc = null;
+    currentPdfPageNum = 1;
+    totalPdfPages = 1;
+    pdfRotationAngle = 0;
+    pdfZoomLevel = 1.15;
+    
+    document.getElementById('pdfViewerTitle').textContent = '📖 ' + title;
+    document.getElementById('pdfViewerCat').textContent = 'القسم: ' + cat;
+
+    const downloadBtn = document.getElementById('pdfDownloadBtn');
+    if (downloadBtn) downloadBtn.style.display = 'inline-flex';
+
+    const pageNav = document.getElementById('pdfPageNavToolbar');
+    if (pageNav) pageNav.style.display = 'flex';
+
+    const autoGenBtn = document.getElementById('btnAutoGeneratePdf');
+    if (autoGenBtn) autoGenBtn.style.display = 'none';
+
+    const body = document.getElementById('pdfViewerBody');
+    body.innerHTML = `
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 20px; color:#38bdf8; text-align:center;">
+        <div style="font-size:3rem; margin-bottom:12px;">⏳</div>
+        <div style="font-weight:900; font-size:1.2rem; margin-bottom:6px;">جاري تحميل ومعالجة ملف الـ PDF...</div>
+        <div style="font-size:0.85rem; color:#94a3b8;">قارئ المستندات المباشر عالي الدقة داخل التطبيق</div>
+      </div>
+    `;
+
+    document.getElementById('pdfViewerModal').style.display = 'flex';
+
+    // 1. Retrieve from IndexedDB
+    let storedPdf = await PdfDB.get(id);
+    if (storedPdf) {
+      currentActivePdf.base64 = storedPdf;
+      await loadAndRenderPdfDocument(storedPdf, true);
+      return;
+    }
+
+    // 2. Direct base64 if already in item object
+    const inMemItem = [...booksList, ...predList].find(item => item.id === id);
+    if (inMemItem && (inMemItem.pdfBase64 || inMemItem.hasLocalPdf)) {
+      if (inMemItem.pdfBase64) {
+        currentActivePdf.base64 = inMemItem.pdfBase64;
+        await loadAndRenderPdfDocument(inMemItem.pdfBase64, true);
+        return;
+      }
+    }
+
+    // 3. Online URL
+    if (url) {
+      const previewUrl = formatGoogleDriveUrl(url, 'preview');
+      renderPdfFallbackIframe(previewUrl);
+      return;
+    }
+
+    // 4. Formatted study summary with Instant PDF generator
+    renderTextReaderWithPdfGen(title, cat, desc);
+  }
+
+  // Handle local user device PDF upload
+  function handleUserLocalPdfSelected(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+      alert('⚠️ يرجى اختيار ملف بصيغة PDF فقط.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = async function(e) {
+      const dataUrl = e.target.result;
+      const cleanTitle = file.name.replace(/\.pdf$/i, '');
+      currentActivePdf = {
+        id: 'user_local_' + Date.now(),
+        title: cleanTitle,
+        cat: 'ملف من جهازي',
+        url: '',
+        base64: dataUrl,
+        desc: 'ملف PDF خاص تم فتحه من جهازك الشخصي.'
+      };
+
+      document.getElementById('pdfViewerTitle').textContent = '📂 ' + cleanTitle;
+      document.getElementById('pdfViewerCat').textContent = 'ملف محلي من جهازك';
+      document.getElementById('pdfViewerModal').style.display = 'flex';
+      
+      await loadAndRenderPdfDocument(dataUrl, true);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // Load PDF with PDF.js
+  async function loadAndRenderPdfDocument(source, isDataUrl) {
+    const body = document.getElementById('pdfViewerBody');
+    const badge = document.getElementById('pdfRenderingStateBadge');
+    
+    try {
+      if (typeof pdfjsLib === 'undefined') {
+        throw new Error('PDF.js engine is still loading');
+      }
+
+      let loadingTask;
+      if (isDataUrl && typeof source === 'string' && source.startsWith('data:')) {
+        const rawData = atob(source.split(',')[1]);
+        const uint8Array = new Uint8Array(rawData.length);
+        for (let i = 0; i < rawData.length; i++) {
+          uint8Array[i] = rawData.charCodeAt(i);
+        }
+        loadingTask = pdfjsLib.getDocument({ data: uint8Array });
+      } else {
+        loadingTask = pdfjsLib.getDocument(source);
+      }
+
+      currentPdfDoc = await loadingTask.promise;
+      totalPdfPages = currentPdfDoc.numPages;
+      currentPdfPageNum = 1;
+
+      document.getElementById('pdfTotalPagesCount').textContent = totalPdfPages;
+      document.getElementById('pdfPageNumInp').value = 1;
+      document.getElementById('pdfPageNumInp').max = totalPdfPages;
+
+      if (badge) badge.innerHTML = `⚡ مستند تفاعلي مباشر (${totalPdfPages} صفحة)`;
+
+      body.innerHTML = `
+        <div id="pdfCanvasViewport" class="pdf-canvas-viewport">
+          <canvas id="pdfRenderCanvas" class="pdf-render-canvas ${isReaderNightMode ? 'night-mode' : ''}"></canvas>
+        </div>
+      `;
+
+      renderCurrentPdfPage(1);
+
+    } catch (err) {
+      console.warn('PDF.js direct rendering fallback:', err);
+      if (badge) badge.innerHTML = '🌐 وضع العرض المتوافق';
+      renderPdfFallbackIframe(source);
+    }
+  }
+
+  // Render individual page to canvas
+  function renderCurrentPdfPage(num) {
+    if (!currentPdfDoc) return;
+    if (isPdfRendering) {
+      pdfRenderQueue = num;
+      return;
+    }
+    isPdfRendering = true;
+
+    currentPdfDoc.getPage(num).then(page => {
+      const canvas = document.getElementById('pdfRenderCanvas');
+      if (!canvas) { isPdfRendering = false; return; }
+      const ctx = canvas.getContext('2d');
+
+      const viewport = page.getViewport({ scale: pdfZoomLevel, rotation: pdfRotationAngle });
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+
+      const renderContext = {
+        canvasContext: ctx,
+        viewport: viewport
+      };
+
+      const renderTask = page.render(renderContext);
+      renderTask.promise.then(() => {
+        isPdfRendering = false;
+        if (pdfRenderQueue !== null) {
+          const next = pdfRenderQueue;
+          pdfRenderQueue = null;
+          renderCurrentPdfPage(next);
+        }
+      }).catch(e => {
+        isPdfRendering = false;
+        console.error('Page render error:', e);
+      });
+    }).catch(e => {
+      isPdfRendering = false;
+      console.error('Get page error:', e);
+    });
+
+    const pageInp = document.getElementById('pdfPageNumInp');
+    if (pageInp) pageInp.value = num;
+  }
+
+  function queueRenderPage(num) {
+    if (isPdfRendering) {
+      pdfRenderQueue = num;
+    } else {
+      renderCurrentPdfPage(num);
+    }
+  }
+
+  function jumpToPdfPage(val) {
+    const page = parseInt(val);
+    if (isNaN(page) || page < 1 || page > totalPdfPages || !currentPdfDoc) return;
+    currentPdfPageNum = page;
+    queueRenderPage(currentPdfPageNum);
+  }
+
+  function prevPdfPage() {
+    if (!currentPdfDoc || currentPdfPageNum <= 1) return;
+    currentPdfPageNum--;
+    queueRenderPage(currentPdfPageNum);
+  }
+
+  function nextPdfPage() {
+    if (!currentPdfDoc || currentPdfPageNum >= totalPdfPages) return;
+    currentPdfPageNum++;
+    queueRenderPage(currentPdfPageNum);
+  }
+
+  function goToFirstPdfPage() {
+    if (!currentPdfDoc) return;
+    currentPdfPageNum = 1;
+    queueRenderPage(1);
+  }
+
+  function goToLastPdfPage() {
+    if (!currentPdfDoc) return;
+    currentPdfPageNum = totalPdfPages;
+    queueRenderPage(totalPdfPages);
+  }
+
+  function rotatePdfPage() {
+    pdfRotationAngle = (pdfRotationAngle + 90) % 360;
+    if (currentPdfDoc) {
+      queueRenderPage(currentPdfPageNum);
+    }
+  }
+
+  function renderPdfFallbackIframe(source) {
+    const body = document.getElementById('pdfViewerBody');
+    body.innerHTML = `
+      <div style="width:100%; height:100%; display:flex; flex-direction:column;">
+        <div style="display:flex; justify-content:space-between; align-items:center; background:#070d1e; padding:8px 12px; border-bottom:1px solid #1e3567;">
+          <span style="color:#38bdf8; font-size:0.82rem; font-weight:800;">📄 عارض الـ PDF المتكامل</span>
+          <button onclick="downloadPdfDirect()" class="btn-copy-sm" style="background:#2563eb; color:#fff;">📥 حفظ نسخة على جهازك</button>
+        </div>
+        <iframe id="pdfIframeEl" src="${source}" class="pdf-iframe-view" style="width:100%; height:100%; border:none;" allow="autoplay"></iframe>
+      </div>
+    `;
+  }
+
+  function renderTextReaderWithPdfGen(title, cat, desc) {
+    const body = document.getElementById('pdfViewerBody');
+    const autoGenBtn = document.getElementById('btnAutoGeneratePdf');
+    const badge = document.getElementById('pdfRenderingStateBadge');
+
+    if (badge) badge.innerHTML = '📝 قراءة نصية تفاعلية';
+    if (autoGenBtn) autoGenBtn.style.display = 'inline-flex';
+
+    body.innerHTML = `
+      <div class="pdf-text-reader" id="pdfReaderContentArea" style="transform: scale(${pdfZoomLevel}); transform-origin: top center; transition: transform 0.2s;">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #2563eb; padding-bottom:12px; margin-bottom:16px;">
+          <h2 style="color:#38bdf8; margin:0; font-size:1.35rem;">📑 ${title}</h2>
+          <span style="background:#1e3567; color:#93c5fd; padding:4px 12px; border-radius:999px; font-size:0.8rem; font-weight:800;">${cat}</span>
+        </div>
+        <div style="font-size:1rem; line-height:2.1; color:#e2e8f0; white-space:pre-wrap; font-family:'Cairo', sans-serif;">
+${desc || 'المحتوى المنهجي الشامل والأسئلة النموذجية للمادة.'}
+        </div>
+      </div>
+    `;
+  }
+
+  // Instant jsPDF generation from active text
+  function generateInstantPdfForActiveText() {
+    if (!window.jspdf || !window.jspdf.jsPDF) {
+      alert('جاري تجهيز محرك PDF...');
+      return;
+    }
+    try {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+      
+      doc.setFontSize(18);
+      doc.text("Talabati Educational Platform - 2026", 105, 20, { align: "center" });
+      doc.setFontSize(14);
+      doc.text(currentActivePdf.title || "Study Material", 105, 32, { align: "center" });
+      doc.setFontSize(11);
+      doc.text("Category: " + (currentActivePdf.cat || "General"), 105, 40, { align: "center" });
+      
+      const splitText = doc.splitTextToSize(currentActivePdf.desc || "Official study materials and model questions.", 170);
+      doc.text(splitText, 20, 55);
+      
+      doc.save(`${(currentActivePdf.title || 'Study_Material').replace(/\s+/g, '_')}.pdf`);
+      alert('🎉 تم توليد وتنزيل ملف الـ PDF بنجاح!');
+    } catch(err) {
+      console.error('jsPDF generation failed:', err);
+      printCurrentPdf();
+    }
+  }
+
+  function changePdfZoom(delta) {
+    pdfZoomLevel = Math.max(0.6, Math.min(2.5, pdfZoomLevel + delta));
+    if (currentPdfDoc) {
+      queueRenderPage(currentPdfPageNum);
+    }
+    const iframe = document.getElementById('pdfIframeEl');
+    const textArea = document.getElementById('pdfReaderContentArea');
+    if (iframe) iframe.style.transform = `scale(${pdfZoomLevel})`;
+    if (textArea) textArea.style.transform = `scale(${pdfZoomLevel})`;
+  }
+
+  function resetPdfZoom() {
+    pdfZoomLevel = 1.15;
+    if (currentPdfDoc) queueRenderPage(currentPdfPageNum);
+    const iframe = document.getElementById('pdfIframeEl');
+    const textArea = document.getElementById('pdfReaderContentArea');
+    if (iframe) iframe.style.transform = 'scale(1.0)';
+    if (textArea) textArea.style.transform = 'scale(1.0)';
+  }
+
+  function toggleReaderNightMode() {
+    isReaderNightMode = !isReaderNightMode;
+    const canvas = document.getElementById('pdfRenderCanvas');
+    const modalBody = document.getElementById('pdfViewerBody');
+    const btn = document.getElementById('readerThemeToggleBtn');
+    
+    if (canvas) canvas.classList.toggle('night-mode', isReaderNightMode);
+    if (modalBody) {
+      modalBody.style.background = isReaderNightMode ? '#020617' : '#050a16';
+    }
+    if (btn) btn.textContent = isReaderNightMode ? '☀️ نهاري' : '🌙 ليلي';
+  }
+
+  function togglePdfFullscreen() {
+    const modal = document.getElementById('pdfViewerModal');
+    if (!document.fullscreenElement) {
+      if (modal.requestFullscreen) modal.requestFullscreen();
+      else if (modal.webkitRequestFullscreen) modal.webkitRequestFullscreen();
+    } else {
+      if (document.exitFullscreen) document.exitFullscreen();
+    }
+  }
+
+  function printCurrentPdf() {
+    if (!currentActivePdf || !currentActivePdf.title) return;
+    downloadItemPdf(currentActivePdf.id, currentActivePdf.title, currentActivePdf.url, currentActivePdf.desc);
+  }
+
+  function downloadPdfDirect() {
+    if (!currentActivePdf || !currentActivePdf.title) return;
+    downloadItemPdf(currentActivePdf.id, currentActivePdf.title, currentActivePdf.url, currentActivePdf.desc);
+  }
+
+  async function downloadItemPdf(id, title, url, desc) {
+    const filename = `${title.replace(/[\/\\:*?"<>|]/g, '_')}.pdf`;
+
+    // 1. Check IndexedDB
+    let storedPdf = await PdfDB.get(id);
+    if (!storedPdf && currentActivePdf && currentActivePdf.id === id && currentActivePdf.base64) {
+      storedPdf = currentActivePdf.base64;
+    }
+
+    if (storedPdf) {
+      const a = document.createElement('a');
+      a.href = storedPdf;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      return;
+    }
+
+    // 2. Check URL
+    if (url) {
+      const downloadUrl = formatGoogleDriveUrl(url, 'download');
+      const a = document.createElement('a');
+      a.href = downloadUrl;
+      a.target = '_blank';
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      return;
+    }
+
+    // 3. Fallback Printable window / Text summary
+    const printWindow = window.open('', '_blank');
+    if (printWindow) {
+      printWindow.document.write(`
+        <html dir="rtl" lang="ar">
+        <head>
+          <title>${title}</title>
+          <style>
+            body { font-family: sans-serif; padding: 40px; line-height: 1.8; color: #111; }
+            h1 { color: #1d4ed8; border-bottom: 2px solid #1d4ed8; padding-bottom: 10px; }
+            p { font-size: 16px; white-space: pre-wrap; }
+          </style>
+        </head>
+        <body>
+          <h1>منصة طلبتي التعليمية 🎓</h1>
+          <h2>${title}</h2>
+          <hr/>
+          <p>${desc || 'محتوى المادة الدراسية والأسئلة المعتمدة'}</p>
+        </body>
+        </html>
+      `);
+      printWindow.document.close();
+      printWindow.focus();
+      setTimeout(() => { printWindow.print(); }, 500);
+    } else {
+      alert(`📥 جاري فتح وتحميل: ${title}`);
+    }
+  }
+
+  function closePdfViewer() {
+    document.getElementById('pdfViewerModal').style.display = 'none';
+    document.getElementById('pdfViewerBody').innerHTML = '';
+    currentPdfDoc = null;
+  }
+
+  function escapeText(str) {
+    return (str || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+  }
+
+  // =========================================================================
+  // 📑 Ministerial Archives Repository (2020 - 2025)
+  // =========================================================================
+  const MINISTERIAL_ARCHIVES = [
+    {
+      id: 'arch_1',
+      stage: '6th',
+      stageName: 'السادس الإعدادي',
+      subject: 'الرياضيات',
+      year: '2024 - الدور الأول',
+      title: 'أسئلة الرياضيات الوزارية مع الحل النموذجي 2024',
+      desc: 'الأسئلة الكاملة مع الأجوبة النموذجية المعتمدة وتوزيع الدرجات لجميع الفروع.',
+      pdfUrl: ''
+    },
+    {
+      id: 'arch_2',
+      stage: '6th',
+      stageName: 'السادس الإعدادي',
+      subject: 'الأحياء',
+      year: '2024 - الدور الأول',
+      title: 'أسئلة الأحياء الوزارية والرسومات النموذجية 2024',
+      desc: 'أسئلة الأحياء الوزارية مع الشرح التفصيلي للرسومات والمقارنات والتعاليل.',
+      pdfUrl: ''
+    },
+    {
+      id: 'arch_3',
+      stage: '6th',
+      stageName: 'السادس الإعدادي',
+      subject: 'الكيمياء',
+      year: '2023 - الدور الأول والثاني',
+      title: 'أسئلة وحلول الكيمياء الوزارية الشاملة 2023',
+      desc: 'حلول نموذجية لكافة مسائل فرداي، بفر، وقانون هيس مع الملاحظات الامتحانية.',
+      pdfUrl: ''
+    },
+    {
+      id: 'arch_4',
+      stage: '3rd',
+      stageName: 'الثالث متوسط',
+      subject: 'الرياضيات',
+      year: '2024 - الدور الأول',
+      title: 'أسئلة الرياضيات الوزارية للثالث متوسط 2024',
+      desc: 'حلول مسائل التطبيقات، المتباينات المركبة، وتحليل المقادير الجبرية بدقة كاملة.',
+      pdfUrl: ''
+    },
+    {
+      id: 'arch_5',
+      stage: '3rd',
+      stageName: 'الثالث متوسط',
+      subject: 'اللغة العربية',
+      year: '2024 - الدور الأول',
+      title: 'أسئلة قواعد اللغة العربية والأدب والإملاء 2024',
+      desc: 'الأجوبة النموذجية وإعراب الآيات والأبيات الشعرية المقررة وزارياً.',
+      pdfUrl: ''
+    },
+    {
+      id: 'arch_6',
+      stage: '6th',
+      stageName: 'السادس الإعدادي',
+      subject: 'الفيزياء',
+      year: '2023 - الدور الأول',
+      title: 'أسئلة الفيزياء والمسائل الوزارية النموذجية 2023',
+      desc: 'مسائل المتسعات، الحث الكهرومغناطيسي، والفيزياء الحديثة مع خطوات الحل.',
+      pdfUrl: ''
+    }
+  ];
+
+  function renderMinisterialArchives() {
+    const q = (document.getElementById('archiveSearchInp')?.value || '').toLowerCase().trim();
+    const stage = document.getElementById('archiveStageFilter')?.value || 'all';
+    const sub = document.getElementById('archiveSubjectFilter')?.value || 'all';
+    const container = document.getElementById('ministerialArchivesGrid');
+    if (!container) return;
+
+    const filtered = MINISTERIAL_ARCHIVES.filter(a => {
+      const matchText = a.title.toLowerCase().includes(q) || a.subject.toLowerCase().includes(q) || a.year.toLowerCase().includes(q);
+      const matchStage = stage === 'all' || a.stage === stage;
+      const matchSub = sub === 'all' || a.subject === sub;
+      return matchText && matchStage && matchSub;
+    });
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div style="grid-column:1/-1; text-align:center; padding:30px; background:#070d1e; border:1px dashed #1e3567; border-radius:16px; color:#94a3b8;">
+          🔍 لا توجد أسئلة وزارية مطابقة لبحثك حالياً.
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = filtered.map(a => `
+      <div class="book-card" style="border-color:#1e40af;">
+        <div class="card-top">
+          <span class="cat-badge" style="background:#1e40af; color:#93c5fd;">${a.subject}</span>
+          <span class="status-badge status-unlocked" style="background:rgba(56,189,248,0.15); color:#38bdf8; border-color:#38bdf8;">
+            🗓️ ${a.year}
+          </span>
+        </div>
+        <div class="book-title">${a.title}</div>
+        <div class="book-desc">${a.desc}</div>
+        <div style="font-size:0.75rem; color:#94a3b8; margin:6px 0;">المرحلة: <b style="color:#fbbf24;">${a.stageName}</b></div>
+
+        <div class="book-actions-group" style="margin-top:12px;">
+          <div style="display:flex; gap:6px; flex-wrap:wrap; width:100%;">
+            <button class="btn-action btn-read" style="flex:1;" onclick="openPdfViewer('${a.id}', '${escapeText(a.title)}', '${escapeText(a.subject)}', '${a.pdfUrl || ''}', '${escapeText(a.desc)}')">
+              📖 قراءة الأسئلة والحل
+            </button>
+            <button class="btn-action" style="background:#1d4ed8; color:#fff;" onclick="downloadItemPdf('${a.id}', '${escapeText(a.title)}', '${a.pdfUrl || ''}', '${escapeText(a.desc)}')">
+              📥 تنزيل PDF
+            </button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // =========================================================================
+  // 📋 Study Planner & Student Notebook Engine
+  // =========================================================================
+  const STORAGE_KEY_PLANNER = 'talabati_planner_tasks_v2';
+  const STORAGE_KEY_NOTEBOOK = 'talabati_student_notebook_v2';
+
+  let plannerTasks = [
+    { id: 'task_1', subject: 'الرياضيات', title: 'مراجعة مبرهنة ديموافر وتمارين 1-3', priority: 'عالية', completed: false, createdAt: Date.now() },
+    { id: 'task_2', subject: 'الأحياء', title: 'رسم الغشاء البلازمي وتعاليل الفصل الأول', priority: 'عالية', completed: true, createdAt: Date.now() },
+    { id: 'task_3', subject: 'الكيمياء', title: 'حل مسائل بفر 3 مواد وتطبيق قانون هيس', priority: 'متوسطة', completed: false, createdAt: Date.now() }
+  ];
+
+  function initPlannerData() {
+    const saved = localStorage.getItem(STORAGE_KEY_PLANNER);
+    if (saved) {
+      try { plannerTasks = JSON.parse(saved); } catch(e) {}
+    }
+  }
+
+  function renderPlannerTasks() {
+    const container = document.getElementById('plannerTasksListContainer');
+    if (!container) return;
+
+    const total = plannerTasks.length;
+    const completedCount = plannerTasks.filter(t => t.completed).length;
+    const percent = total > 0 ? Math.round((completedCount / total) * 100) : 0;
+
+    const percentEl = document.getElementById('plannerProgressPercent');
+    const barEl = document.getElementById('plannerProgressBar');
+    const textEl = document.getElementById('plannerProgressText');
+
+    if (percentEl) percentEl.textContent = `${percent}%`;
+    if (barEl) barEl.style.width = `${percent}%`;
+    if (textEl) textEl.textContent = `تم إنجاز ${completedCount} من أصل ${total} مهام دراسية`;
+
+    if (plannerTasks.length === 0) {
+      container.innerHTML = `
+        <div style="text-align:center; padding:24px; background:#070d1e; border:1px dashed #1e3567; border-radius:16px; color:#94a3b8;">
+          📋 لا توجد مهام دراسية مضافة حالياً. أضف مهمتك الأولى أعلاه وابدأ بإنجازها!
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = plannerTasks.map(t => `
+      <div class="study-task-item ${t.completed ? 'completed' : ''}">
+        <div style="display:flex; align-items:center; gap:12px; flex:1;">
+          <input type="checkbox" ${t.completed ? 'checked' : ''} onchange="togglePlannerTaskCompleted('${t.id}')" style="width:20px; height:20px; cursor:pointer; accent-color:#10b981;" />
+          <div>
+            <span style="font-size:0.75rem; background:#1e3567; color:#93c5fd; padding:2px 8px; border-radius:6px; font-weight:800; margin-left:6px;">${t.subject}</span>
+            <span class="task-text" style="font-weight:800; font-size:0.95rem; color:#fff;">${t.title}</span>
+            <span style="font-size:0.72rem; color:${t.priority === 'عالية' ? '#f87171' : '#fbbf24'}; margin-right:6px;">(${t.priority})</span>
+          </div>
+        </div>
+        <button onclick="deletePlannerTask('${t.id}')" class="btn-copy-sm" style="background:#1e1e38; color:#f87171; border:1px solid #3b2247;">
+          🗑️
+        </button>
+      </div>
+    `).join('');
+  }
+
+  function handleAddNewStudyTask(e) {
+    e.preventDefault();
+    const subject = document.getElementById('plannerTaskSubject').value.trim();
+    const title = document.getElementById('plannerTaskTitle').value.trim();
+    const priority = document.getElementById('plannerTaskPriority').value;
+
+    if (!subject || !title) return;
+
+    plannerTasks.unshift({
+      id: 'task_' + Date.now(),
+      subject,
+      title,
+      priority,
+      completed: false,
+      createdAt: Date.now()
+    });
+
+    localStorage.setItem(STORAGE_KEY_PLANNER, JSON.stringify(plannerTasks));
+    e.target.reset();
+    renderPlannerTasks();
+  }
+
+  function togglePlannerTaskCompleted(id) {
+    const task = plannerTasks.find(t => t.id === id);
+    if (task) {
+      task.completed = !task.completed;
+      localStorage.setItem(STORAGE_KEY_PLANNER, JSON.stringify(plannerTasks));
+      renderPlannerTasks();
+    }
+  }
+
+  function deletePlannerTask(id) {
+    plannerTasks = plannerTasks.filter(t => t.id !== id);
+    localStorage.setItem(STORAGE_KEY_PLANNER, JSON.stringify(plannerTasks));
+    renderPlannerTasks();
+  }
+
+  function saveStudentNotebookLive() {
+    const val = document.getElementById('studentSmartNotebook')?.value || '';
+    localStorage.setItem(STORAGE_KEY_NOTEBOOK, val);
+    const status = document.getElementById('notesSaveStatus');
+    if (status) {
+      status.textContent = '💾 تم الحفظ!';
+      setTimeout(() => { if (status) status.textContent = '💾 محفوظة محلياً'; }, 2000);
+    }
+  }
+
+  function loadStudentNotebook() {
+    const saved = localStorage.getItem(STORAGE_KEY_NOTEBOOK);
+    const textarea = document.getElementById('studentSmartNotebook');
+    if (textarea && saved !== null) {
+      textarea.value = saved;
+    }
+  }
+
+  // =========================================================================
+  // 📲 WhatsApp Lock Order & Direct Messaging Gateway (10,000 IQD)
+  // =========================================================================
+  function openMastercardModal(id, title, type) {
+    document.getElementById('mcModalItemId').value = id;
+    document.getElementById('mcModalItemTitle').value = title;
+    document.getElementById('mcModalItemType').value = type;
+    document.getElementById('mastercardPaymentModal').style.display = 'flex';
+  }
+
+  function closeMastercardModal() {
+    document.getElementById('mastercardPaymentModal').style.display = 'none';
+  }
+
+  function handleWhatsAppOrder() {
+    const title = document.getElementById('mcModalItemTitle').value || 'المادة الدراسية';
+    const type = document.getElementById('mcModalItemType').value || 'ملزمة / مرشحة';
+    const studentName = currentUser ? (currentUser.name || currentUser.username) : 'طالب المنصة';
+    const studentUser = currentUser && currentUser.username ? currentUser.username : 'طالب';
+    const studentGov = currentUser && currentUser.gov ? currentUser.gov : 'العراق';
+    const mcNumber = adminSettings.mastercard || DEFAULT_SETTINGS.mastercard;
+    const adminWhatsApp = adminSettings.whatsapp || DEFAULT_SETTINGS.whatsapp;
+
+    const message = encodeURIComponent(
+      `السلام عليكم ورحمة الله وبركاته 🌸\n\n` +
+      `أنا الطالب: ${studentName}\n` +
+      `👤 اسم المستخدم في المنصة: ${studentUser}\n` +
+      `📍 المحافظة: ${studentGov}\n\n` +
+      `📌 أرغب بفتح وتفعيل المادة التالية (عبر بطاقة ماستر كارد ${mcNumber} بقيمة 10,000 د.ع):\n` +
+      `📚 المادة المطلوبة: ${title} (${type})\n\n` +
+      `يرجى تزويدي بكود التفعيل الخاص بهذه المادة لفتحها وتحميل ملف الـ PDF فوراً. شكراً جزيلاً! ✨`
+    );
+
+    window.open(`https://api.whatsapp.com/send?phone=${adminWhatsApp}&text=${message}`, '_blank');
+    closeMastercardModal();
+  }
+
+  function openDirectAdminWhatsApp() {
+    const studentName = currentUser ? (currentUser.name || currentUser.username) : 'طالب المنصة';
+    const studentUser = currentUser && currentUser.username ? currentUser.username : 'زائر';
+    const studentGov = currentUser && currentUser.gov ? currentUser.gov : 'العراق';
+    const adminWhatsApp = adminSettings.whatsapp || DEFAULT_SETTINGS.whatsapp;
+
+    const message = encodeURIComponent(
+      `السلام عليكم أستاذ / المشرف 🌸\n\n` +
+      `أنا الطالب: ${studentName}\n` +
+      `👤 اسم المستخدم: ${studentUser}\n` +
+      `📍 المحافظة: ${studentGov}\n\n` +
+      `أحتاج إلى استفسار / مساعدة بخصوص الملازم والمرشحات وتفعيل الحساب في منصة طلبتي التعليمية 🎓`
+    );
+
+    window.open(`https://api.whatsapp.com/send?phone=${adminWhatsApp}&text=${message}`, '_blank');
+  }
+
+  function copyPaymentNumber(num, name) {
+    const targetNum = num || (adminSettings.mastercard || DEFAULT_SETTINGS.mastercard);
+    navigator.clipboard.writeText(targetNum);
+    alert(`✅ تم نسخ رقم ${name} بنجاح: ${targetNum}\n(حول المبلغ ثم اضغط على زر الواتساب لإرسال الطلب للأدمن)`);
+  }
+
+  // =========================================================================
+  // 📝 Quiz System
+  // =========================================================================
+  function loadQuizSubject(sub) {
+    currentQuizSubject = sub;
+    const questions = QUIZ_QUESTIONS[sub] || [];
+    const container = document.getElementById('quizQuestionsContainer');
+    if (!container) return;
+
+    if (!questions.length) {
+      container.innerHTML = '<p style="color:#94a3b8; padding:20px; text-align:center;">لا توجد أسئلة مضافة لهذه المادة حالياً.</p>';
+      return;
+    }
+
+    container.innerHTML = questions.map((q, idx) => `
+      <div style="background:#091226; border:1px solid #1e3567; border-radius:16px; padding:14px; margin-bottom:12px;">
+        <p style="font-weight:900; margin-bottom:8px; color:#fff;">س ${idx+1}: ${q.q}</p>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          ${q.opts.map((opt, oIdx) => `
+            <label style="display:flex; align-items:center; gap:8px; background:#050a16; border:1px solid #1e3567; padding:9px 12px; border-radius:12px; cursor:pointer;">
+              <input type="radio" name="q_${idx}" value="${oIdx}">
+              <span>${opt}</span>
+            </label>
+          `).join('')}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function submitQuizEvaluation() {
+    const questions = QUIZ_QUESTIONS[currentQuizSubject] || [];
+    let correct = 0;
+    questions.forEach((q, idx) => {
+      const selected = document.querySelector(`input[name="q_${idx}"]:checked`);
+      if (selected && parseInt(selected.value) === q.ans) correct++;
+    });
+    const score = questions.length ? Math.round((correct / questions.length) * 100) : 0;
+    document.getElementById('quizScoreNumber').textContent = `100 / ${score}`;
+    alert(`📊 نتيجتك النهائية في امتحان ${currentQuizSubject} هي: ${score} من 100!`);
+  }
+
+  // =========================================================================
+  // ⏱️ Ministerial Exam Countdown Timer (1 June & 20 June 2026)
+  // =========================================================================
+  let examCountdownTimer = null;
+
+  function startExamCountdown() {
+    if (examCountdownTimer) clearInterval(examCountdownTimer);
+
+    function updateTimers() {
+      const now = new Date().getTime();
+      
+      // Target Dates (Iraq Ministerial Exams 2026)
+      const target3rd = new Date('2026-06-01T08:00:00+03:00').getTime();
+      const target6th = new Date('2026-06-20T08:00:00+03:00').getTime();
+
+      // 3rd Intermediate Calculation
+      const diff3 = target3rd - now;
+      if (diff3 > 0) {
+        const days = Math.floor(diff3 / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff3 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const mins = Math.floor((diff3 % (1000 * 60 * 60)) / (1000 * 60));
+
+        const dEl = document.getElementById('cd3Days');
+        const hEl = document.getElementById('cd3Hours');
+        const mEl = document.getElementById('cd3Mins');
+        if (dEl) dEl.textContent = days;
+        if (hEl) hEl.textContent = hours;
+        if (mEl) mEl.textContent = mins;
+      } else {
+        const dEl = document.getElementById('cd3Days');
+        if (dEl) dEl.textContent = '0';
+      }
+
+      // 6th Preparatory Calculation
+      const diff6 = target6th - now;
+      if (diff6 > 0) {
+        const days = Math.floor(diff6 / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff6 % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const mins = Math.floor((diff6 % (1000 * 60 * 60)) / (1000 * 60));
+
+        const dEl = document.getElementById('cd6Days');
+        const hEl = document.getElementById('cd6Hours');
+        const mEl = document.getElementById('cd6Mins');
+        if (dEl) dEl.textContent = days;
+        if (hEl) hEl.textContent = hours;
+        if (mEl) mEl.textContent = mins;
+      } else {
+        const dEl = document.getElementById('cd6Days');
+        if (dEl) dEl.textContent = '0';
+      }
+    }
+
+    updateTimers();
+    examCountdownTimer = setInterval(updateTimers, 60000);
+  }
+
+  // =========================================================================
+  // 🧮 GPA Calculator Engine (الثالث متوسط والسادس الإعدادي)
+  // =========================================================================
+  let currentCalcStage = '3rd';
+
+  const GPA_SUBJECTS = {
+    '3rd': [
+      { id: 'g_ar_is', name: 'الإسلامية والعربية', max: 100 },
+      { id: 'g_en', name: 'اللغة الإنجليزية', max: 100 },
+      { id: 'g_math', name: 'الرياضيات', max: 100 },
+      { id: 'g_soc', name: 'الاجتماعيات', max: 100 },
+      { id: 'g_bio', name: 'الإنسان وصحته (الأحياء)', max: 100 },
+      { id: 'g_chem_phy', name: 'الكيمياء والفيزياء', max: 100 }
+    ],
+    '6th': [
+      { id: 'g6_is', name: 'التربية الإسلامية', max: 100 },
+      { id: 'g6_ar', name: 'اللغة العربية', max: 100 },
+      { id: 'g6_en', name: 'اللغة الإنجليزية', max: 100 },
+      { id: 'g6_bio', name: 'الأحياء / التاريخ', max: 100 },
+      { id: 'g6_math', name: 'الرياضيات', max: 100 },
+      { id: 'g6_chem', name: 'الكيمياء / الجغرافية', max: 100 },
+      { id: 'g6_phy', name: 'الفيزياء / الاقتصاد', max: 100 }
+    ]
+  };
+
+  function initGpaCalculator() {
+    renderGpaInputs();
+  }
+
+  function switchCalcStage(stage) {
+    currentCalcStage = stage;
+    const btn3 = document.getElementById('calcStage3Btn');
+    const btn6 = document.getElementById('calcStage6Btn');
+    if (stage === '3rd') {
+      if (btn3) { btn3.style.background = '#2563eb'; btn3.style.color = '#fff'; }
+      if (btn6) { btn6.style.background = 'transparent'; btn6.style.color = '#94a3b8'; }
+    } else {
+      if (btn6) { btn6.style.background = '#2563eb'; btn6.style.color = '#fff'; }
+      if (btn3) { btn3.style.background = 'transparent'; btn3.style.color = '#94a3b8'; }
+    }
+    renderGpaInputs();
+    calculateGpaLive();
+  }
+
+  function renderGpaInputs() {
+    const container = document.getElementById('calcGradesInputsContainer');
+    if (!container) return;
+    const subjects = GPA_SUBJECTS[currentCalcStage] || [];
+
+    container.innerHTML = subjects.map(s => `
+      <div style="background:#070d1e; border:1px solid #1e3567; border-radius:14px; padding:10px;">
+        <label style="display:block; font-size:0.8rem; color:#94a3b8; font-weight:800; margin-bottom:6px;">${s.name}</label>
+        <input type="number" id="${s.id}" min="0" max="100" placeholder="0 - 100" oninput="calculateGpaLive()" class="form-inp" style="margin-bottom:0; text-align:center; font-weight:900; font-size:1.1rem; color:#38bdf8;" />
+      </div>
+    `).join('');
+  }
+
+  function calculateGpaLive() {
+    const subjects = GPA_SUBJECTS[currentCalcStage] || [];
+    let total = 0;
+    let filledCount = 0;
+    let hasFail = false;
+
+    subjects.forEach(s => {
+      const input = document.getElementById(s.id);
+      if (input && input.value !== '') {
+        const val = parseFloat(input.value) || 0;
+        total += Math.min(100, Math.max(0, val));
+        filledCount++;
+        if (val < 50) hasFail = true;
+      }
+    });
+
+    const average = subjects.length ? (total / subjects.length) : 0;
+    const avgEl = document.getElementById('calcAverageNumber');
+    const totEl = document.getElementById('calcTotalNumber');
+    const statusEl = document.getElementById('calcStatusText');
+
+    if (avgEl) avgEl.textContent = average.toFixed(2) + '%';
+    if (totEl) totEl.textContent = `${total} / ${subjects.length * 100}`;
+
+    if (statusEl) {
+      if (filledCount === 0) {
+        statusEl.textContent = 'بانتظار إدخال الدرجات';
+        statusEl.style.color = '#94a3b8';
+      } else if (hasFail) {
+        statusEl.textContent = '❌ توجد مادة غير مستوفية (أقل من 50)';
+        statusEl.style.color = '#ef4444';
+      } else if (average >= 90) {
+        statusEl.textContent = '🌟 امتياز وتفوق عالي (طب / هندسة)';
+        statusEl.style.color = '#34d399';
+      } else if (average >= 80) {
+        statusEl.textContent = '⭐ جيد جداً ومعدل عالي';
+        statusEl.style.color = '#38bdf8';
+      } else if (average >= 70) {
+        statusEl.textContent = '👍 جيد ومعدل مقبول';
+        statusEl.style.color = '#fbbf24';
+      } else {
+        statusEl.textContent = '✅ ناجح ومستوفي';
+        statusEl.style.color = '#a3e635';
+      }
+    }
+  }
+
+  function resetGpaInputs() {
+    const subjects = GPA_SUBJECTS[currentCalcStage] || [];
+    subjects.forEach(s => {
+      const input = document.getElementById(s.id);
+      if (input) input.value = '';
+    });
+    calculateGpaLive();
+  }
+
+  // Window load
+  window.onload = initApp;
+</script>
+</body>
+</html>
