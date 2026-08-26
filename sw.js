@@ -1,16 +1,17 @@
-// Talabati Service Worker
-self.addEventListener('install', (event) => {
-  self.skipWaiting();
-});
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) => Promise.all(keys.map((k) => caches.delete(k))))
-      .then(() => self.clients.claim())
-  );
-});
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAmpaAcMsQsJyekFAFvhJ-rLILSPUMtdJA",
+  authDomain: "talabe-app.firebaseapp.com",
+  projectId: "talabe-app",
+  storageBucket: "talabe-app.firebasestorage.app",
+  messagingSenderId: "552943090500",
+  appId: "1:552943090500:web:79cfcd45bea5185cda3511"
+};
 
-self.addEventListener('fetch', (event) => {
-  // تمرير الطلبات مباشرة إلى شبكة الإنترنت بدون اعتراض يسبب صفحة بيضاء
-  event.respondWith(fetch(event.request));
-});
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
