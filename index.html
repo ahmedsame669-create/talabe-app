@@ -23,6 +23,16 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
+  <!-- 📚 مناهج وملازم الثالث متوسط المركزة (14 ورقة) - منصة طلبتي VIP -->
+  <script src="/grade3Booklets.js"></script>
+  <script src="/grade3_soc.js"></script>
+  <script src="/grade3_eng.js"></script>
+  <script src="/grade3_arb.js"></script>
+  <script src="/grade3_phys.js"></script>
+  <script src="/grade3_isl.js"></script>
+  <script src="/grade3_math.js"></script>
+  <script src="/grade3_bio.js"></script>
+
   <style>
     :root {
       --bg-dark: #070d1e;
@@ -865,6 +875,270 @@
       transform: translateY(-2px);
       box-shadow: 0 6px 18px rgba(37, 211, 102, 0.6);
     }
+
+    /* ========================================================================= */
+    /* 📘 14-Page Ministerial Booklet Styles • منصة طلبتي VIP                      */
+    /* ========================================================================= */
+    .booklet-container {
+      max-width: 920px;
+      margin: 0 auto;
+      background: #081126;
+      border: 1.5px solid #233b70;
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.65);
+      font-family: 'Cairo', 'Tajawal', sans-serif;
+      animation: fadeInSlide 0.25s ease-out;
+    }
+    .booklet-cover-sheet {
+      text-align: center;
+      padding: 26px 16px;
+      background: radial-gradient(circle at 50% 10%, #172c5b 0%, #081126 100%);
+      border: 2px solid #38bdf8;
+      border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(56, 189, 248, 0.2);
+    }
+    .cover-badge-top {
+      display: inline-block;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #000;
+      font-weight: 900;
+      font-size: 0.92rem;
+      padding: 6px 18px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+    }
+    .cover-main-title {
+      font-size: 1.85rem;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+    }
+    .cover-sub-title {
+      font-size: 1.05rem;
+      color: #38bdf8;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+    .cover-guarantee-box {
+      background: rgba(16, 185, 129, 0.12);
+      border: 2px solid #10b981;
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-align: right;
+    }
+    .guarantee-icon {
+      font-size: 2.2rem;
+      flex-shrink: 0;
+    }
+    .guarantee-text {
+      font-size: 0.95rem;
+      color: #d1fae5;
+      line-height: 1.7;
+    }
+    .cover-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 22px;
+      text-align: right;
+    }
+    .meta-item {
+      background: #070e20;
+      border: 1px solid #1e3567;
+      border-radius: 14px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .meta-item span {
+      font-size: 0.8rem;
+      color: #94a3b8;
+    }
+    .meta-item b {
+      font-size: 0.98rem;
+      color: #fbbf24;
+    }
+    .cover-duas-card {
+      background: #060c1c;
+      border: 1.5px solid #28447d;
+      border-radius: 18px;
+      padding: 18px;
+      text-align: right;
+    }
+    .dua-card-title {
+      color: #a78bfa;
+      font-size: 1.1rem;
+      font-weight: 900;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .dua-box {
+      background: #0b152d;
+      border: 1px solid #1a2d56;
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+    .dua-box b {
+      color: #38bdf8;
+      font-size: 0.92rem;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .dua-box p {
+      color: #e2e8f0;
+      font-size: 0.92rem;
+      line-height: 1.8;
+      margin: 0;
+    }
+    .booklet-content-page {
+      text-align: right;
+    }
+    .section-badge {
+      background: linear-gradient(135deg, #1e3a8a, #0284c7);
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 14px;
+      font-weight: 900;
+      font-size: 1.05rem;
+      margin-bottom: 18px;
+      border: 1px solid #38bdf8;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);
+    }
+    .qa-card {
+      background: #070d1e;
+      border: 1.5px solid #1e3567;
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+    }
+    .q-title {
+      color: #38bdf8;
+      font-size: 1.15rem;
+      font-weight: 900;
+      background: #0f1c3d;
+      border: 1.5px solid #2a4985;
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin-bottom: 14px;
+      line-height: 1.6;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .a-body {
+      color: #f8fafc;
+      font-size: 1.08rem;
+      line-height: 2.1;
+      padding: 4px 6px;
+    }
+    .a-body ul, .a-body ol {
+      margin-right: 22px;
+      margin-top: 8px;
+      margin-bottom: 8px;
+    }
+    .a-body li {
+      margin-bottom: 10px;
+    }
+    .highlight-gold {
+      color: #fbbf24;
+      font-weight: 900;
+    }
+    .highlight-blue {
+      color: #60a5fa;
+      font-weight: 900;
+    }
+    .highlight-green {
+      color: #34d399;
+      font-weight: 900;
+    }
+    .highlight-red {
+      color: #f87171;
+      font-weight: 900;
+    }
+    .formula-box {
+      background: #040813;
+      border: 1.5px solid #3b82f6;
+      border-radius: 14px;
+      padding: 12px 16px;
+      margin: 10px 0;
+      color: #93c5fd;
+      font-size: 1.05rem;
+      font-weight: 800;
+      line-height: 1.9;
+      direction: rtl;
+      text-align: right;
+    }
+    .booklet-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 0.95rem;
+    }
+    .booklet-table th {
+      background: #1e3a8a;
+      color: #fff;
+      padding: 10px 12px;
+      border: 1px solid #3b82f6;
+      text-align: right;
+      font-weight: 900;
+    }
+    .booklet-table td {
+      background: #0a142c;
+      color: #e2e8f0;
+      padding: 10px 12px;
+      border: 1px solid #1e3567;
+      text-align: right;
+      line-height: 1.7;
+    }
+    .booklet-table tr:nth-child(even) td {
+      background: #070e22;
+    }
+    .cover-footer-note {
+      text-align: center;
+      padding: 14px;
+      background: #070e20;
+      border: 1px solid #1e3567;
+      border-radius: 14px;
+      color: #fbbf24;
+      font-weight: 900;
+      font-size: 0.95rem;
+    }
+
+    /* 14-Page Booklet Navigation Bar inside Viewer */
+    .booklet-nav-header {
+      background: #081126;
+      border: 1px solid #1e3567;
+      border-radius: 16px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .page-select-dropdown {
+      background: #040916;
+      border: 1.5px solid #2563eb;
+      color: #38bdf8;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      font-family: inherit;
+      outline: none;
+      max-width: 100%;
+    }
   </style>
 </head>
 <body>
@@ -1048,7 +1322,7 @@
     <div class="vip-hero-banner">
       <div class="vip-tag">⭐ المناهج والملازم الشاملة</div>
       <h1 class="vip-hero-title">تحميل وتصفح الملازم والكتب المنهجية المعتمدة 🇮🇶</h1>
-      <p class="vip-hero-desc">تصفح ملفات PDF والشروحات الوزارية المعتمدة مباشرة داخل التطبيق مع قارئ PDF متقدم • تفعيل الملازم المقفولة بـ 10 آلاف دينار عبر ماستر كارد الرافدين أو كود التفعيل.</p>
+      <p class="vip-hero-desc">تصفح ملفات PDF والشروحات الوزارية المعتمدة مباشرة داخل التطبيق مع قارئ PDF متقدم • تفعيل الملازم المقفولة بـ 5 آلاف دينار عبر ماستر كارد الرافدين أو كود التفعيل.</p>
       
       <div class="mastercard-showcase">
         <div class="mc-info-side">
@@ -1090,20 +1364,21 @@
       </button>
     </div>
 
-    <!-- Search & Category Filters -->
-    <div style="display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap;">
-      <input type="text" id="booksSearchInp" oninput="renderStudentBooks()" placeholder="🔍 ابحث في الملازم والكتب المتاحة..." class="form-inp" style="flex:2; min-width:180px; margin-bottom:0;" />
-      <select id="booksCatFilter" onchange="renderStudentBooks()" class="form-inp" style="flex:1; min-width:140px; margin-bottom:0;">
-        <option value="all">كل المواد والمناهج</option>
-        <option value="الرياضيات">الرياضيات</option>
-        <option value="الأحياء">الأحياء</option>
-        <option value="الكيمياء">الكيمياء</option>
-        <option value="الفيزياء">الفيزياء</option>
-        <option value="اللغة العربية">اللغة العربية</option>
-        <option value="اللغة الإنجليزية">اللغة الإنجليزية</option>
-        <option value="التربية الإسلامية">التربية الإسلامية</option>
-      </select>
-    </div>
+      <!-- Search & Category Filters -->
+      <div style="display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap;">
+        <input type="text" id="booksSearchInp" oninput="renderStudentBooks()" placeholder="🔍 ابحث في ملازم الثالث متوسط المعتمدة..." class="form-inp" style="flex:2; min-width:180px; margin-bottom:0;" />
+        <select id="booksCatFilter" onchange="renderStudentBooks()" class="form-inp" style="flex:1; min-width:140px; margin-bottom:0;">
+          <option value="all">كل المواد والمناهج (الثالث متوسط)</option>
+          <option value="الكيمياء">الكيمياء (14 ورقة)</option>
+          <option value="الاجتماعيات">الاجتماعيات (14 ورقة)</option>
+          <option value="اللغة الإنجليزية">اللغة الإنجليزية (14 ورقة)</option>
+          <option value="اللغة العربية">اللغة العربية (14 ورقة)</option>
+          <option value="الفيزياء">الفيزياء (14 ورقة)</option>
+          <option value="التربية الإسلامية">التربية الإسلامية (14 ورقة)</option>
+          <option value="الرياضيات">الرياضيات (14 ورقة)</option>
+          <option value="الأحياء">الأحياء (14 ورقة)</option>
+        </select>
+      </div>
     
     <div class="grid" id="studentBooksGrid"></div>
   </div>
@@ -1126,7 +1401,7 @@
     <div class="vip-hero-banner" style="background: linear-gradient(135deg, #19163e 0%, #292671 50%, #3730a3 100%);">
       <div class="vip-tag" style="background:rgba(167,139,250,0.2); border-color:#a78bfa; color:#c4b5fd;">⭐ بنك الأسئلة والمرشحات المؤكدة</div>
       <h1 class="vip-hero-title">مرشحات النجاح الوزارية المؤكدة 100% 🎯</h1>
-      <p class="vip-hero-desc">مرشحات النجاح مقفولة لحفظ الحقوق • تفتح المادة بـ 10 آلاف دينار عبر بطاقة الماستر كارد المباشرة أو كود الأدمن السري.</p>
+      <p class="vip-hero-desc">مرشحات النجاح مقفولة لحفظ الحقوق • تفتح المادة بـ 5 آلاف دينار عبر بطاقة الماستر كارد المباشرة أو كود الأدمن السري.</p>
       
       <div class="mastercard-showcase">
         <div class="mc-info-side">
@@ -1154,12 +1429,15 @@
     <div style="display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap;">
       <input type="text" id="predSearchInp" oninput="renderStudentPredictions()" placeholder="🔍 ابحث في مرشحات النجاح المتاحة..." class="form-inp" style="flex:2; min-width:180px; margin-bottom:0;" />
       <select id="predCatFilter" onchange="renderStudentPredictions()" class="form-inp" style="flex:1; min-width:140px; margin-bottom:0;">
-        <option value="all">كل المواد</option>
+        <option value="all">كل المواد (الثالث متوسط)</option>
+        <option value="الكيمياء">الكيمياء</option>
+        <option value="الاجتماعيات">الاجتماعيات</option>
+        <option value="اللغة الإنجليزية">اللغة الإنجليزية</option>
+        <option value="اللغة العربية">اللغة العربية</option>
+        <option value="الفيزياء">الفيزياء</option>
+        <option value="التربية الإسلامية">التربية الإسلامية</option>
         <option value="الرياضيات">الرياضيات</option>
         <option value="الأحياء">الأحياء</option>
-        <option value="الكيمياء">الكيمياء</option>
-        <option value="الفيزياء">الفيزياء</option>
-        <option value="اللغة العربية">اللغة العربية</option>
       </select>
     </div>
     <div class="grid" id="studentPredictionsGrid"></div>
@@ -1689,7 +1967,7 @@
             <div class="form-group">
               <label class="form-label">حالة القفل والسعر:</label>
               <select id="newBookLockStatus" class="form-inp">
-                <option value="locked_10k">🔒 مقفول (10,000 د.ع أو كود تفعيل)</option>
+                <option value="locked_5k">🔒 مقفول (5,000 د.ع أو كود تفعيل)</option>
                 <option value="free">🔓 مجاني ومفتوح للجميع</option>
               </select>
             </div>
@@ -1775,7 +2053,7 @@
 
             <div class="form-group">
               <label class="form-label">سعر التفعيل:</label>
-              <input type="text" class="form-inp" value="10,000 د.ع (أو كود التفعيل)" readonly />
+              <input type="text" class="form-inp" value="5,000 د.ع (أو كود التفعيل)" readonly />
             </div>
           </div>
 
@@ -2008,7 +2286,7 @@
   <div class="modal-box">
     <div class="modal-head">
       <h3 style="font-weight:900; color:#fbbf24; display:flex; align-items:center; gap:8px; font-size:1.05rem;">
-        🔒 فتح وقفل المادة (10,000 دينار عراقي)
+        🔒 فتح وقفل المادة (5,000 دينار عراقي)
       </h3>
       <button onclick="closeMastercardModal()" class="btn-close">✕</button>
     </div>
@@ -2023,7 +2301,7 @@
         9101 6072 8184
       </div>
       <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.75rem; color:#94a3b8;">
-        <span>المبلغ: 10,000 د.ع</span>
+        <span>المبلغ: 5,000 د.ع</span>
         <button type="button" onclick="copyPaymentNumber('910160728184', 'ماستر كارد الرافدين')" class="btn-copy-sm" style="background:#f59e0b; color:#000;">
           📋 نسخ رقم الماستر كارد
         </button>
@@ -2033,7 +2311,7 @@
     <div style="background:#091226; border:1px solid #1e3567; border-radius:16px; padding:14px; margin-bottom:14px; text-align:right; font-size:0.88rem; color:#cbd5e1; line-height:1.6;">
       📌 <b style="color:#fff;">طريقة فتح المادة وتحميلها PDF:</b>
       <ol style="margin-right:18px; margin-top:6px;">
-        <li>انسخ رقم الماستر كارد بالأعلى وحول مبلغ <b style="color:#34d399;">(10,000 دينار)</b>.</li>
+        <li>انسخ رقم الماستر كارد بالأعلى وحول مبلغ <b style="color:#34d399;">(5,000 دينار)</b>.</li>
         <li>اضغط على الزر الأخضر بالأسفل للتواصل المباشر مع رقم الإدارة: <b style="color:#38bdf8; direction:ltr; display:inline-block;">07734378998</b>.</li>
         <li>ستصلك رسالة جاهزة لطلب كود التفعيل الخاص بالمادة.</li>
         <li>بعد استلام الكود من الأدمن، الصقه في خانة التفعيل لتفتح المادة مباشرة وتتمكن من تصفحها وتحميلها بصيغة <b style="color:#38bdf8;">PDF</b> على جهازك!</li>
@@ -2120,7 +2398,7 @@
         <div class="form-group">
           <label class="form-label">حالة القفل والتسعير:</label>
           <select id="editItemLockStatus" class="form-inp">
-            <option value="locked_10k">🔒 مقفلة (10,000 د.ع بالماستر كارد)</option>
+            <option value="locked_5k">🔒 مقفلة (5,000 د.ع بالماستر كارد)</option>
             <option value="free">🔓 مجانية ومتاحة للجميع</option>
           </select>
         </div>
@@ -2259,28 +2537,218 @@
   // 💾 State Management & Data
   // =========================================================================
   const STORAGE_KEY_USER = 'talabati_current_user';
-  const STORAGE_KEY_BOOKS = 'talabati_books_list_v5';
-  const STORAGE_KEY_PRED = 'talabati_pred_list_v5';
-  const STORAGE_KEY_THAWABIT = 'talabati_thawabit_list_v5';
-  const STORAGE_KEY_NOTICE = 'talabati_notice_v5';
+  const STORAGE_KEY_BOOKS = 'talabati_books_list_v8';
+  const STORAGE_KEY_PRED = 'talabati_pred_list_v8';
+  const STORAGE_KEY_THAWABIT = 'talabati_thawabit_list_v8';
+  const STORAGE_KEY_NOTICE = 'talabati_notice_v8';
 
   const DEFAULT_BOOKS = [
-    { id: 'b1', title: 'ملزمة الرياضيات الشاملة 2026', cat: 'الرياضيات', price: '10,000 د.ع', code: 'MATH100', isLocked: true, desc: 'شاملة لكافة فصول الرياضيات والأسئلة الوزارية وحلول التمارين النموذجية.', pdfUrl: '', pdfBase64: '' },
-    { id: 'b2', title: 'ملزمة الأحياء الذهبية المركزة', cat: 'الأحياء', price: '10,000 د.ع', code: 'BIO100', isLocked: true, desc: 'الرسومات والتعاريف والمقارنات الوزارية المكررة بضمان الدرجة الكاملة.', pdfUrl: '', pdfBase64: '' },
-    { id: 'b3', title: 'ملزمة الكيمياء العامة المنهجية', cat: 'الكيمياء', price: 'مجاني', code: 'CHEM100', isLocked: false, desc: 'ملزمة ومخططات كيميائية مفتوحة لجميع الطلاب مجاناً.', pdfUrl: '', pdfBase64: '' },
-    { id: 'b4', title: 'ملزمة الفيزياء الوزارية الحديثة', cat: 'الفيزياء', price: '10,000 د.ع', code: 'PHYS100', isLocked: true, desc: 'شرح القوانين والمسائل الرياضية والنشاطات المطلوبة وزارياً.', pdfUrl: '', pdfBase64: '' }
+    { 
+      id: 'b_chem3', 
+      bookletKey: 'chem',
+      title: 'ملزمة الكيمياء الذهبية المركزة (14 ورقة)', 
+      cat: 'الكيمياء', 
+      price: '5,000 د.ع', 
+      code: 'CHEM3', 
+      isLocked: true, 
+      desc: 'الحقيبة الشاملة لكيمياء الثالث متوسط • 14 ورقة فقط تجمع كافة الفصول، التعاليل، الكشوفات، المعادلات، ومسائل الترتيب الإلكتروني لضمان 65+ إلى 100 درجة.', 
+      pdfUrl: '', 
+      pdfBase64: '' 
+    },
+    { 
+      id: 'b_soc3', 
+      bookletKey: 'soc',
+      title: 'ملزمة الاجتماعيات الذهبية المركزة (14 ورقة)', 
+      cat: 'الاجتماعيات', 
+      price: '5,000 د.ع', 
+      code: 'SOC3', 
+      isLocked: true, 
+      desc: 'الحقيبة الشاملة لاجتماعيات الثالث متوسط (التاريخ + الجغرافية + الوطنية) • 14 ورقة فقط تجمع الثوابت والتعاريف والتعاليل المكررة لضمان 65+ إلى 100 درجة.', 
+      pdfUrl: '', 
+      pdfBase64: '' 
+    },
+    { 
+      id: 'b_eng3', 
+      bookletKey: 'eng',
+      title: 'ملزمة اللغة الإنكليزية الذهبية المركزة (14 ورقة)', 
+      cat: 'اللغة الإنجليزية', 
+      price: '5,000 د.ع', 
+      code: 'ENG3', 
+      isLocked: true, 
+      desc: 'الحقيبة الشاملة لإنكليزي الثالث متوسط • 14 ورقة فقط تجمع القواعد والقطع الاستيعابية وتوصيلات وإسقاطات واختصار كافة الإنشاءات لضمان 65+ إلى 100 درجة.', 
+      pdfUrl: '', 
+      pdfBase64: '' 
+    },
+    { 
+      id: 'b_arb3', 
+      bookletKey: 'arb',
+      title: 'ملزمة اللغة العربية الذهبية المركزة (14 ورقة)', 
+      cat: 'اللغة العربية', 
+      price: '5,000 د.ع', 
+      code: 'ARB3', 
+      isLocked: true, 
+      desc: 'الحقيبة الشاملة للغة العربية للثالث متوسط • 14 ورقة فقط تجمع قواعد المشتقات وأبواب الأفعال والأدب والنصوص والإملاء والإنشاء لضمان 65+ إلى 100 درجة.', 
+      pdfUrl: '', 
+      pdfBase64: '' 
+    },
+    { 
+      id: 'b_phys3', 
+      bookletKey: 'phys',
+      title: 'ملزمة الفيزياء الذهبية المركزة (14 ورقة)', 
+      cat: 'الفيزياء', 
+      price: '5,000 د.ع', 
+      code: 'PHYS3', 
+      isLocked: true, 
+      desc: 'الحقيبة الشاملة لفيزياء الثالث متوسط • 14 ورقة فقط تجمع مسائل كولوم، أوم، القدرة الكهربائية، المحولات، والنشاطات والتعاليل لضمان 65+ إلى 100 درجة.', 
+      pdfUrl: '', 
+      pdfBase64: '' 
+    },
+    { 
+      id: 'b_isl3', 
+      bookletKey: 'isl',
+      title: 'ملزمة التربية الإسلامية والقرآن الكريم المركزة (14 ورقة)', 
+      cat: 'التربية الإسلامية', 
+      price: '5,000 د.ع', 
+      code: 'ISL3', 
+      isLocked: true, 
+      desc: 'الحقيبة الشاملة لإسلامية الثالث متوسط • 14 ورقة فقط تجمع أحكام التلاوة والآيات والسور المكررة والأحاديث والقصص النبوية لضمان 65+ إلى 100 درجة كاملة.', 
+      pdfUrl: '', 
+      pdfBase64: '' 
+    },
+    { 
+      id: 'b_math3', 
+      bookletKey: 'math',
+      title: 'ملزمة الرياضيات الذهبية المركزة (14 ورقة)', 
+      cat: 'الرياضيات', 
+      price: '5,000 د.ع', 
+      code: 'MATH3', 
+      isLocked: true, 
+      desc: 'الحقيبة الشاملة لرياضيات الثالث متوسط • 14 ورقة فقط تجمع ثوابت الجذور، التطبيقات، المتتابعات، المقادير الجبرية والمعادلات لضمان 65+ إلى 100 درجة.', 
+      pdfUrl: '', 
+      pdfBase64: '' 
+    },
+    { 
+      id: 'b_bio3', 
+      bookletKey: 'bio',
+      title: 'ملزمة الأحياء الذهبية المركزة (14 ورقة)', 
+      cat: 'الأحياء', 
+      price: '5,000 د.ع', 
+      code: 'BIO3', 
+      isLocked: true, 
+      desc: 'الحقيبة الوزارية الشاملة لمادة الأحياء للثالث متوسط • 14 ورقة فقط تجمع كافة أجهزة الجسم، الرسوم، الوظائف، المقارنات، والتعاليل لضمان 65+ إلى 100 درجة.', 
+      pdfUrl: '', 
+      pdfBase64: '' 
+    }
   ];
 
   const DEFAULT_PREDICTIONS = [
-    { id: 'p1', title: 'مرشحات الرياضيات الوزارية المؤكدة 100%', cat: 'الرياضيات', price: '10,000 د.ع', code: 'MATH2026', isLocked: true, desc: 'المسائل الـ 10 الأكثر تكراراً في الوزاري والتي تضمن 100 درجة.', pdfUrl: '', pdfBase64: '' },
-    { id: 'p2', title: 'مرشحات الأحياء الذهبية (المقارنات والرسوم)', cat: 'الأحياء', price: '10,000 د.ع', code: 'BIO2026', isLocked: true, desc: 'الرسومات والتعاليل المضمونة التي تتكرر سنوياً.', pdfUrl: '', pdfBase64: '' },
-    { id: 'p3', title: 'مرشحات الكيمياء الوزارية المؤكدة', cat: 'الكيمياء', price: '10,000 د.ع', code: 'CHEM2026', isLocked: true, desc: 'مسائل بفر والذوبانية وفرداي وثرموداينمك المؤكدة.', pdfUrl: '', pdfBase64: '' }
+    { 
+      id: 'p_chem3', 
+      bookletKey: 'chem',
+      title: 'مرشحات الكيمياء الوزارية المؤكدة 100% (14 ورقة)', 
+      cat: 'الكيمياء', 
+      price: '5,000 د.ع', 
+      code: 'CHEM2026', 
+      isLocked: true, 
+      desc: 'أهم 10 أسئلة مكررة وكشوفات الصوديوم والألمنيوم ومسائل الترتيب الإلكتروني المؤكدة وزاريًا.', 
+      pdfUrl: '', 
+      pdfBase64: '' 
+    },
+    { 
+      id: 'p_soc3', 
+      bookletKey: 'soc',
+      title: 'مرشحات الاجتماعيات الوزارية المؤكدة 100% (14 ورقة)', 
+      cat: 'الاجتماعيات', 
+      price: '5,000 د.ع', 
+      code: 'SOC2026', 
+      isLocked: true, 
+      desc: 'مرشحات التاريخ والجغرافية والوطنية وأهم التعاريف والمواقع والتعاليل المكررة بنسبة 100%.', 
+      pdfUrl: '', 
+      pdfBase64: '' 
+    },
+    { 
+      id: 'p_eng3', 
+      bookletKey: 'eng',
+      title: 'مرشحات الإنكليزي والإنشاءات والقطع الاستيعابية (14 ورقة)', 
+      cat: 'اللغة الإنجليزية', 
+      price: '5,000 د.ع', 
+      code: 'ENG2026', 
+      isLocked: true, 
+      desc: 'الإنشاءات الستة المختصرة، قطعة سيارة البانثر ولوسي، وقواعد الاقتراح والدعوة والمقارنة والتفضيل.', 
+      pdfUrl: '', 
+      pdfBase64: '' 
+    },
+    { 
+      id: 'p_arb3', 
+      bookletKey: 'arb',
+      title: 'مرشحات العربي والقواعد والأدب والإنشاء (14 ورقة)', 
+      cat: 'اللغة العربية', 
+      price: '5,000 د.ع', 
+      code: 'ARB2026', 
+      isLocked: true, 
+      desc: 'مرشحات المشتقات السبعة، قصائد الجواهري والسياب ومعروف الرصافي، وعناصر كتابة التعبير الإنشائي.', 
+      pdfUrl: '', 
+      pdfBase64: '' 
+    },
+    { 
+      id: 'p_phys3', 
+      bookletKey: 'phys',
+      title: 'مرشحات الفيزياء والمسائل والنشاطات (14 ورقة)', 
+      cat: 'الفيزياء', 
+      price: '5,000 د.ع', 
+      code: 'PHYS2026', 
+      isLocked: true, 
+      desc: 'المسائل الثلاث المؤكدة (كولوم، ربط المقاومات، المحولة)، وأهم النشاطات الوزارية بضمان الدرجة الكاملة.', 
+      pdfUrl: '', 
+      pdfBase64: '' 
+    },
+    { 
+      id: 'p_isl3', 
+      bookletKey: 'isl',
+      title: 'مرشحات الإسلامية والآيات والأحاديث المكررة (14 ورقة)', 
+      cat: 'التربية الإسلامية', 
+      price: '5,000 د.ع', 
+      code: 'ISL2026', 
+      isLocked: true, 
+      desc: 'السور الخمس المقررة، الحديث النبوي الشريف، وأحكام اللام الشمسية والقمرية وأسئلة التهذيب.', 
+      pdfUrl: '', 
+      pdfBase64: '' 
+    },
+    { 
+      id: 'p_math3', 
+      bookletKey: 'math',
+      title: 'مرشحات الرياضيات الوزارية المؤكدة 100% (14 ورقة)', 
+      cat: 'الرياضيات', 
+      price: '5,000 د.ع', 
+      code: 'MATH2026', 
+      isLocked: true, 
+      desc: 'المسائل الـ 10 الأكثر تكراراً في الوزاري (الجذور، التطبيقات، الحذف، الدستور، وتبسيط المقادير).', 
+      pdfUrl: '', 
+      pdfBase64: '' 
+    },
+    { 
+      id: 'p_bio3', 
+      bookletKey: 'bio',
+      title: 'مرشحات الأحياء الذهبية (المقارنات والرسوم 14 ورقة)', 
+      cat: 'الأحياء', 
+      price: '5,000 د.ع', 
+      code: 'BIO2026', 
+      isLocked: true, 
+      desc: 'الرسومات الخمسة المطلوبة، مقارنات العضلات وفصائل الدم، ووظائف الكبد والجلد والتعاليل المؤكدة.', 
+      pdfUrl: '', 
+      pdfBase64: '' 
+    }
   ];
 
   const DEFAULT_THAWABIT = [
-    { id: 't1', subject: 'الرياضيات', title: 'مبرهنة ديموافر وإيجاد الجذور', degree: '10 إلى 20 درجة', desc: 'سؤال ثابت سنوياً في الدور الأول والثاني على مبرهنة ونتيجة ديموافر.' },
-    { id: 't2', subject: 'الأحياء', title: 'رسوم الفصل الأول والثاني', degree: '12 إلى 16 درجة', desc: 'رسم الغشاء البلازمي، المايتوكوندريا، أو نسيج اللحاء والبشرة.' },
-    { id: 't3', subject: 'الكيمياء', title: 'مسائل بفر والذوبانية وحساب pH', degree: '15 درجة ثابتة', desc: 'مسائل الأيون المشترك ومحلول بفر بعد إضافة إلكتروليت قوي.' }
+    { id: 't_chem', subject: 'الكيمياء', title: 'الترتيب الإلكتروني ومسائل نصف القطر والكشوفات', degree: '25 درجة ثابتة', desc: 'مسألة إيجاد الزمرة والدورة ورمز لويس ونصف القطر وطاقة التأين، بالإضافة لكشف الصوديوم والألمنيوم.' },
+    { id: 't_soc', subject: 'الاجتماعيات', title: 'ثوابت التاريخ والجغرافية والوطنية', degree: '35 درجة ثابتة', desc: 'تعاريف ثورة العشرين، معاهدة 1930، التضاريس، النبات الطبيعي، المناخ، ومفاهيم الدستور والمواطنة.' },
+    { id: 't_eng', subject: 'اللغة الإنجليزية', title: 'الإنشاءات الستة المعتمدة وقطع الكتاب', degree: '30 درجة ثابتة', desc: 'سؤال الإنشاء (15 درجة مضمونة)، وقطع سيارة البانثر ولوسي والهواية وألعاب ابن الهيثم والبروفايل.' },
+    { id: 't_arb', subject: 'اللغة العربية', title: 'قواعد المشتقات وأبواب الأفعال والأدب والإنشاء', degree: '40 درجة ثابتة', desc: 'اشتقاق اسم الفاعل والمفعول والصفة المشبهة، أبواب الأفعال الثلاثية، حفظ النصوص، وموضوع الإنشاء (20 درجة).' },
+    { id: 't_phys', subject: 'الفيزياء', title: 'مسائل كولوم، ربط المقاومات، والمحولة الكهربائية', degree: '35 درجة ثابتة', desc: 'قانون كولوم والشحنات، مسائل التوالي والتوازي وقانون أوم، ومسائل كفاءة المحولة ونسب التحويل.' },
+    { id: 't_isl', subject: 'التربية الإسلامية', title: 'أحكام التلاوة، السور المقررة، والحديث النبوي', degree: '50 درجة ثابتة', desc: 'أحكام لام ال التعريف (10 درجات)، سورة الحشر (20 درجة)، الحديث النبوي الشريف (15 درجة)، والتهذيب (15 درجة).' },
+    { id: 't_math', subject: 'الرياضيات', title: 'الجذور، التطبيقات، المقادير الجبرية، وطريقة الحذف', degree: '50 درجة ثابتة', desc: 'سؤال الجذور وتنسيب المقام، أنواع التطبيق وقانون الحد العام للمتتابعة، تحليل المقادير وحل المعادلات بالحذف والدستور.' },
+    { id: 't_bio', subject: 'الأحياء', title: 'الرسوم المقررة، وظائف الأعضاء، وبنك التعاليل', degree: '40 درجة ثابتة', desc: 'رسم مقطع العظم والسن والخلية العصبية، مقارنة العضلات وكريات الدم، ووظائف الكبد والجلد.' }
   ];
 
   const DEFAULT_NOTICE = {
@@ -2320,6 +2788,27 @@
   // 🚀 Init App & Distinct Routing
   // =========================================================================
   function initApp() {
+    // Auto-migrate legacy 10k prices to 5k IQD
+    let migrated = false;
+    booksList = booksList.map(b => {
+      if (b.isLocked && (b.price === '10,000 د.ع' || !b.price)) {
+        migrated = true;
+        return { ...b, price: '5,000 د.ع' };
+      }
+      return b;
+    });
+    predList = predList.map(p => {
+      if (p.isLocked && (p.price === '10,000 د.ع' || !p.price)) {
+        migrated = true;
+        return { ...p, price: '5,000 د.ع' };
+      }
+      return p;
+    });
+    if (migrated) {
+      localStorage.setItem(STORAGE_KEY_BOOKS, JSON.stringify(booksList));
+      localStorage.setItem(STORAGE_KEY_PRED, JSON.stringify(predList));
+    }
+
     applyGlobalNotice();
 
     if (currentUser) {
@@ -3010,7 +3499,7 @@
                 </div>
               ` : `
                 <button class="btn-action btn-lock" onclick="openMastercardModal('${b.id}', '${escapeText(b.title)}', 'ملزمة / كتاب')">
-                  🔒 فتح القفل (10 آلاف)
+                  🔒 فتح القفل (5 آلاف)
                 </button>
               `}
             </div>
@@ -3072,7 +3561,7 @@
                 </div>
               ` : `
                 <button class="btn-action btn-lock" onclick="openMastercardModal('${p.id}', '${escapeText(p.title)}', 'مرشحة نجاح')">
-                  🔒 فتح القفل (10 آلاف)
+                  🔒 فتح القفل (5 آلاف)
                 </button>
               `}
             </div>
@@ -3329,8 +3818,8 @@
         title,
         cat,
         code,
-        isLocked: lockStatus === 'locked_10k',
-        price: lockStatus === 'locked_10k' ? '10,000 د.ع' : 'مجاني',
+        isLocked: lockStatus === 'locked_5k' || lockStatus === 'locked_10k',
+        price: (lockStatus === 'locked_5k' || lockStatus === 'locked_10k') ? '5,000 د.ع' : 'مجاني',
         pdfUrl: formatGoogleDriveUrl(pdfUrl, 'preview'),
         hasLocalPdf: hasLocalPdf,
         desc
@@ -3397,7 +3886,7 @@
         cat,
         code,
         isLocked: true,
-        price: '10,000 د.ع',
+        price: '5,000 د.ع',
         pdfUrl: formatGoogleDriveUrl(pdfUrl, 'preview'),
         hasLocalPdf: hasLocalPdf,
         desc
@@ -3498,7 +3987,7 @@
     document.getElementById('editItemTitle').value = item.title || '';
     document.getElementById('editItemCat').value = item.cat || 'الرياضيات';
     document.getElementById('editItemCode').value = item.code || '';
-    document.getElementById('editItemLockStatus').value = item.isLocked ? 'locked_10k' : 'free';
+    document.getElementById('editItemLockStatus').value = item.isLocked ? 'locked_5k' : 'free';
     document.getElementById('editPdfUrl').value = item.pdfUrl || '';
     document.getElementById('editItemDesc').value = item.desc || '';
 
@@ -3555,8 +4044,8 @@
       const newPdfBase64 = document.getElementById('editPdfFileBase64').value;
       const desc = document.getElementById('editItemDesc').value.trim();
 
-      const isLocked = lockStatus === 'locked_10k';
-      const price = isLocked ? '10,000 د.ع' : 'مجاني';
+      const isLocked = lockStatus === 'locked_5k' || lockStatus === 'locked_10k';
+      const price = isLocked ? '5,000 د.ع' : 'مجاني';
 
       let list = type === 'book' ? booksList : predList;
       const index = list.findIndex(item => item.id === id);
@@ -3693,6 +4182,31 @@
   let isReaderNightMode = false;
   let isPdfRendering = false;
   let pdfRenderQueue = null;
+  let currentGrade3BookletKey = null;
+  let currentGrade3SheetNumber = 1;
+
+  function detectGrade3BookletKey(id, title, cat) {
+    const rawId = (id || '').toLowerCase();
+    if (rawId.includes('chem')) return 'chem';
+    if (rawId.includes('soc')) return 'soc';
+    if (rawId.includes('eng')) return 'eng';
+    if (rawId.includes('arb')) return 'arb';
+    if (rawId.includes('phys')) return 'phys';
+    if (rawId.includes('isl')) return 'isl';
+    if (rawId.includes('math')) return 'math';
+    if (rawId.includes('bio')) return 'bio';
+
+    const t = ((title || '') + ' ' + (cat || '')).toLowerCase();
+    if (t.includes('كيمياء') || t.includes('chem')) return 'chem';
+    if (t.includes('اجتماعيات') || t.includes('تاريخ') || t.includes('جغرافية') || t.includes('وطنية') || t.includes('soc')) return 'soc';
+    if (t.includes('إنكليز') || t.includes('انكليز') || t.includes('إنجليزية') || t.includes('انجليزية') || t.includes('eng')) return 'eng';
+    if (t.includes('عربي') || t.includes('عربية') || t.includes('قواعد') || t.includes('arb')) return 'arb';
+    if (t.includes('فيزياء') || t.includes('phys')) return 'phys';
+    if (t.includes('إسلامية') || t.includes('اسلامية') || t.includes('قرآن') || t.includes('isl')) return 'isl';
+    if (t.includes('رياضيات') || t.includes('math')) return 'math';
+    if (t.includes('أحياء') || t.includes('احياء') || t.includes('bio')) return 'bio';
+    return null;
+  }
 
   async function openPdfViewer(id, title, cat, url, desc) {
     currentActivePdf = { id, title, cat, url, base64: '', desc };
@@ -3709,7 +4223,7 @@
     if (downloadBtn) downloadBtn.style.display = 'inline-flex';
 
     const pageNav = document.getElementById('pdfPageNavToolbar');
-    if (pageNav) pageNav.style.display = 'flex';
+    if (pageNav) pageNav.style.display = 'none';
 
     const autoGenBtn = document.getElementById('btnAutoGeneratePdf');
     if (autoGenBtn) autoGenBtn.style.display = 'none';
@@ -3718,40 +4232,335 @@
     body.innerHTML = `
       <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 20px; color:#38bdf8; text-align:center;">
         <div style="font-size:3rem; margin-bottom:12px;">⏳</div>
-        <div style="font-weight:900; font-size:1.2rem; margin-bottom:6px;">جاري تحميل ومعالجة ملف الـ PDF...</div>
-        <div style="font-size:0.85rem; color:#94a3b8;">قارئ المستندات المباشر عالي الدقة داخل التطبيق</div>
+        <div style="font-weight:900; font-size:1.2rem; margin-bottom:6px;">جاري تجهيز وقراءة الملزمة الذهبية...</div>
+        <div style="font-size:0.85rem; color:#94a3b8;">قارئ المستندات والملازم المعتمدة - منصة طلبتي VIP</div>
       </div>
     `;
 
     document.getElementById('pdfViewerModal').style.display = 'flex';
 
-    // 1. Retrieve from IndexedDB
+    // 1. Check if this is one of our 14-page Grade 3 Comprehensive Booklets
+    const detectedKey = detectGrade3BookletKey(id, title, cat);
+    if (detectedKey && window.TALABATI_GRADE3_DATA && window.TALABATI_GRADE3_DATA[detectedKey]) {
+      renderGrade3BookletViewer(detectedKey, 1);
+      return;
+    }
+
+    // 2. Retrieve from IndexedDB
     let storedPdf = await PdfDB.get(id);
     if (storedPdf) {
       currentActivePdf.base64 = storedPdf;
+      if (pageNav) pageNav.style.display = 'flex';
       await loadAndRenderPdfDocument(storedPdf, true);
       return;
     }
 
-    // 2. Direct base64 if already in item object
+    // 3. Direct base64 if already in item object
     const inMemItem = [...booksList, ...predList].find(item => item.id === id);
     if (inMemItem && (inMemItem.pdfBase64 || inMemItem.hasLocalPdf)) {
       if (inMemItem.pdfBase64) {
         currentActivePdf.base64 = inMemItem.pdfBase64;
+        if (pageNav) pageNav.style.display = 'flex';
         await loadAndRenderPdfDocument(inMemItem.pdfBase64, true);
         return;
       }
     }
 
-    // 3. Online URL
+    // 4. Online URL
     if (url) {
       const previewUrl = formatGoogleDriveUrl(url, 'preview');
       renderPdfFallbackIframe(previewUrl);
       return;
     }
 
-    // 4. Formatted study summary with Instant PDF generator
+    // 5. Formatted study summary with Instant PDF generator
     renderTextReaderWithPdfGen(title, cat, desc);
+  }
+
+  // Render 14-Page Booklet Interactive Viewer
+  function renderGrade3BookletViewer(bookletKey, sheetNum = 1) {
+    const booklet = window.TALABATI_GRADE3_DATA[bookletKey];
+    if (!booklet) return;
+
+    currentGrade3BookletKey = bookletKey;
+    currentGrade3SheetNumber = Math.max(1, Math.min(booklet.pagesCount, sheetNum));
+
+    currentActivePdf = {
+      id: 'booklet_' + bookletKey,
+      title: booklet.title,
+      cat: booklet.subject,
+      desc: booklet.subtitle,
+      bookletKey: bookletKey
+    };
+
+    document.getElementById('pdfViewerTitle').textContent = '📘 ' + booklet.title;
+    document.getElementById('pdfViewerCat').textContent = `الثالث متوسط • 14 ورقة • ${booklet.gradeGuarantee}`;
+
+    const body = document.getElementById('pdfViewerBody');
+
+    // Build Sheet Select Dropdown Options
+    const selectOptions = booklet.pages.map(p => `
+      <option value="${p.pageNumber}" ${p.pageNumber === currentGrade3SheetNumber ? 'selected' : ''}>
+        الورقة ${p.pageNumber}: ${p.sheetTitle}
+      </option>
+    `).join('');
+
+    body.innerHTML = `
+      <div style="width:100%; max-width:960px; margin:0 auto; display:flex; flex-direction:column; gap:14px; padding-bottom:30px;">
+        
+        <!-- Booklet Navigation Top Bar -->
+        <div class="booklet-nav-header">
+          <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <button type="button" onclick="changeGrade3Sheet(${currentGrade3SheetNumber - 1})" class="btn-copy-sm" style="background:#1e3a8a; color:#fff; font-weight:800; border:1px solid #3b82f6;" ${currentGrade3SheetNumber <= 1 ? 'disabled style="opacity:0.5;"' : ''}>
+              ◀️ الورقة السابقة
+            </button>
+            <select class="page-select-dropdown" onchange="changeGrade3Sheet(parseInt(this.value))">
+              ${selectOptions}
+            </select>
+            <button type="button" onclick="changeGrade3Sheet(${currentGrade3SheetNumber + 1})" class="btn-copy-sm" style="background:#1e3a8a; color:#fff; font-weight:800; border:1px solid #3b82f6;" ${currentGrade3SheetNumber >= booklet.pagesCount ? 'disabled style="opacity:0.5;"' : ''}>
+              الورقة التالية ▶️
+            </button>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+            <span style="background:rgba(245,158,11,0.15); border:1px solid #f59e0b; color:#fbbf24; padding:6px 12px; border-radius:10px; font-weight:900; font-size:0.82rem;">
+              ⭐ الورقة ${currentGrade3SheetNumber} من ${booklet.pagesCount}
+            </span>
+            <button type="button" onclick="printGrade3Booklet('${bookletKey}')" class="btn-copy-sm" style="background:#0284c7; color:#fff;" title="طباعة الملزمة بالكامل">
+              🖨️ طباعة الملزمة
+            </button>
+            <button type="button" onclick="downloadGrade3BookletPdf('${bookletKey}')" class="btn-copy-sm" style="background:#10b981; color:#fff;" title="حفظ بصيغة PDF">
+              📥 تنزيل PDF
+            </button>
+          </div>
+        </div>
+
+        <!-- Sheet Body Container -->
+        <div id="grade3SheetContentArea" class="booklet-container" style="transform: scale(${pdfZoomLevel}); transform-origin: top center; transition: transform 0.2s;">
+          ${renderGrade3SingleSheetHtml(booklet, currentGrade3SheetNumber)}
+        </div>
+
+        <!-- Sheet Footer Navigation -->
+        <div style="display:flex; justify-content:space-between; align-items:center; background:#081126; border:1px solid #1e3567; border-radius:16px; padding:12px 18px; margin-top:10px;">
+          <div>
+            ${currentGrade3SheetNumber > 1 ? `
+              <button onclick="changeGrade3Sheet(${currentGrade3SheetNumber - 1})" class="btn-copy-sm" style="background:#1e3a8a; color:#93c5fd; padding:8px 16px;">
+                ◀️ الورقة السابقة (${currentGrade3SheetNumber - 1})
+              </button>
+            ` : `<span style="color:#64748b; font-size:0.85rem;">بداية الملزمة المباركة 🌟</span>`}
+          </div>
+
+          <div style="font-weight:900; color:#38bdf8; font-size:0.9rem;">
+            منصة طلبتي التعليمية • ضمان الدرجة 65+ 🇮🇶
+          </div>
+
+          <div>
+            ${currentGrade3SheetNumber < booklet.pagesCount ? `
+              <button onclick="changeGrade3Sheet(${currentGrade3SheetNumber + 1})" class="btn-copy-sm" style="background:#2563eb; color:#fff; padding:8px 16px;">
+                الورقة التالية (${currentGrade3SheetNumber + 1}) ▶️
+              </button>
+            ` : `
+              <button onclick="changeGrade3Sheet(1)" class="btn-copy-sm" style="background:#10b981; color:#fff; padding:8px 16px;">
+                🔄 مراجعة من الورقة الأولى
+              </button>
+            `}
+          </div>
+        </div>
+
+      </div>
+    `;
+
+    // Scroll to top of modal body
+    body.scrollTop = 0;
+  }
+
+  function changeGrade3Sheet(sheetNum) {
+    if (!currentGrade3BookletKey || !window.TALABATI_GRADE3_DATA) return;
+    renderGrade3BookletViewer(currentGrade3BookletKey, sheetNum);
+  }
+
+  // Render single sheet HTML based on sheet index
+  function renderGrade3SingleSheetHtml(booklet, sheetNum) {
+    const page = booklet.pages.find(p => p.pageNumber === sheetNum) || booklet.pages[0];
+
+    // Page 1: Official Cover Sheet
+    if (page.pageNumber === 1) {
+      return `
+        <div class="booklet-cover-sheet">
+          <div class="cover-badge-top">⭐ منصة طلبتي التعليمية المعتمدة 2026 ⭐</div>
+          <h1 class="cover-main-title">${booklet.title}</h1>
+          <div class="cover-sub-title">${booklet.subtitle}</div>
+
+          <div class="cover-guarantee-box">
+            <div class="guarantee-icon">🎯</div>
+            <div class="guarantee-text">
+              <b style="color:#34d399; font-size:1.1rem; display:block; margin-bottom:4px;">ضمان النجاح والتفوق الوزاري:</b>
+              ${booklet.gradeGuarantee} — تم إعداد هذه الملزمة المكثفة في <b>14 ورقة فقط</b> لتركز على كافة الثوابت والمهمات والأسئلة والتعاليل والمسائل المكررة وزارياً عبر السنوات السابقة.
+            </div>
+          </div>
+
+          <div class="cover-meta-grid">
+            <div class="meta-item">
+              <span>المادة والمنهاج:</span>
+              <b>${booklet.subject} - الثالث متوسط</b>
+            </div>
+            <div class="meta-item">
+              <span>حجم الملزمة:</span>
+              <b>14 ورقة مطبوعة مركزة</b>
+            </div>
+            <div class="meta-item">
+              <span>زمن المراجعة المقترح:</span>
+              <b>4 إلى 6 ساعات شاملة</b>
+            </div>
+            <div class="meta-item">
+              <span>سعر التفعيل:</span>
+              <b>5,000 دينار عراقي فقط</b>
+            </div>
+          </div>
+
+          <div class="cover-duas-card">
+            <div class="dua-card-title">
+              <span>🤲</span>
+              <span>أدعية التوفيق والبداية المباركة (اقرأها بيقين قبل البدء):</span>
+            </div>
+
+            <div class="dua-box">
+              <b>1. البسملة والصلاة على النبي ﷺ:</b>
+              <p>«بِسْمِ اللَّهِ الرَّحْمٰنِ الرَّحِيمِ • اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ وَآلِ مُحَمَّدٍ»</p>
+            </div>
+
+            <div class="dua-box">
+              <b>2. دعاء تيسير المذاكرة والفهم:</b>
+              <p>«اللَّهُمَّ لَا سَهْلَ إِلَّا مَا جَعَلْتَهُ سَهْلاً، وَأَنْتَ تَجْعَلُ الْحَزْنَ إِذَا شِئْتَ سَهْلاً • رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي وَاحْلُلْ عُقْدَةً مِّن لِّسَانِي يَفْقَهُوا قَوْلِي»</p>
+            </div>
+
+            <div class="dua-box">
+              <b>3. دعاء التوجه للامتحان واسترجاع الحفظ:</b>
+              <p>«اللَّهُمَّ إِنِّي أَسْتَوْدِعُكَ مَا قَرَأْتُ وَمَا حَفِظْتُ وَمَا تَعَلَّمْتُ، فَرُدَّهُ عِنْدَ حَاجَتِي إِلَيْهِ، إِنَّكَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ»</p>
+            </div>
+          </div>
+
+          <div style="margin-top:22px;">
+            <button type="button" onclick="changeGrade3Sheet(2)" class="btn-action" style="background:linear-gradient(135deg, #10b981, #059669); color:#fff; font-size:1.1rem; padding:14px 28px; width:100%; max-width:400px; margin:0 auto; box-shadow:0 6px 20px rgba(16,185,129,0.4);">
+              🚀 ابدأ قراءة الورقة الثانية (الفصل الأول)
+            </button>
+          </div>
+
+          <div class="cover-footer-note" style="margin-top:20px;">
+            🌐 منصة طلبتي VIP • ابحث في كوكل: منصة طلبتي • بالتوفيق والنجاح لجميع طلابنا الأبطال
+          </div>
+        </div>
+      `;
+    }
+
+    // Pages 2 to 14: Q&A Content Sheets
+    return `
+      <div class="booklet-content-page">
+        
+        <!-- Sheet Header Bar -->
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #2563eb; padding-bottom:12px; margin-bottom:16px; flex-wrap:wrap; gap:8px;">
+          <div>
+            <div style="font-size:0.8rem; color:#38bdf8; font-weight:800;">منصة طلبتي التعليمية • ملزمة الـ 14 ورقة المركزة</div>
+            <h2 style="color:#fff; margin:0; font-size:1.35rem; font-weight:900;">الورقة ${page.pageNumber}: ${page.sheetTitle}</h2>
+          </div>
+          <div style="text-align:left;">
+            <span class="cover-badge-top" style="margin-bottom:0; font-size:0.8rem; padding:4px 12px;">الموضوع: ${page.topic}</span>
+          </div>
+        </div>
+
+        <!-- Render Rich HTML Content -->
+        <div style="min-height:300px;">
+          ${page.contentHtml}
+        </div>
+
+        <!-- Sheet Watermark / Seal -->
+        <div style="margin-top:24px; padding:12px; background:#040916; border:1px dashed #233b70; border-radius:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; font-size:0.82rem; color:#94a3b8;">
+          <span>🇮🇶 منصة طلبتي VIP - ابحث في كوكل: منصة طلبتي</span>
+          <span style="color:#fbbf24; font-weight:800;">الورقة ${page.pageNumber} من أصل 14 ورقة</span>
+          <span>ضمان 65 إلى 100 درجة في الامتحان الوزاري</span>
+        </div>
+
+      </div>
+    `;
+  }
+
+  // Print Full 14-Page Booklet
+  function printGrade3Booklet(bookletKey) {
+    const booklet = window.TALABATI_GRADE3_DATA[bookletKey];
+    if (!booklet) return;
+
+    const printWin = window.open('', '_blank');
+    if (!printWin) {
+      alert('يرجى السماح بالنوافذ المنبثقة لطباعة الملزمة.');
+      return;
+    }
+
+    const pagesHtml = booklet.pages.map((p, idx) => `
+      <div style="page-break-after: always; padding: 25px; font-family: 'Cairo', sans-serif; direction: rtl; text-align: right; color: #000; background: #fff;">
+        <div style="border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 14px; display:flex; justify-content:space-between; font-size:12px; font-weight:bold;">
+          <span>منصة طلبتي التعليمية • ${booklet.title}</span>
+          <span>الورقة ${p.pageNumber} من 14</span>
+        </div>
+        ${p.pageNumber === 1 ? `
+          <div style="text-align:center; padding:40px 10px; border:2px solid #000; border-radius:15px; margin-top:20px;">
+            <h1 style="font-size:24px; margin-bottom:10px;">${booklet.title}</h1>
+            <h3 style="font-size:16px; color:#333; margin-bottom:20px;">${booklet.subtitle}</h3>
+            <p style="font-size:15px; font-weight:bold; margin-bottom:20px;">${booklet.gradeGuarantee}</p>
+            <div style="border:1px solid #333; padding:15px; text-align:right; border-radius:10px; margin-top:20px;">
+              <b>أدعية البداية المباركة:</b>
+              <p>«بِسْمِ اللَّهِ الرَّحْمٰنِ الرَّحِيمِ • اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ وَآلِ مُحَمَّدٍ»</p>
+              <p>«اللَّهُمَّ لَا سَهْلَ إِلَّا مَا جَعَلْتَهُ سَهْلاً، وَأَنْتَ تَجْعَلُ الْحَزْنَ إِذَا شِئْتَ سَهْلاً»</p>
+            </div>
+            <div style="margin-top:30px; font-weight:bold; font-size:14px;">منصة طلبتي VIP • ابحث في كوكل: منصة طلبتي</div>
+          </div>
+        ` : `
+          <h2 style="font-size:18px; color:#000; margin-bottom:12px; border-bottom:1px solid #ccc; padding-bottom:6px;">الورقة ${p.pageNumber}: ${p.sheetTitle}</h2>
+          <div style="font-size:13px; line-height:1.8; color:#111;">
+            ${p.contentHtml.replace(/color:#f1f5f9|color:#f8fafc|color:#e2e8f0/g, 'color:#000').replace(/background:#070d1e|background:#0f1c3d|background:#040813|background:#0b152d/g, 'background:#f8f8f8; border:1px solid #ccc;')}
+          </div>
+        `}
+        <div style="margin-top:20px; font-size:11px; text-align:center; border-top:1px solid #ccc; padding-top:6px;">
+          منصة طلبتي التعليمية • جميع الحقوق محفوظة 2026
+        </div>
+      </div>
+    `).join('');
+
+    printWin.document.write(`
+      <!DOCTYPE html>
+      <html dir="rtl" lang="ar">
+      <head>
+        <meta charset="UTF-8">
+        <title>${booklet.title} - منصة طلبتي</title>
+        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+        <style>
+          body { margin: 0; font-family: 'Cairo', sans-serif; }
+          .q-title { font-weight:bold; font-size:14px; margin: 10px 0 4px 0; color:#000; }
+          .a-body { font-size:13px; line-height:1.7; margin-bottom:10px; color:#222; }
+          .formula-box { border:1px solid #000; padding:6px; margin:6px 0; font-weight:bold; }
+          .booklet-table { width:100%; border-collapse:collapse; margin:8px 0; font-size:12px; }
+          .booklet-table th, .booklet-table td { border:1px solid #000; padding:4px 6px; text-align:right; }
+          @media print {
+            body { -webkit-print-color-adjust: exact; }
+          }
+        </style>
+      </head>
+      <body>
+        ${pagesHtml}
+      </body>
+      </html>
+    `);
+    printWin.document.close();
+    printWin.focus();
+    setTimeout(() => {
+      try { printWin.print(); } catch(e) {}
+    }, 600);
+  }
+
+  // Download PDF using jsPDF or print window
+  function downloadGrade3BookletPdf(bookletKey) {
+    const booklet = window.TALABATI_GRADE3_DATA[bookletKey];
+    if (!booklet) return;
+    printGrade3Booklet(bookletKey);
   }
 
   // Handle local user device PDF upload
@@ -4341,7 +5150,7 @@ ${desc || 'المحتوى المنهجي الشامل والأسئلة النم�
   }
 
   // =========================================================================
-  // 📲 WhatsApp Lock Order & Direct Messaging Gateway (10,000 IQD)
+  // 📲 WhatsApp Lock Order & Direct Messaging Gateway (5,000 IQD)
   // =========================================================================
   function openMastercardModal(id, title, type) {
     document.getElementById('mcModalItemId').value = id;
@@ -4368,7 +5177,7 @@ ${desc || 'المحتوى المنهجي الشامل والأسئلة النم�
       `أنا الطالب: ${studentName}\n` +
       `👤 اسم المستخدم في المنصة: ${studentUser}\n` +
       `📍 المحافظة: ${studentGov}\n\n` +
-      `📌 أرغب بفتح وتفعيل المادة التالية (عبر بطاقة ماستر كارد ${mcNumber} بقيمة 10,000 د.ع):\n` +
+      `📌 أرغب بفتح وتفعيل المادة التالية (عبر بطاقة ماستر كارد ${mcNumber} بقيمة 5,000 د.ع):\n` +
       `📚 المادة المطلوبة: ${title} (${type})\n\n` +
       `يرجى تزويدي بكود التفعيل الخاص بهذه المادة لفتحها وتحميل ملف الـ PDF فوراً. شكراً جزيلاً! ✨`
     );
